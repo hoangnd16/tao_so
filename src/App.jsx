@@ -192,7 +192,7 @@ export default function App() {
     const [savedSos, setSavedSos] = useState([]);
     const [showSaveModal, setShowSaveModal] = useState(false);
     const [showLoadModal, setShowLoadModal] = useState(false);
-    const [showDonateModal, setShowDonateModal] = useState(false); // --- NEW STATE
+    const [showDonateModal, setShowDonateModal] = useState(false); 
     const [saveName, setSaveName] = useState('');
     const [isTemplateDropdownOpen, setIsTemplateDropdownOpen] = useState(false);
     const templateDropdownRef = useRef(null);
@@ -469,7 +469,7 @@ export default function App() {
                                 <button onClick={addMember} className="bg-green-600 hover:bg-green-700 text-white px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition shadow"><Plus size={10}/> Thêm người</button>
                             </div>
                             <div className="max-h-40 overflow-y-auto pr-1">
-                                <div className="grid grid-cols-12 gap-1 mb-1 text-[10px] font-bold text-gray-500 px-1 text-center">
+                                <div className="grid grid-cols-12 gap-1 mb-1 text-[10px] font-bold text-gray-500 px-1 text-center hidden md:grid">
                                     <div className="col-span-1 text-left">DANH XƯNG</div>
                                     <div className="col-span-3 text-left">HỌ VÀ TÊN</div>
                                     <div className="col-span-1">GIỚI</div>
@@ -481,29 +481,86 @@ export default function App() {
                                     <div className="col-span-1 text-left">SỞ/SAO(TV)</div>
                                 </div>
                                 {formData.members.map((member, index) => (
-                                    <div key={member.id} className="grid grid-cols-12 gap-1 items-center bg-white p-1 rounded shadow-sm border border-gray-100 mb-1 group relative">
-                                        <div className="col-span-1">
+                                    <div key={member.id} className="grid grid-cols-12 gap-2 gap-y-3 p-3 bg-white rounded-lg shadow-sm border border-gray-200 mb-2 relative md:gap-1 md:p-1 md:items-center md:border-gray-100 md:rounded md:shadow-none md:mb-1 group">
+                                        {/* Mobile Only: Delete Button Top Right */}
+                                        {formData.members.length > 1 && (
+                                            <button onClick={() => removeMember(member.id)} className="absolute top-2 right-2 text-gray-400 hover:text-red-600 md:hidden"><Trash2 size={16}/></button>
+                                        )}
+
+                                        {/* Title */}
+                                        <div className="col-span-4 md:col-span-1">
+                                            <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Danh xưng</label>
                                             <input 
                                                 type="text" 
                                                 list="title-options"
                                                 value={member.title} 
                                                 onChange={(e) => handleMemberChange(member.id, 'title', e.target.value)} 
-                                                className="excel-input px-1 font-medium text-gray-800 w-full"
-                                                placeholder="Danh xưng" 
+                                                className="excel-input px-1 font-medium text-gray-800 w-full h-8 md:h-6"
+                                                placeholder="Chọn..." 
                                                 onFocus={(e) => e.target.select()} 
                                             />
                                         </div>
-                                        <div className="col-span-3"><input type="text" value={member.name} onChange={(e) => handleMemberChange(member.id, 'name', e.target.value)} placeholder="Họ tên..." className={`excel-input uppercase font-bold ${index === 0 ? 'text-blue-800' : 'text-gray-700'}`}/></div>
-                                        <div className="col-span-1"><select value={member.gender} onChange={(e) => handleMemberChange(member.id, 'gender', e.target.value)} className="excel-input px-0 text-center"><option value="male">Nam</option><option value="female">Nữ</option></select></div>
-                                        <div className="col-span-2 flex gap-0.5"><input type="number" placeholder="Ng" value={member.birthDay} onChange={(e) => handleMemberChange(member.id, 'birthDay', e.target.value)} className="excel-input text-center px-0 w-1/3" min="1" max="31"/><input type="number" placeholder="Th" value={member.birthMonth} onChange={(e) => handleMemberChange(member.id, 'birthMonth', e.target.value)} className="excel-input text-center px-0 w-1/3" min="1" max="12"/><input type="number" placeholder="Năm" value={member.birthYear} onChange={(e) => handleMemberChange(member.id, 'birthYear', e.target.value)} className="excel-input text-center px-0 w-1/3 font-medium"/></div>
-                                        <div className="col-span-1 text-center font-mono text-[10px] font-bold text-purple-700 bg-purple-50 py-0.5 rounded border border-purple-100 truncate">{computedData.members[index]?.canChi}</div>
-                                        <div className="col-span-1 text-center font-mono text-[10px] font-bold text-gray-600 bg-gray-50 py-0.5 rounded">{computedData.members[index]?.age}</div>
-                                        <div className="col-span-1 text-center font-mono text-[10px] font-bold text-green-700 bg-green-50 py-0.5 rounded border border-green-100 truncate">{computedData.members[index]?.sao}</div>
-                                        <div className="col-span-1 text-center font-mono text-[10px] font-bold text-red-600 bg-red-50 py-0.5 rounded border border-red-100 truncate">{computedData.members[index]?.han}</div>
-                                        <div className="col-span-1 flex flex-col items-center justify-center bg-yellow-50 rounded border border-yellow-100 py-0.5 px-1 h-full relative">
-                                            <div className="text-[9px] font-bold text-yellow-800 whitespace-nowrap leading-none mb-0.5">{computedData.members[index]?.soTuVi}</div>
-                                            <div className="text-[8px] text-gray-500 truncate w-full text-center leading-none">{computedData.members[index]?.saoTuVi}</div>
-                                            {formData.members.length > 1 && (<button onClick={() => removeMember(member.id)} className="absolute -right-2 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-red-600 bg-white hover:bg-red-50 rounded-full p-0.5 shadow opacity-0 group-hover:opacity-100 transition z-10" title="Xóa dòng này"><Trash2 size={12} /></button>)}
+
+                                        {/* Name */}
+                                        <div className="col-span-8 md:col-span-3">
+                                            <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Họ tên</label>
+                                            <input type="text" value={member.name} onChange={(e) => handleMemberChange(member.id, 'name', e.target.value)} placeholder="Họ tên..." className={`excel-input uppercase font-bold w-full h-8 md:h-6 ${index === 0 ? 'text-blue-800' : 'text-gray-700'}`}/>
+                                        </div>
+
+                                        {/* Gender */}
+                                        <div className="col-span-4 md:col-span-1">
+                                            <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Giới tính</label>
+                                            <select value={member.gender} onChange={(e) => handleMemberChange(member.id, 'gender', e.target.value)} className="excel-input px-0 text-center w-full h-8 md:h-6"><option value="male">Nam</option><option value="female">Nữ</option></select>
+                                        </div>
+
+                                        {/* Date */}
+                                        <div className="col-span-8 md:col-span-2 flex gap-1">
+                                            <div className="flex-1">
+                                                 <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Ngày</label>
+                                                 <input type="number" placeholder="Ng" value={member.birthDay} onChange={(e) => handleMemberChange(member.id, 'birthDay', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="31"/>
+                                            </div>
+                                            <div className="flex-1">
+                                                 <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Tháng</label>
+                                                 <input type="number" placeholder="Th" value={member.birthMonth} onChange={(e) => handleMemberChange(member.id, 'birthMonth', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="12"/>
+                                            </div>
+                                            <div className="flex-[1.5]">
+                                                 <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Năm</label>
+                                                 <input type="number" placeholder="Năm" value={member.birthYear} onChange={(e) => handleMemberChange(member.id, 'birthYear', e.target.value)} className="excel-input text-center px-0 w-full font-medium h-8 md:h-6"/>
+                                            </div>
+                                        </div>
+
+                                        {/* Computed Info Row (Mobile: Grid, Desktop: Col Span) */}
+                                        <div className="col-span-12 grid grid-cols-5 gap-1 md:contents">
+                                            {/* Can Chi */}
+                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-purple-700 bg-purple-50 py-1 md:py-0.5 rounded border border-purple-100 flex items-center justify-center h-full">
+                                                {computedData.members[index]?.canChi}
+                                            </div>
+                                            
+                                            {/* Age */}
+                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-gray-600 bg-gray-50 py-1 md:py-0.5 rounded flex items-center justify-center h-full">
+                                                {computedData.members[index]?.age}T
+                                            </div>
+
+                                            {/* Sao */}
+                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-green-700 bg-green-50 py-1 md:py-0.5 rounded border border-green-100 flex items-center justify-center h-full overflow-hidden">
+                                                <span className="truncate">{computedData.members[index]?.sao}</span>
+                                            </div>
+
+                                            {/* Han */}
+                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-red-600 bg-red-50 py-1 md:py-0.5 rounded border border-red-100 flex items-center justify-center h-full overflow-hidden">
+                                                <span className="truncate">{computedData.members[index]?.han}</span>
+                                            </div>
+
+                                            {/* Tu Vi */}
+                                            <div className="col-span-1 md:col-span-1 flex flex-col items-center justify-center bg-yellow-50 rounded border border-yellow-100 py-0.5 px-1 h-full relative min-h-[32px] md:min-h-0">
+                                                <div className="text-[9px] font-bold text-yellow-800 whitespace-nowrap leading-none mb-0.5">{computedData.members[index]?.soTuVi}</div>
+                                                <div className="text-[8px] text-gray-500 truncate w-full text-center leading-none">{computedData.members[index]?.saoTuVi}</div>
+                                                
+                                                {/* Desktop Only: Delete Button */}
+                                                {formData.members.length > 1 && (
+                                                    <button onClick={() => removeMember(member.id)} className="absolute -right-2 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-red-600 bg-white hover:bg-red-50 rounded-full p-0.5 shadow opacity-0 group-hover:opacity-100 transition z-10 hidden md:block" title="Xóa dòng này"><Trash2 size={12} /></button>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
@@ -599,27 +656,9 @@ export default function App() {
                     )}
                 </div>
 
-                {/* --- GLOBAL CONFIRMATION MODAL --- */}
-                {confirmAction && (
-                    <div className="fixed inset-0 bg-black/50 z-[300] flex items-center justify-center p-4 no-print backdrop-blur-sm">
-                        <div className="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 animate-in zoom-in duration-200">
-                            <div className="flex flex-col items-center text-center">
-                                {confirmAction.type === 'reset' ? (
-                                    <><div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 bg-orange-100 text-orange-600"><RotateCcw size={32}/></div><h4 className="text-lg font-bold mb-2 text-gray-800">Làm mới dữ liệu?</h4><p className="text-gray-500 mb-6 text-sm">Tất cả thông tin nhập liệu (Thành viên, Địa chỉ...) sẽ bị xóa trắng.</p></>
-                                ) : (
-                                    <><div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${confirmAction.type === 'delete' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>{confirmAction.type === 'delete' ? <Trash2 size={32}/> : <FolderOpen size={32}/>}</div><h4 className="text-lg font-bold mb-2 text-gray-800">{confirmAction.type === 'delete' ? 'Xác nhận xóa sớ này?' : 'Tải lại sớ này?'}</h4><p className="text-gray-500 mb-6 text-sm">"{confirmAction.item?.name}"{confirmAction.type === 'load' && <br/>}{confirmAction.type === 'load' && "(Dữ liệu hiện tại trên màn hình sẽ bị thay thế)"}</p></>
-                                )}
-                                <div className="flex gap-3 w-full">
-                                    <button onClick={() => setConfirmAction(null)} className="flex-1 py-2 border rounded hover:bg-gray-50 font-medium text-gray-600">Hủy bỏ</button>
-                                    <button onClick={executeAction} className={`flex-1 py-2 rounded text-white font-bold shadow ${confirmAction.type === 'delete' ? 'bg-red-600 hover:bg-red-700' : confirmAction.type === 'reset' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-blue-600 hover:bg-blue-700'}`}>{confirmAction.type === 'delete' ? 'Xóa vĩnh viễn' : confirmAction.type === 'reset' ? 'Đồng ý làm mới' : 'Đồng ý tải'}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
+                {/* --- CÁC MODAL KHÔNG ĐỔI --- */}
                 {showSaveModal && (
-                    <div className="fixed inset-0 bg-black/50 z-[200] flex items-center justify-center p-4 no-print backdrop-blur-sm">
+                    <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4 no-print backdrop-blur-sm">
                         <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
                             <h3 className="text-lg font-bold text-blue-800 mb-4 flex items-center gap-2"><Save size={20}/> Lưu Sớ Hiện Tại</h3>
                             <input type="text" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="Nhập tên gợi nhớ..." className="w-full border p-2 rounded mb-4 focus:ring-2 focus:ring-blue-500 outline-none" autoFocus />
@@ -638,7 +677,7 @@ export default function App() {
                             <h3 className="text-lg font-bold text-center mb-4 text-gray-800 flex items-center gap-2"><Coffee size={20} className="text-yellow-600"/> Mời tác giả ly cà phê</h3>
                             <div className="flex justify-center w-full bg-gray-50 p-2 rounded-lg border border-gray-100">
                                 {/* Placeholder for QR Code */}
-                                <img src="/donate.jpeg" alt="QR Code Donate" className="max-w-full h-auto rounded shadow-sm object-contain" style={{ maxHeight: '300px' }} />
+                                <img src="/image_1b419f.jpg" alt="QR Code Donate" className="max-w-full h-auto rounded shadow-sm object-contain" style={{ maxHeight: '300px' }} />
                             </div>
                             <p className="text-center text-sm text-gray-500 mt-4 italic">Cảm ơn tấm lòng của bạn!</p>
                         </div>
@@ -656,6 +695,25 @@ export default function App() {
                                 {savedSos.length === 0 ? (<p className="text-center text-gray-500 py-8">Chưa có sớ nào được lưu.</p>) : (
                                     <div className="space-y-2">{savedSos.map(item => (<div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 border rounded hover:bg-white hover:shadow transition group"><div><div className="font-bold text-gray-800 text-sm line-clamp-1">{item.name}</div><div className="text-[10px] text-gray-500">{new Date(item.createdAt).toLocaleString('vi-VN')}</div></div><div className="flex gap-2"><button onClick={() => triggerLoad(item)} className="p-2 text-blue-600 hover:bg-blue-100 rounded transition" title="Mở sớ này"><Edit3 size={16}/></button><button onClick={() => triggerDelete(item)} className="p-2 text-red-500 hover:bg-red-100 rounded transition" title="Xóa"><Trash2 size={16}/></button></div></div>))}</div>
                                 )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+                
+                {/* Global Confirmation Modal */}
+                {confirmAction && (
+                    <div className="fixed inset-0 bg-black/50 z-[300] flex items-center justify-center p-4 no-print backdrop-blur-sm">
+                        <div className="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 animate-in zoom-in duration-200">
+                            <div className="flex flex-col items-center text-center">
+                                {confirmAction.type === 'reset' ? (
+                                    <><div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 bg-orange-100 text-orange-600"><RotateCcw size={32}/></div><h4 className="text-lg font-bold mb-2 text-gray-800">Làm mới dữ liệu?</h4><p className="text-gray-500 mb-6 text-sm">Tất cả thông tin nhập liệu (Thành viên, Địa chỉ...) sẽ bị xóa trắng.</p></>
+                                ) : (
+                                    <><div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${confirmAction.type === 'delete' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>{confirmAction.type === 'delete' ? <Trash2 size={32}/> : <FolderOpen size={32}/>}</div><h4 className="text-lg font-bold mb-2 text-gray-800">{confirmAction.type === 'delete' ? 'Xác nhận xóa sớ này?' : 'Tải lại sớ này?'}</h4><p className="text-gray-500 mb-6 text-sm">"{confirmAction.item?.name}"{confirmAction.type === 'load' && <br/>}{confirmAction.type === 'load' && "(Dữ liệu hiện tại trên màn hình sẽ bị thay thế)"}</p></>
+                                )}
+                                <div className="flex gap-3 w-full">
+                                    <button onClick={() => setConfirmAction(null)} className="flex-1 py-2 border rounded hover:bg-gray-50 font-medium text-gray-600">Hủy bỏ</button>
+                                    <button onClick={executeAction} className={`flex-1 py-2 rounded text-white font-bold shadow ${confirmAction.type === 'delete' ? 'bg-red-600 hover:bg-red-700' : confirmAction.type === 'reset' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-blue-600 hover:bg-blue-700'}`}>{confirmAction.type === 'delete' ? 'Xóa vĩnh viễn' : confirmAction.type === 'reset' ? 'Đồng ý làm mới' : 'Đồng ý tải'}</button>
+                                </div>
                             </div>
                         </div>
                     </div>
