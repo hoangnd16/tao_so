@@ -482,12 +482,9 @@ export default function App() {
                                 </div>
                                 {formData.members.map((member, index) => (
                                     <div key={member.id} className="grid grid-cols-12 gap-2 gap-y-3 p-3 bg-white rounded-lg shadow-sm border border-gray-200 mb-2 relative md:gap-1 md:p-1 md:items-center md:border-gray-100 md:rounded md:shadow-none md:mb-1 group">
-                                        {/* Mobile Only: Delete Button Top Right */}
                                         {formData.members.length > 1 && (
                                             <button onClick={() => removeMember(member.id)} className="absolute top-2 right-2 text-gray-400 hover:text-red-600 md:hidden"><Trash2 size={16}/></button>
                                         )}
-
-                                        {/* Title */}
                                         <div className="col-span-4 md:col-span-1">
                                             <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Danh xưng</label>
                                             <input 
@@ -500,67 +497,25 @@ export default function App() {
                                                 onFocus={(e) => e.target.select()} 
                                             />
                                         </div>
-
-                                        {/* Name */}
                                         <div className="col-span-8 md:col-span-3">
                                             <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Họ tên</label>
                                             <input type="text" value={member.name} onChange={(e) => handleMemberChange(member.id, 'name', e.target.value)} placeholder="Họ tên..." className={`excel-input uppercase font-bold w-full h-8 md:h-6 ${index === 0 ? 'text-blue-800' : 'text-gray-700'}`}/>
                                         </div>
-
-                                        {/* Gender */}
                                         <div className="col-span-4 md:col-span-1">
                                             <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Giới tính</label>
                                             <select value={member.gender} onChange={(e) => handleMemberChange(member.id, 'gender', e.target.value)} className="excel-input px-0 text-center w-full h-8 md:h-6"><option value="male">Nam</option><option value="female">Nữ</option></select>
                                         </div>
-
-                                        {/* Date */}
                                         <div className="col-span-8 md:col-span-2 flex gap-1">
-                                            <div className="flex-1">
-                                                 <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Ngày</label>
-                                                 <input type="number" placeholder="Ng" value={member.birthDay} onChange={(e) => handleMemberChange(member.id, 'birthDay', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="31"/>
-                                            </div>
-                                            <div className="flex-1">
-                                                 <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Tháng</label>
-                                                 <input type="number" placeholder="Th" value={member.birthMonth} onChange={(e) => handleMemberChange(member.id, 'birthMonth', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="12"/>
-                                            </div>
-                                            <div className="flex-[1.5]">
-                                                 <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Năm</label>
-                                                 <input type="number" placeholder="Năm" value={member.birthYear} onChange={(e) => handleMemberChange(member.id, 'birthYear', e.target.value)} className="excel-input text-center px-0 w-full font-medium h-8 md:h-6"/>
-                                            </div>
+                                            <div className="flex-1"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Ngày</label><input type="number" placeholder="Ng" value={member.birthDay} onChange={(e) => handleMemberChange(member.id, 'birthDay', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="31"/></div>
+                                            <div className="flex-1"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Tháng</label><input type="number" placeholder="Th" value={member.birthMonth} onChange={(e) => handleMemberChange(member.id, 'birthMonth', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="12"/></div>
+                                            <div className="flex-[1.5]"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Năm</label><input type="number" placeholder="Năm" value={member.birthYear} onChange={(e) => handleMemberChange(member.id, 'birthYear', e.target.value)} className="excel-input text-center px-0 w-full font-medium h-8 md:h-6"/></div>
                                         </div>
-
-                                        {/* Computed Info Row (Mobile: Grid, Desktop: Col Span) */}
                                         <div className="col-span-12 grid grid-cols-5 gap-1 md:contents">
-                                            {/* Can Chi */}
-                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-purple-700 bg-purple-50 py-1 md:py-0.5 rounded border border-purple-100 flex items-center justify-center h-full">
-                                                {computedData.members[index]?.canChi}
-                                            </div>
-                                            
-                                            {/* Age */}
-                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-gray-600 bg-gray-50 py-1 md:py-0.5 rounded flex items-center justify-center h-full">
-                                                {computedData.members[index]?.age}T
-                                            </div>
-
-                                            {/* Sao */}
-                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-green-700 bg-green-50 py-1 md:py-0.5 rounded border border-green-100 flex items-center justify-center h-full overflow-hidden">
-                                                <span className="truncate">{computedData.members[index]?.sao}</span>
-                                            </div>
-
-                                            {/* Han */}
-                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-red-600 bg-red-50 py-1 md:py-0.5 rounded border border-red-100 flex items-center justify-center h-full overflow-hidden">
-                                                <span className="truncate">{computedData.members[index]?.han}</span>
-                                            </div>
-
-                                            {/* Tu Vi */}
-                                            <div className="col-span-1 md:col-span-1 flex flex-col items-center justify-center bg-yellow-50 rounded border border-yellow-100 py-0.5 px-1 h-full relative min-h-[32px] md:min-h-0">
-                                                <div className="text-[9px] font-bold text-yellow-800 whitespace-nowrap leading-none mb-0.5">{computedData.members[index]?.soTuVi}</div>
-                                                <div className="text-[8px] text-gray-500 truncate w-full text-center leading-none">{computedData.members[index]?.saoTuVi}</div>
-                                                
-                                                {/* Desktop Only: Delete Button */}
-                                                {formData.members.length > 1 && (
-                                                    <button onClick={() => removeMember(member.id)} className="absolute -right-2 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-red-600 bg-white hover:bg-red-50 rounded-full p-0.5 shadow opacity-0 group-hover:opacity-100 transition z-10 hidden md:block" title="Xóa dòng này"><Trash2 size={12} /></button>
-                                                )}
-                                            </div>
+                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-purple-700 bg-purple-50 py-1 md:py-0.5 rounded border border-purple-100 flex items-center justify-center h-full">{computedData.members[index]?.canChi}</div>
+                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-gray-600 bg-gray-50 py-1 md:py-0.5 rounded flex items-center justify-center h-full">{computedData.members[index]?.age}T</div>
+                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-green-700 bg-green-50 py-1 md:py-0.5 rounded border border-green-100 flex items-center justify-center h-full overflow-hidden"><span className="truncate">{computedData.members[index]?.sao}</span></div>
+                                            <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-red-600 bg-red-50 py-1 md:py-0.5 rounded border border-red-100 flex items-center justify-center h-full overflow-hidden"><span className="truncate">{computedData.members[index]?.han}</span></div>
+                                            <div className="col-span-1 md:col-span-1 flex flex-col items-center justify-center bg-yellow-50 rounded border border-yellow-100 py-0.5 px-1 h-full relative min-h-[32px] md:min-h-0"><div className="text-[9px] font-bold text-yellow-800 whitespace-nowrap leading-none mb-0.5">{computedData.members[index]?.soTuVi}</div><div className="text-[8px] text-gray-500 truncate w-full text-center leading-none">{computedData.members[index]?.saoTuVi}</div>{formData.members.length > 1 && (<button onClick={() => removeMember(member.id)} className="absolute -right-2 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-red-600 bg-white hover:bg-red-50 rounded-full p-0.5 shadow opacity-0 group-hover:opacity-100 transition z-10 hidden md:block" title="Xóa dòng này"><Trash2 size={12} /></button>)}</div>
                                         </div>
                                     </div>
                                 ))}
@@ -573,12 +528,12 @@ export default function App() {
                                     <textarea name="address" value={formData.address} onChange={handleChange} className="excel-input w-full resize-none text-sm flex-grow border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded transition-shadow" placeholder="Nhập đầy đủ địa chỉ..." style={{ minHeight: '88px' }}/>
                                 </div>
                                 <div className="grid grid-cols-12 gap-2 h-10">
-                                    <div className="col-span-7 flex items-center border border-gray-300 rounded px-2 bg-white h-full">
+                                    <div className="col-span-12 sm:col-span-7 flex items-center border border-gray-300 rounded px-2 bg-white h-full">
                                         <CalendarIcon size={16} className="text-blue-600 flex-shrink-0 mr-1"/>
                                         <span className="text-xs font-bold text-gray-600 whitespace-nowrap mr-1">Ngày lễ</span>
                                         <input type="date" name="ceremonyDate" value={formData.ceremonyDate} onChange={handleChange} className="flex-grow outline-none text-blue-800 font-bold text-sm bg-transparent text-right w-full min-w-0"/>
                                     </div>
-                                    <div className="col-span-5 h-full px-1 bg-purple-50 border border-purple-200 rounded flex items-center justify-center gap-1 whitespace-nowrap overflow-hidden">
+                                    <div className="col-span-12 sm:col-span-5 h-full px-1 bg-purple-50 border border-purple-200 rounded flex items-center justify-center gap-1 whitespace-nowrap overflow-hidden mt-2 sm:mt-0">
                                         <span className="text-sm font-bold text-purple-700">{computedData.day}/{computedData.month}</span>
                                         <span className="text-xs font-bold text-purple-600">({computedData.year})</span>
                                     </div>
