@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Printer, Copy, FileText, Save, FolderOpen, X, ArrowDown, Settings, FileDigit, Ruler, Plus, Trash2, User, Calendar as CalendarIcon, ChevronUp, ChevronDown, PanelTopClose, PanelTopOpen, Edit3, Check, AlertCircle, CheckSquare, Square, Play, RotateCcw, Coffee } from 'lucide-react';
+import { Printer, Copy, FileText, Save, FolderOpen, X, ArrowDown, Settings, FileDigit, Ruler, Plus, Trash2, User, Calendar as CalendarIcon, ChevronUp, ChevronDown, Edit3, Check, AlertCircle, CheckSquare, Square, Play, RotateCcw, Coffee, Grid3X3, PanelTopClose, PanelTopOpen } from 'lucide-react';
 
 // --- CẤU HÌNH KHỔ GIẤY ---
 const PAPER_SIZES = {
@@ -11,7 +11,7 @@ const PAPER_SIZES = {
 
 // --- DỮ LIỆU DANH XƯNG ---
 const TITLES = [
-    "Tín chủ", "Thân thê", "Phu quân", "Nam tử", "Nữ tử", 
+    "Tín chủ", "Thân thê", "Phu quân", "Nam tử", "Nữ tử",
     "Hôn tử", "Tế tử", "Nội tôn", "Ngoại tôn", "Dưỡng tử"
 ];
 
@@ -19,7 +19,7 @@ const TITLES = [
 const LUNAR_UTILS = {
     CAN: ["Canh", "Tân", "Nhâm", "Quý", "Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ"],
     CHI: ["Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi"],
-    
+
     getCanChi: (year) => {
         if (!year) return "...";
         const can = LUNAR_UTILS.CAN[year % 10];
@@ -43,12 +43,12 @@ const LUNAR_UTILS = {
     getTuVi: (age) => {
         if (!age || age < 1) return { so: "...", sao: "..." };
         const TU_VI_DATA = [
-            { so: "Sở Bị",   sao: "Bệnh Phù" }, { so: "Sở Được", sao: "Thái Tuế" }, { so: "Sở Được", sao: "Thái Dương" },
-            { so: "Sở Bị",   sao: "Tang Môn" }, { so: "Sở Được", sao: "Thái Âm" }, { so: "Sở Bị",   sao: "Quan Phù" },
-            { so: "Sở Bị",   sao: "Tử Phù" },   { so: "Sở Bị",   sao: "Tế Phù" },   { so: "Sở Được", sao: "Long Đức" },
-            { so: "Sở Bị",   sao: "Bạch Hổ" },  { so: "Sở Được", sao: "Phúc Đức" }, { so: "Sở Bị",   sao: "Điếu Khách" }
+            { so: "Sở Bị", sao: "Bệnh Phù" }, { so: "Sở Được", sao: "Thái Tuế" }, { so: "Sở Được", sao: "Thái Dương" },
+            { so: "Sở Bị", sao: "Tang Môn" }, { so: "Sở Được", sao: "Thái Âm" }, { so: "Sở Bị", sao: "Quan Phù" },
+            { so: "Sở Bị", sao: "Tử Phù" }, { so: "Sở Bị", sao: "Tế Phù" }, { so: "Sở Được", sao: "Long Đức" },
+            { so: "Sở Bị", sao: "Bạch Hổ" }, { so: "Sở Được", sao: "Phúc Đức" }, { so: "Sở Bị", sao: "Điếu Khách" }
         ];
-        const index = age % 12; 
+        const index = age % 12;
         return TU_VI_DATA[index];
     },
     convertSolarToLunar: (dateString) => {
@@ -176,28 +176,30 @@ export default function App() {
         members: [
             { id: 1, title: 'Tín chủ', name: '', birthDay: 1, birthMonth: 1, birthYear: 1990, gender: 'male' }
         ],
-        address: '', 
+        address: '',
         familyLine: '', reason: '',
-        userPrayer: '', 
-        ceremonyDate: new Date().toISOString().split('T')[0], 
+        userPrayer: '',
+        ceremonyDate: new Date().toISOString().split('T')[0],
         currentYear: new Date().getFullYear(),
-        selectedTemplates: ['cau_an'], 
+        selectedTemplates: ['cau_an'],
         paperSize: 'a4',
         customWidth: 297,
         customHeight: 210
     });
 
     const [isInputVisible, setIsInputVisible] = useState(true);
-    const [previewData, setPreviewData] = useState(null); 
+    const [previewData, setPreviewData] = useState(null);
     const [savedSos, setSavedSos] = useState([]);
     const [showSaveModal, setShowSaveModal] = useState(false);
     const [showLoadModal, setShowLoadModal] = useState(false);
-    const [showDonateModal, setShowDonateModal] = useState(false); 
+    const [showDonateModal, setShowDonateModal] = useState(false);
     const [saveName, setSaveName] = useState('');
     const [isTemplateDropdownOpen, setIsTemplateDropdownOpen] = useState(false);
+    const [showGrid, setShowGrid] = useState(false);
+
     const templateDropdownRef = useRef(null);
-    const [confirmAction, setConfirmAction] = useState(null); 
-    const [notification, setNotification] = useState(null); 
+    const [confirmAction, setConfirmAction] = useState(null);
+    const [notification, setNotification] = useState(null);
     const headerRef = useRef(null);
 
     // Close template dropdown when clicking outside
@@ -224,7 +226,7 @@ export default function App() {
         const year = LUNAR_UTILS.getCanChi(formData.currentYear);
         const members = formData.members.map(m => {
             const age = m.birthYear ? formData.currentYear - m.birthYear + 1 : 0;
-            const tuvi = LUNAR_UTILS.getTuVi(age); 
+            const tuvi = LUNAR_UTILS.getTuVi(age);
             return {
                 ...m,
                 age: age > 0 ? age : 0,
@@ -251,14 +253,31 @@ export default function App() {
             return;
         }
         if (!formData.selectedTemplates || formData.selectedTemplates.length === 0) {
-            setPreviewData(null); 
+            setPreviewData(null);
             showNotification("Vui lòng chọn loại sớ!", 'error');
             return;
         }
+
         const newData = formData.selectedTemplates.map(id => {
             const template = TEMPLATES[id];
-            return { id: id, title: template.title, content: template.content(computedData) };
+            const rawContent = template.content(computedData);
+            const formatted = formatVerticalText(rawContent);
+            const lines = formatted.split('\n');
+
+            // --- LOGIC TÍNH TOÁN GRID ĐỘNG ---
+            const cols = lines.length;
+            const maxWords = Math.max(...lines.map(l => l.trim().split(/\s+/).length), 15);
+            const rows = maxWords;
+
+            return {
+                id: id,
+                title: template.title,
+                contentLines: lines,
+                rows: rows,
+                cols: cols
+            };
         });
+
         setPreviewData(newData);
         showNotification("Đã tạo nội dung sớ mới!");
     };
@@ -294,13 +313,13 @@ export default function App() {
         setFormData(prev => ({ ...prev, [name]: parseInt(value) || 0 }));
     };
     const handlePrint = () => window.print();
-    
+
     const handleCopy = () => {
         if (!previewData || previewData.length === 0) {
             showNotification('Chưa có nội dung sớ để sao chép', 'error');
             return;
         }
-        const textToCopy = previewData.map(item => `${item.title}\n\n${item.content}`).join('\n\n--------------------\n\n');
+        const textToCopy = previewData.map(item => `${item.title}\n\n${item.contentLines.join('\n')}`).join('\n\n--------------------\n\n');
         const textArea = document.createElement("textarea");
         textArea.value = textToCopy;
         textArea.style.position = "fixed";
@@ -349,12 +368,11 @@ export default function App() {
             const loadedData = { ...item.data };
             if (!loadedData.selectedTemplates) {
                 if (loadedData.templateId) loadedData.selectedTemplates = [loadedData.templateId];
-                else loadedData.selectedTemplates = ['cau_an']; 
+                else loadedData.selectedTemplates = ['cau_an'];
             }
             setFormData(loadedData);
-            setIsInputVisible(true);
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            setPreviewData(null); 
+            setPreviewData(null);
             setShowLoadModal(false);
             showNotification(`Đã tải lại: ${item.name}. Vui lòng bấm "Tạo Sớ".`);
         } else if (type === 'delete') {
@@ -387,17 +405,52 @@ export default function App() {
         return { width: `${w}mm`, height: `${h}mm`, css: `${w}mm ${h}mm`, aspectRatio: `${w} / ${h}` };
     }, [formData.paperSize, formData.customWidth, formData.customHeight]);
 
-    const renderSsoContent = (text) => {
-        if (!text) return null;
-        const formatted = formatVerticalText(text);
-        const lines = formatted.split('\n');
+    const renderSsoContent = (item) => {
+        if (!item || !item.contentLines) return null;
+
+        const fontSize = Math.min(100 / item.cols, 100 / item.rows * 1.4) * 0.6;
+
         return (
-            <div className="sso-container">
-                {lines.map((line, idx) => (
-                    <div key={idx} className="sso-col">
-                        {line.split(' ').map((word, wIdx) => (<div key={wIdx} className="sso-word">{word}</div>))}
-                    </div>
-                ))}
+            <div className="sso-container" style={{
+                display: 'grid',
+                gridTemplateColumns: `repeat(${item.cols}, 1fr)`,
+                gridTemplateRows: `repeat(${item.rows}, 1fr)`,
+                width: '100%',
+                height: '100%',
+                direction: 'rtl'
+            }}>
+                {item.contentLines.map((line, colIdx) => {
+                    const words = line.trim().split(/\s+/);
+                    return (
+                        <div key={colIdx} className="sso-col" style={{
+                            gridColumn: `${colIdx + 1} / span 1`,
+                            gridRow: '1 / -1',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'flex-start',
+                            gap: '0'
+                        }}>
+                            {words.map((word, wordIdx) => (
+                                <div key={wordIdx} className="sso-word" style={{
+                                    height: `calc(100% / ${item.rows})`,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                    overflow: 'visible',
+                                    whiteSpace: 'nowrap'
+                                }}>
+                                    <span style={{
+                                        fontSize: `clamp(10px, ${fontSize}cqi, 120px)`,
+                                        lineHeight: 1,
+                                        fontWeight: 600
+                                    }}>{word}</span>
+                                </div>
+                            ))}
+                        </div>
+                    );
+                })}
             </div>
         );
     };
@@ -415,16 +468,35 @@ export default function App() {
                 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600&display=swap');
                 .font-sso { font-family: 'Noto Serif', serif; }
                 .font-header { font-family: 'Playfair Display', serif; }
-                .paper-bg { background-color: #fffdf0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E"); }
+                .paper-bg { 
+                    background-color: #fffdf0; 
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+                    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E"); 
+                    container-type: size; 
+                }
                 .fancy-border { border: 10px solid transparent; padding: 30px; border-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h30v30H0z' fill='none'/%3E%3Cpath d='M2 2h26v26H2z' stroke='%23B91C1C' stroke-width='2' fill='none'/%3E%3Cpath d='M5 5h20v20H5z' stroke='%23D97706' stroke-width='1' fill='none'/%3E%3C/svg>") 30 stretch; }
-                .sso-container { display: flex; flex-direction: row-reverse; height: 100%; width: 100%; justify-content: space-between; align-items: stretch; }
-                .sso-col { display: flex; flex-direction: column; flex: 1; justify-content: flex-start; align-items: center; padding: 0 4px; height: 100%; gap: 5px; }
-                .sso-word { writing-mode: horizontal-tb; text-align: center; white-space: nowrap; font-weight: 600; line-height: 1.3; display: flex; align-items: center; justify-content: center; }
+                
                 .excel-input { border: 1px solid #d1d5db; border-radius: 2px; padding: 2px 4px; width: 100%; font-size: 12px; transition: all 0.2s; }
                 .excel-input:not(textarea) { height: 24px; }
                 .excel-input:focus { border-color: #b91c1c; outline: none; box-shadow: 0 0 0 1px rgba(185, 28, 28, 0.2); }
                 .excel-label { font-size: 10px; font-weight: 700; color: #4b5563; margin-bottom: 1px; display: block; text-transform: uppercase; }
                 .preview-wrapper { container-type: inline-size; width: 100%; }
+                
+                /* DYNAMIC GRID OVERLAY */
+                .grid-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    z-index: 15;
+                    /* Grid size will be set inline via React */
+                    background-image:
+                        linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px);
+                }
+
                 @media print {
                     @page { size: ${currentPaper.css}; margin: 0; }
                     body * { visibility: hidden; }
@@ -434,12 +506,14 @@ export default function App() {
                     .print-page-break:last-child { break-after: auto; }
                     .font-sso { font-size: 20px !important; }
                     .no-print { display: none !important; }
+                    /* Ẩn lưới khi in */
+                    .grid-overlay { display: none; }
                 }
             `}</style>
 
             {notification && (
                 <div className={`fixed top-4 right-4 z-[110] px-4 py-3 rounded shadow-lg flex items-center gap-2 ${notification.type === 'error' ? 'bg-red-600 text-white' : 'bg-green-600 text-white'}`}>
-                    {notification.type === 'error' ? <AlertCircle size={20}/> : <Check size={20}/>}
+                    {notification.type === 'error' ? <AlertCircle size={20} /> : <Check size={20} />}
                     <span className="font-bold text-sm">{notification.message}</span>
                 </div>
             )}
@@ -450,10 +524,10 @@ export default function App() {
                         <div className="flex flex-col md:flex-row justify-between items-center">
                             <h1 className="text-lg md:text-xl font-bold text-red-800 font-header flex items-center gap-2"><FileText className="w-5 h-5 md:w-6 md:h-6" /> SOẠN SỚ CHUYÊN NGHIỆP</h1>
                             <div className="flex gap-2 items-center mt-1 md:mt-0">
-                                <button onClick={() => setShowDonateModal(true)} className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Coffee size={12}/> Donate a coffee</button>
-                                <button onClick={() => setShowLoadModal(true)} className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><FolderOpen size={12}/> Sớ đã lưu ({savedSos.length})</button>
-                                <button onClick={openSaveModal} className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Save size={12}/> Lưu sớ</button>
-                                <button onClick={handlePrint} className="bg-gray-800 hover:bg-gray-900 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Printer size={12}/> In ngay</button>
+                                <button onClick={() => setShowDonateModal(true)} className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Coffee size={12} /> Donate a coffee</button>
+                                <button onClick={() => setShowLoadModal(true)} className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><FolderOpen size={12} /> Sớ đã lưu ({savedSos.length})</button>
+                                <button onClick={openSaveModal} className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Save size={12} /> Lưu sớ</button>
+                                <button onClick={handlePrint} className="bg-gray-800 hover:bg-gray-900 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Printer size={12} /> In ngay</button>
                             </div>
                         </div>
                     </div>
@@ -465,8 +539,8 @@ export default function App() {
                     <div className="bg-white p-2 border-b border-gray-200 mb-0 no-print">
                         <div className="bg-blue-50 p-1 rounded border border-blue-200 mb-2 shadow-sm">
                             <div className="flex justify-between items-center mb-1 border-b border-blue-200 pb-1 px-1">
-                                <h3 className="text-blue-800 text-xs font-bold flex items-center gap-1"><User size={14}/> NHẬP LIỆU GIA ĐÌNH</h3>
-                                <button onClick={addMember} className="bg-green-600 hover:bg-green-700 text-white px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition shadow"><Plus size={10}/> Thêm người</button>
+                                <h3 className="text-blue-800 text-xs font-bold flex items-center gap-1"><User size={14} /> NHẬP LIỆU GIA ĐÌNH</h3>
+                                <button onClick={addMember} className="bg-green-600 hover:bg-green-700 text-white px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition shadow"><Plus size={10} /> Thêm người</button>
                             </div>
                             <div className="max-h-40 overflow-y-auto pr-1">
                                 <div className="grid grid-cols-12 gap-1 mb-1 text-[10px] font-bold text-gray-500 px-1 text-center hidden md:grid">
@@ -483,32 +557,32 @@ export default function App() {
                                 {formData.members.map((member, index) => (
                                     <div key={member.id} className="grid grid-cols-12 gap-2 gap-y-3 p-3 bg-white rounded-lg shadow-sm border border-gray-200 mb-2 relative md:gap-1 md:p-1 md:items-center md:border-gray-100 md:rounded md:shadow-none md:mb-1 group">
                                         {formData.members.length > 1 && (
-                                            <button onClick={() => removeMember(member.id)} className="absolute top-2 right-2 text-gray-400 hover:text-red-600 md:hidden"><Trash2 size={16}/></button>
+                                            <button onClick={() => removeMember(member.id)} className="absolute top-2 right-2 text-gray-400 hover:text-red-600 md:hidden"><Trash2 size={16} /></button>
                                         )}
                                         <div className="col-span-4 md:col-span-1">
                                             <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Danh xưng</label>
-                                            <input 
-                                                type="text" 
+                                            <input
+                                                type="text"
                                                 list="title-options"
-                                                value={member.title} 
-                                                onChange={(e) => handleMemberChange(member.id, 'title', e.target.value)} 
+                                                value={member.title}
+                                                onChange={(e) => handleMemberChange(member.id, 'title', e.target.value)}
                                                 className="excel-input px-1 font-medium text-gray-800 w-full h-8 md:h-6"
-                                                placeholder="Chọn..." 
-                                                onFocus={(e) => e.target.select()} 
+                                                placeholder="Chọn..."
+                                                onFocus={(e) => e.target.select()}
                                             />
                                         </div>
                                         <div className="col-span-8 md:col-span-3">
                                             <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Họ tên</label>
-                                            <input type="text" value={member.name} onChange={(e) => handleMemberChange(member.id, 'name', e.target.value)} placeholder="Họ tên..." className={`excel-input uppercase font-bold w-full h-8 md:h-6 ${index === 0 ? 'text-blue-800' : 'text-gray-700'}`}/>
+                                            <input type="text" value={member.name} onChange={(e) => handleMemberChange(member.id, 'name', e.target.value)} placeholder="Họ tên..." className={`excel-input uppercase font-bold w-full h-8 md:h-6 ${index === 0 ? 'text-blue-800' : 'text-gray-700'}`} />
                                         </div>
                                         <div className="col-span-4 md:col-span-1">
                                             <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Giới tính</label>
                                             <select value={member.gender} onChange={(e) => handleMemberChange(member.id, 'gender', e.target.value)} className="excel-input px-0 text-center w-full h-8 md:h-6"><option value="male">Nam</option><option value="female">Nữ</option></select>
                                         </div>
                                         <div className="col-span-8 md:col-span-2 flex gap-1">
-                                            <div className="flex-1"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Ngày</label><input type="number" placeholder="Ng" value={member.birthDay} onChange={(e) => handleMemberChange(member.id, 'birthDay', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="31"/></div>
-                                            <div className="flex-1"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Tháng</label><input type="number" placeholder="Th" value={member.birthMonth} onChange={(e) => handleMemberChange(member.id, 'birthMonth', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="12"/></div>
-                                            <div className="flex-[1.5]"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Năm</label><input type="number" placeholder="Năm" value={member.birthYear} onChange={(e) => handleMemberChange(member.id, 'birthYear', e.target.value)} className="excel-input text-center px-0 w-full font-medium h-8 md:h-6"/></div>
+                                            <div className="flex-1"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Ngày</label><input type="number" placeholder="Ng" value={member.birthDay} onChange={(e) => handleMemberChange(member.id, 'birthDay', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="31" /></div>
+                                            <div className="flex-1"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Tháng</label><input type="number" placeholder="Th" value={member.birthMonth} onChange={(e) => handleMemberChange(member.id, 'birthMonth', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="12" /></div>
+                                            <div className="flex-[1.5]"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Năm</label><input type="number" placeholder="Năm" value={member.birthYear} onChange={(e) => handleMemberChange(member.id, 'birthYear', e.target.value)} className="excel-input text-center px-0 w-full font-medium h-8 md:h-6" /></div>
                                         </div>
                                         <div className="col-span-12 grid grid-cols-5 gap-1 md:contents">
                                             <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-purple-700 bg-purple-50 py-1 md:py-0.5 rounded border border-purple-100 flex items-center justify-center h-full">{computedData.members[index]?.canChi}</div>
@@ -525,15 +599,15 @@ export default function App() {
                             <div className="bg-gray-50 p-3 rounded-lg border border-gray-200 w-full flex flex-col gap-3">
                                 <div className="flex-grow flex flex-col">
                                     <label className="excel-label mb-1 ml-1">Địa chỉ</label>
-                                    <textarea name="address" value={formData.address} onChange={handleChange} className="excel-input w-full resize-none text-sm flex-grow border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded transition-shadow" placeholder="Nhập đầy đủ địa chỉ..." style={{ minHeight: '88px' }}/>
+                                    <textarea name="address" value={formData.address} onChange={handleChange} className="excel-input w-full resize-none text-sm flex-grow border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded transition-shadow" placeholder="Nhập đầy đủ địa chỉ..." style={{ minHeight: '88px' }} />
                                 </div>
                                 <div className="grid grid-cols-12 gap-2 h-10">
-                                    <div className="col-span-12 sm:col-span-7 flex items-center border border-gray-300 rounded px-2 bg-white h-full">
-                                        <CalendarIcon size={16} className="text-blue-600 flex-shrink-0 mr-1"/>
+                                    <div className="col-span-7 flex items-center border border-gray-300 rounded px-2 bg-white h-full">
+                                        <CalendarIcon size={16} className="text-blue-600 flex-shrink-0 mr-1" />
                                         <span className="text-xs font-bold text-gray-600 whitespace-nowrap mr-1">Ngày lễ</span>
-                                        <input type="date" name="ceremonyDate" value={formData.ceremonyDate} onChange={handleChange} className="flex-grow outline-none text-blue-800 font-bold text-sm bg-transparent text-right w-full min-w-0"/>
+                                        <input type="date" name="ceremonyDate" value={formData.ceremonyDate} onChange={handleChange} className="flex-grow outline-none text-blue-800 font-bold text-sm bg-transparent text-right w-full min-w-0" />
                                     </div>
-                                    <div className="col-span-12 sm:col-span-5 h-full px-1 bg-purple-50 border border-purple-200 rounded flex items-center justify-center gap-1 whitespace-nowrap overflow-hidden mt-2 sm:mt-0">
+                                    <div className="col-span-5 h-full px-1 bg-purple-50 border border-purple-200 rounded flex items-center justify-center gap-1 whitespace-nowrap overflow-hidden">
                                         <span className="text-sm font-bold text-purple-700">{computedData.day}/{computedData.month}</span>
                                         <span className="text-xs font-bold text-purple-600">({computedData.year})</span>
                                     </div>
@@ -542,7 +616,7 @@ export default function App() {
                             <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-200 w-full relative flex flex-col gap-3">
                                 <h3 className="text-yellow-800 text-[10px] font-bold uppercase ml-1">Nội Dung Sớ (Có thể chọn nhiều)</h3>
                                 <div ref={templateDropdownRef} className="relative">
-                                    <button onClick={() => setIsTemplateDropdownOpen(!isTemplateDropdownOpen)} className="excel-input font-bold text-red-700 border-red-200 text-left flex items-center justify-between w-full bg-white h-9 rounded hover:border-red-300 transition-colors"><span className="truncate">{getSelectedTemplatesLabel()}</span><ChevronDown size={14} className="text-gray-500"/></button>
+                                    <button onClick={() => setIsTemplateDropdownOpen(!isTemplateDropdownOpen)} className="excel-input font-bold text-red-700 border-red-200 text-left flex items-center justify-between w-full bg-white h-9 rounded hover:border-red-300 transition-colors"><span className="truncate">{getSelectedTemplatesLabel()}</span><ChevronDown size={14} className="text-gray-500" /></button>
                                     {isTemplateDropdownOpen && (
                                         <div className="absolute z-[200] top-full left-0 w-full bg-white border border-gray-300 rounded shadow-lg max-h-60 overflow-y-auto mt-1">
                                             {Object.values(TEMPLATES).map(t => {
@@ -557,8 +631,8 @@ export default function App() {
                                         </div>
                                     )}
                                 </div>
-                                {formData.selectedTemplates?.includes('gia_tien') && (<input type="text" name="familyLine" value={formData.familyLine} onChange={handleChange} placeholder="Dòng họ (VD: Nguyễn Văn)..." className="excel-input animate-in fade-in h-9 rounded border-yellow-300 focus:border-yellow-500"/>)}
-                                <textarea name="userPrayer" value={formData.userPrayer} onChange={handleChange} placeholder="Nhập lời cầu nguyện riêng (nếu có)..." className="excel-input w-full resize-none border-yellow-300 focus:border-yellow-500 bg-white flex-grow rounded" style={{ minHeight: '80px' }}/>
+                                {formData.selectedTemplates?.includes('gia_tien') && (<input type="text" name="familyLine" value={formData.familyLine} onChange={handleChange} placeholder="Dòng họ (VD: Nguyễn Văn)..." className="excel-input animate-in fade-in h-9 rounded border-yellow-300 focus:border-yellow-500" />)}
+                                <textarea name="userPrayer" value={formData.userPrayer} onChange={handleChange} placeholder="Nhập lời cầu nguyện riêng (nếu có)..." className="excel-input w-full resize-none border-yellow-300 focus:border-yellow-500 bg-white flex-grow rounded" style={{ minHeight: '80px' }} />
                                 <div className="mt-auto flex gap-2">
                                     <button onClick={triggerReset} className="bg-white hover:bg-gray-50 text-gray-500 font-bold py-2 px-3 rounded shadow-sm flex items-center justify-center gap-1 transition-all text-xs uppercase tracking-wide border border-gray-200 h-9 hover:border-red-200 hover:text-red-500" title="Xóa hết thông tin nhập"><RotateCcw size={14} /></button>
                                     <button onClick={handleCreateSo} className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-2 px-4 rounded shadow-sm flex items-center justify-center gap-2 transition-all text-xs uppercase tracking-wide h-9 transform active:scale-[0.98]"><Play size={14} fill="currentColor" /> Tạo Sớ</button>
@@ -568,8 +642,8 @@ export default function App() {
                     </div>
                 </div>
 
-                <div className={`flex justify-center mb-4 relative z-[60] no-print group transition-all duration-300 ${isInputVisible ? '-mt-2' : 'mt-0'}`}>
-                    <button onClick={() => setIsInputVisible(!isInputVisible)} className="bg-white hover:bg-red-50 text-gray-500 hover:text-red-700 border border-gray-200 px-4 py-1.5 rounded-full shadow-sm text-xs font-bold flex items-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0">{isInputVisible ? <><PanelTopClose size={14}/> THU GỌN</> : <><PanelTopOpen size={14}/> MỞ RỘNG</>}</button>
+                <div className={`flex justify-center mb-4 relative z-[60] no-print group transition-all duration-300 ${isInputVisible ? 'mt-2' : 'mt-0'}`}>
+                    <button onClick={() => setIsInputVisible(!isInputVisible)} className="bg-white hover:bg-red-50 text-gray-500 hover:text-red-700 border border-gray-200 px-4 py-1.5 rounded-full shadow-sm text-xs font-bold flex items-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0">{isInputVisible ? <><PanelTopClose size={14} /> THU GỌN</> : <><PanelTopOpen size={14} /> MỞ RỘNG</>}</button>
                     <div className="absolute top-1/2 left-0 w-full h-px bg-gray-300 -z-10 opacity-30 group-hover:opacity-50 transition"></div>
                 </div>
 
@@ -583,13 +657,14 @@ export default function App() {
                         {formData.paperSize === 'custom' && (<div className="flex items-center gap-1 bg-white px-2 py-1 rounded shadow-sm border text-xs"><Ruler size={14} className="text-orange-600" /><input type="number" name="customWidth" value={formData.customWidth} onChange={handleCustomSizeChange} className="w-12 border-b border-orange-300 outline-none text-center font-bold text-orange-700" placeholder="Rộng" /><span className="text-gray-400">x</span><input type="number" name="customHeight" value={formData.customHeight} onChange={handleCustomSizeChange} className="w-12 border-b border-orange-300 outline-none text-center font-bold text-orange-700" placeholder="Cao" /></div>)}
                     </div>
                     <div className="flex gap-2 w-full sm:w-auto justify-end">
-                        <button onClick={handleCopy} className="bg-white hover:bg-gray-100 hover:text-gray-900 text-gray-600 border border-gray-200 px-3 py-1 rounded shadow-sm text-xs flex items-center gap-1 font-medium transition"><Copy size={14}/> Sao chép</button>
+                        <button onClick={() => setShowGrid(!showGrid)} className={`px-3 py-1 rounded shadow-sm text-xs flex items-center gap-1 font-medium transition border ${showGrid ? 'bg-blue-100 text-blue-700 border-blue-300' : 'bg-white hover:bg-gray-100 hover:text-gray-900 text-gray-600 border-gray-200'}`} title="Bật/Tắt lưới căn dòng"><Grid3X3 size={14} /> {showGrid ? 'Tắt lưới' : 'Bật lưới'}</button>
+                        <button onClick={handleCopy} className="bg-white hover:bg-gray-100 hover:text-gray-900 text-gray-600 border border-gray-200 px-3 py-1 rounded shadow-sm text-xs flex items-center gap-1 font-medium transition"><Copy size={14} /> Sao chép</button>
                     </div>
                 </div>
 
                 <div id="printable-area" className="preview-wrapper px-2 pb-8 flex flex-col gap-8">
                     {(!previewData || previewData.length === 0) ? (
-                        <div className="text-center py-12 text-gray-500 italic bg-white/50 rounded border border-dashed border-gray-300 mx-auto max-w-lg"><FileText size={48} className="mx-auto mb-2 opacity-30"/><p>Vui lòng nhập thông tin và nhấn nút "Tạo Sớ" để xem trước.</p></div>
+                        <div className="text-center py-12 text-gray-500 italic bg-white/50 rounded border border-dashed border-gray-300 mx-auto max-w-lg"><FileText size={48} className="mx-auto mb-2 opacity-30" /><p>Vui lòng nhập thông tin và nhấn nút "Tạo Sớ" để xem trước.</p></div>
                     ) : (
                         previewData.map((item, index) => (
                             <React.Fragment key={index}>
@@ -598,10 +673,17 @@ export default function App() {
                                     <div className="mb-2 text-left no-print"><span className="text-red-800 font-bold text-sm uppercase tracking-widest border-b-2 border-red-800 pb-1 inline-block">{item.title}</span></div>
                                     <div className="print-page-break relative w-full" style={{ aspectRatio: currentPaper.aspectRatio, height: 'auto' }}>
                                         <div className="paper-bg text-black relative shadow-2xl overflow-hidden h-full w-full">
+                                            {showGrid && (
+                                                <div className="grid-overlay" style={{
+                                                    backgroundSize: `calc(100% / ${item.cols}) calc(100% / ${item.rows})`
+                                                }}></div>
+                                            )}
                                             <div className="fancy-border h-full w-full absolute inset-0 pointer-events-none z-10"></div>
                                             <div className="h-full w-full p-[2cqi] sm:p-[3cqi] flex flex-col items-center relative z-0">
                                                 <div className="text-center mb-2 w-full pb-2"></div>
-                                                <div className="flex-1 w-full overflow-hidden font-sso leading-relaxed" style={{ fontSize: 'clamp(8px, 1.8cqi, 24px)' }}>{renderSsoContent(item.content)}</div>
+                                                <div className="flex-1 w-full overflow-hidden font-sso leading-relaxed" style={{ fontSize: 'clamp(8px, 1.8cqi, 24px)' }}>
+                                                    {renderSsoContent(item)}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -611,11 +693,12 @@ export default function App() {
                     )}
                 </div>
 
-                {/* --- CÁC MODAL KHÔNG ĐỔI --- */}
+                {/* --- GLOBAL MODALS --- */}
+                {/* Save Modal */}
                 {showSaveModal && (
-                    <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4 no-print backdrop-blur-sm">
+                    <div className="fixed inset-0 bg-black/50 z-[200] flex items-center justify-center p-4 no-print backdrop-blur-sm">
                         <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
-                            <h3 className="text-lg font-bold text-blue-800 mb-4 flex items-center gap-2"><Save size={20}/> Lưu Sớ Hiện Tại</h3>
+                            <h3 className="text-lg font-bold text-blue-800 mb-4 flex items-center gap-2"><Save size={20} /> Lưu Sớ Hiện Tại</h3>
                             <input type="text" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="Nhập tên gợi nhớ..." className="w-full border p-2 rounded mb-4 focus:ring-2 focus:ring-blue-500 outline-none" autoFocus />
                             <div className="flex justify-end gap-2">
                                 <button onClick={() => setShowSaveModal(false)} className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Hủy</button>
@@ -624,14 +707,14 @@ export default function App() {
                         </div>
                     </div>
                 )}
-                
+
+                {/* Donate Modal */}
                 {showDonateModal && (
                     <div className="fixed inset-0 bg-black/50 z-[200] flex items-center justify-center p-4 no-print backdrop-blur-sm">
                         <div className="bg-white rounded-lg shadow-xl p-6 relative max-w-sm w-full animate-in zoom-in duration-200 flex flex-col items-center">
-                            <button onClick={() => setShowDonateModal(false)} className="absolute top-2 right-2 text-gray-400 hover:text-red-500"><X size={24}/></button>
-                            <h3 className="text-lg font-bold text-center mb-4 text-gray-800 flex items-center gap-2"><Coffee size={20} className="text-yellow-600"/> Mời tác giả ly cà phê</h3>
+                            <button onClick={() => setShowDonateModal(false)} className="absolute top-2 right-2 text-gray-400 hover:text-red-500"><X size={24} /></button>
+                            <h3 className="text-lg font-bold text-center mb-4 text-gray-800 flex items-center gap-2"><Coffee size={20} className="text-yellow-600" /> Mời tác giả ly cà phê</h3>
                             <div className="flex justify-center w-full bg-gray-50 p-2 rounded-lg border border-gray-100">
-                                {/* Placeholder for QR Code */}
                                 <img src="/image_1b419f.jpg" alt="QR Code Donate" className="max-w-full h-auto rounded shadow-sm object-contain" style={{ maxHeight: '300px' }} />
                             </div>
                             <p className="text-center text-sm text-gray-500 mt-4 italic">Cảm ơn tấm lòng của bạn!</p>
@@ -639,31 +722,32 @@ export default function App() {
                     </div>
                 )}
 
+                {/* Saved Sớ List Modal */}
                 {showLoadModal && (
                     <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4 no-print backdrop-blur-sm">
                         <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] flex flex-col">
                             <div className="p-4 border-b flex justify-between items-center bg-indigo-50 rounded-t-lg">
-                                <h3 className="text-lg font-bold text-indigo-800 flex items-center gap-2"><FolderOpen size={20}/> Danh Sách Sớ Đã Lưu</h3>
-                                <button onClick={() => setShowLoadModal(false)}><X className="text-gray-400 hover:text-red-500"/></button>
+                                <h3 className="text-lg font-bold text-indigo-800 flex items-center gap-2"><FolderOpen size={20} /> Danh Sách Sớ Đã Lưu</h3>
+                                <button onClick={() => setShowLoadModal(false)}><X className="text-gray-400 hover:text-red-500" /></button>
                             </div>
                             <div className="p-2 overflow-y-auto flex-1 relative">
                                 {savedSos.length === 0 ? (<p className="text-center text-gray-500 py-8">Chưa có sớ nào được lưu.</p>) : (
-                                    <div className="space-y-2">{savedSos.map(item => (<div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 border rounded hover:bg-white hover:shadow transition group"><div><div className="font-bold text-gray-800 text-sm line-clamp-1">{item.name}</div><div className="text-[10px] text-gray-500">{new Date(item.createdAt).toLocaleString('vi-VN')}</div></div><div className="flex gap-2"><button onClick={() => triggerLoad(item)} className="p-2 text-blue-600 hover:bg-blue-100 rounded transition" title="Mở sớ này"><Edit3 size={16}/></button><button onClick={() => triggerDelete(item)} className="p-2 text-red-500 hover:bg-red-100 rounded transition" title="Xóa"><Trash2 size={16}/></button></div></div>))}</div>
+                                    <div className="space-y-2">{savedSos.map(item => (<div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 border rounded hover:bg-white hover:shadow transition group"><div><div className="font-bold text-gray-800 text-sm line-clamp-1">{item.name}</div><div className="text-[10px] text-gray-500">{new Date(item.createdAt).toLocaleString('vi-VN')}</div></div><div className="flex gap-2"><button onClick={() => triggerLoad(item)} className="p-2 text-blue-600 hover:bg-blue-100 rounded transition" title="Mở sớ này"><Edit3 size={16} /></button><button onClick={() => triggerDelete(item)} className="p-2 text-red-500 hover:bg-red-100 rounded transition" title="Xóa"><Trash2 size={16} /></button></div></div>))}</div>
                                 )}
                             </div>
                         </div>
                     </div>
                 )}
-                
+
                 {/* Global Confirmation Modal */}
                 {confirmAction && (
                     <div className="fixed inset-0 bg-black/50 z-[300] flex items-center justify-center p-4 no-print backdrop-blur-sm">
                         <div className="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 animate-in zoom-in duration-200">
                             <div className="flex flex-col items-center text-center">
                                 {confirmAction.type === 'reset' ? (
-                                    <><div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 bg-orange-100 text-orange-600"><RotateCcw size={32}/></div><h4 className="text-lg font-bold mb-2 text-gray-800">Làm mới dữ liệu?</h4><p className="text-gray-500 mb-6 text-sm">Tất cả thông tin nhập liệu (Thành viên, Địa chỉ...) sẽ bị xóa trắng.</p></>
+                                    <><div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 bg-orange-100 text-orange-600"><RotateCcw size={32} /></div><h4 className="text-lg font-bold mb-2 text-gray-800">Làm mới dữ liệu?</h4><p className="text-gray-500 mb-6 text-sm">Tất cả thông tin nhập liệu (Thành viên, Địa chỉ...) sẽ bị xóa trắng.</p></>
                                 ) : (
-                                    <><div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${confirmAction.type === 'delete' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>{confirmAction.type === 'delete' ? <Trash2 size={32}/> : <FolderOpen size={32}/>}</div><h4 className="text-lg font-bold mb-2 text-gray-800">{confirmAction.type === 'delete' ? 'Xác nhận xóa sớ này?' : 'Tải lại sớ này?'}</h4><p className="text-gray-500 mb-6 text-sm">"{confirmAction.item?.name}"{confirmAction.type === 'load' && <br/>}{confirmAction.type === 'load' && "(Dữ liệu hiện tại trên màn hình sẽ bị thay thế)"}</p></>
+                                    <><div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${confirmAction.type === 'delete' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>{confirmAction.type === 'delete' ? <Trash2 size={32} /> : <FolderOpen size={32} />}</div><h4 className="text-lg font-bold mb-2 text-gray-800">{confirmAction.type === 'delete' ? 'Xác nhận xóa sớ này?' : 'Tải lại sớ này?'}</h4><p className="text-gray-500 mb-6 text-sm">"{confirmAction.item?.name}"{confirmAction.type === 'load' && <br />}{confirmAction.type === 'load' && "(Dữ liệu hiện tại trên màn hình sẽ bị thay thế)"}</p></>
                                 )}
                                 <div className="flex gap-3 w-full">
                                     <button onClick={() => setConfirmAction(null)} className="flex-1 py-2 border rounded hover:bg-gray-50 font-medium text-gray-600">Hủy bỏ</button>
@@ -673,8 +757,7 @@ export default function App() {
                         </div>
                     </div>
                 )}
-                
-                {/* Datalist defined at the end */}
+
                 <datalist id="title-options">
                     {TITLES.map(t => <option key={t} value={t} />)}
                 </datalist>
