@@ -98,7 +98,7 @@ const generateMembersText = (members) => {
     if (!members || members.length === 0) return "....................";
     return members.map(m => {
         const danhXung = m.title || "Tín chủ";
-        return `${danhXung} ${m.name.toUpperCase()} ${m.age} Tuổi`;
+        return `${danhXung} ${m.name.toUpperCase()} ${m.age} Tuổi * `;
     }).join(' ');
 };
 
@@ -118,7 +118,7 @@ const TEMPLATES = {
             const c2 = "Thánh Lực Dĩ Giải Trừ Nhất Niệm Chí Thành Thập Phương Cảm Cách \t\t\t Viên Hữu";
             const c3 = `Việt Nam Quốc ${data.address}`;
             const c4 = "Mõ Hạc Linh Từ Thượng Phụng \t\t\t\t Phật Thánh Hiến Cúng Lệnh Tiết \nTiến Lễ Cầu An Giải Hạn Tổng Ách Trừ Tai Tại Cờ Gia Nội Bình An Nhân Khang Vật Thịnh Duyên Sinh Trường Thọ Kim Thần";
-            const c5 = `${generateMembersText(data.members)} ${data.userPrayer || ''}`;
+            const c5 = `${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${data.userPrayer || ''}`;
             const c7 = "Ngọc Bệ Hạ Dáng Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Dương Thế Số Hệ \tThiên Cung Hạ Càn Khôn Phủ Tài Chi An Vận Cản";
             const c8 = "Phật Thánh Khuông Phù Chi Đức Tư Phùng Lệnh Tiết \tTiến Lễ Cờ An Giải Nhất Thiết Tai Ương Cờ Vạn Ban Chi Cát Khánh Do Thị Kim Nguyệt \tNhật";
             const c9 = "Tu Thiết Kim Ngân Hương Hoa Lễ Vật Tịnh Cúng Phu Trần Cụ Hữu Sớ Văn Kiền Thân \t\t\t Thượng Tấu\t\t\t\t Cung";
