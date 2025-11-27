@@ -96,30 +96,66 @@ const formatVerticalText = (text) => {
 
 const generateMembersText = (members) => {
     if (!members || members.length === 0) return "....................";
-    const formatOnePerson = (m) => {
-        const danhXung = m.title ? m.title + ": " : "";
-        return `${danhXung}${m.name.toUpperCase()}\nSinh: ${m.birthYear} (${m.canChi})\nTuổi: ${m.age} - Sao: ${m.sao}\nHạn: ${m.han}\n${m.soTuVi} - ${m.saoTuVi}`;
-    };
-    const head = members[0];
-    let text = formatOnePerson(head);
-    if (members.length > 1) {
-        text += `\nHiệp đồng gia quyến:\n`;
-        const others = members.slice(1).map(m => {
-            const danhXung = m.title ? m.title + ": " : "";
-            return `${danhXung}${m.name}\n(${m.age}T - ${m.sao})\n${m.soTuVi} - ${m.saoTuVi}`;
-        }).join('\n');
-        text += others;
-    }
-    return text;
+    return members.map(m => {
+        const danhXung = m.title || "Tín chủ";
+        return `${danhXung} ${m.name.toUpperCase()} ${m.age} Tuổi`;
+    }).join(' ');
 };
 
 // --- DỮ LIỆU MẪU SỚ ---
 const TEMPLATES = {
     cau_an: {
         id: 'cau_an',
-        name: '1. Sớ Phúc Thọ (Cầu An)',
-        title: 'PHÚC THỌ SỚ',
-        content: (data) => `Phục dĩ\nThần ân\nquảng đại,\nThánh đức\nuy nghiêm.\nViệt Nam Quốc\n${data.address}\ncư phụng.\nPhật Thánh\nhiến cúng,\nXuân thiên\ntiến lễ\nCầu an,\ngiải hạn\ntống ách,\ntrừ tai,\nnghinh tường\nnạp phúc.\nKim thần\ntín chủ\n${generateMembersText(data.members)}\nNgụ tại:\n${data.address}\nNhất tâm\nthiện nguyện,\ntu thiết\nlễ nghi,\nhương hoa\nkim ngân\nphẩm vật,\nthành tâm\nhiến cúng.\nCung duy:\nNam Mô\nThập Phương\nVô Lượng\nThường Trụ\nTam Bảo.\nTam Giới\nThiên Chúa,\nTứ Phủ\nVạn Linh\nCông Đồng\nThánh Đế.\nTam Tòa\nThánh Mẫu\nNgọc Bệ\nHạ.\nBản Điện\nChư Vị\nTôn Thần.\nKích thiết\nkhẩn cầu:\nĐức Đại\nHồng Từ\ntừ bi\ngiáng hạ,\nchứng minh\ncông đức.\nPhù hộ\nđộ trì\ncho tín chủ:\nTiêu trừ\ntai chướng,\nbệnh tật\ntiêu tan,\nvận hạn\nhanh thông.\nGia môn\nhưng vượng,\nnhân vật\nbình an,\nphúc thọ\nkhang ninh.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Sở cầu\nnhư ý,\nsở nguyện\ntòng tâm.\nCẩn tấu.`
+        name: '1. Sớ Phúc Lộc Thọ (Cầu An)',
+        title: 'PHÚC LỘC THỌ SỚ',
+        content: (data) => {
+            // Helper to join array into newline-separated string (column)
+            const col = (arr) => arr.join(' ');
+
+            // Columns from Right to Left based on the image
+            const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
+            const c1 = "Phúc Thọ Khang Ninh Nãi Nhân Tâm Chi Cờ Nguyện Tai Ương Hạn Ách Bằng";
+            const c2 = "Thánh Lực Dĩ Giải Trừ Nhất Niệm Chí Thành Thập Phương Cảm Cách \t\t\t Viên Hữu";
+            const c3 = `Việt Nam Quốc ${data.address}`;
+            const c4 = "Mõ Hạc Linh Từ Thượng Phụng \t\t\t\t Phật Thánh Hiến Cúng Lệnh Tiết \nTiến Lễ Cầu An Giải Hạn Tổng Ách Trừ Tai Tại Cờ Gia Nội Bình An Nhân Khang Vật Thịnh Duyên Sinh Trường Thọ Kim Thần";
+            const c5 = `${generateMembersText(data.members)} ${data.userPrayer || ''}`;
+            const c7 = "Ngọc Bệ Hạ Dáng Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Dương Thế Số Hệ \tThiên Cung Hạ Càn Khôn Phủ Tài Chi An Vận Cản";
+            const c8 = "Phật Thánh Khuông Phù Chi Đức Tư Phùng Lệnh Tiết \tTiến Lễ Cờ An Giải Nhất Thiết Tai Ương Cờ Vạn Ban Chi Cát Khánh Do Thị Kim Nguyệt \tNhật";
+            const c9 = "Tu Thiết Kim Ngân Hương Hoa Lễ Vật Tịnh Cúng Phu Trần Cụ Hữu Sớ Văn Kiền Thân \t\t\t Thượng Tấu\t\t\t\t Cung";
+            const c10 = "Nam Mô Thập Phương Thường Trụ Tam Bảo Tác Chư Đại Bồ Tát \t\t\t\t\t\t Kim Liên Tọa Hạ";
+            const c11 = "Tam Giới Thiên Chúa Tứ Phủ Vạn Linh Cộng Đồng Đại Đế \t\t\t\t\t\t\t Ngọc Bệ Hạ";
+            const c12 = "Tam Tòa Vương Mẫu Ngũ Vị Hoàng Thái Tử Vương Quan Khâm Sai Công Chúa \t\t\t\t Cung Quyết Hạ";
+            const c13 = "Bản Điện Phụng Tự Nhất Thiết Uy Linh \t\t\t\t\t\t Vị Tiền Cúng Vọng";
+            const c14 = "Hồng Từ \t\t\t\t Động Thùy\t\t\t\t Chiếu Giám\t\t\t\t Phục Nguyện";
+            const c15 = "Đức Đại Khuông Phù Ân Hoằng Tế Độ Giáng Phúc Lưu An Trừ Tai Xá Quá Tỉ Thần Đẳng Gia Môn Thanh Thái Bản Mệnh Bình An Tam Tai Bát Nạn Sử";
+            const c16 = "Vô Sâm Phạm Chi Ngu Bách Phú Thiên Tường Thường Hưởng Thọ Khang Chi Khánh Nhất Triết Sở Cầu Vạn Ban Như Ý Đãn Thần Hạ Tinh Vô Nhận";
+            const c17 = "Kích Thiết Bình Dinh Chi Chí Cẩn Sớ";
+            const firstMember = data.members[0] || {};
+            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} \t\tNguyệt ${data.day} \t\tNhật \t\t\tPhúc-Lộc-Thọ Cầu Bình An \t${firstMember.title || ''} ${firstMember.name || ''}`;
+
+            // Combine columns (Note: The app renders lines from the string split by \n. 
+            // If the app renders columns Right-to-Left, we should list them in that order? 
+            // Actually App.jsx renders: lines.map(line => col). 
+            // And CSS is: flex-direction: row-reverse.
+            // So the first line in the string becomes the Rightmost column.
+
+            // Logic tự động xuống dòng (thêm cột) cho c5 nếu dài hơn c8
+            const c8WordCount = c8.trim().split(/\s+/).length;
+            const c5Words = c5.trim().split(/\s+/);
+            const c5Columns = [];
+
+            if (c5Words.length > c8WordCount) {
+                for (let i = 0; i < c5Words.length; i += c8WordCount) {
+                    c5Columns.push(c5Words.slice(i, i + c8WordCount).join(' '));
+                }
+            } else {
+                c5Columns.push(c5);
+            }
+
+            // Combine columns. c0 (Phục dĩ) and c1 (Phúc Thọ...) are combined into the first column (Rightmost)
+            // Replace single c5 with ...c5Columns
+            return [`${c0}\n${c1}`, c2, c3, c4, ...c5Columns, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18].join('\n');
+        }
     },
     dang_sao: {
         id: 'dang_sao',
@@ -408,19 +444,26 @@ export default function App() {
     const renderSsoContent = (item) => {
         if (!item || !item.contentLines) return null;
 
-        const fontSize = Math.min(100 / item.cols, 100 / item.rows * 1.4) * 0.6;
+        // Tính toán font size dựa trên tổng số đơn vị fr (cols - 1 + 2 = cols + 1)
+        const totalFr = item.cols + 1;
+        const fontSize = Math.min(100 / totalFr, 100 / item.rows * 1.4) * 0.25; // Hệ số 0.25 để đảm bảo vừa vặn
 
         return (
-            <div className="sso-container" style={{
+            <div className="sso-container relative" style={{
                 display: 'grid',
-                gridTemplateColumns: `repeat(${item.cols}, 1fr)`,
+                // Cột cuối cùng (bên trái trong RTL) gấp đôi kích thước
+                gridTemplateColumns: `repeat(${item.cols - 1}, 1fr) 2fr`,
                 gridTemplateRows: `repeat(${item.rows}, 1fr)`,
                 width: '100%',
                 height: '100%',
-                direction: 'rtl'
+                direction: 'rtl',
+                padding: '0',
+                boxSizing: 'border-box',
+                border: '1px solid #ccc' // Viền bao ngoài
             }}>
                 {item.contentLines.map((line, colIdx) => {
-                    const words = line.trim().split(/\s+/);
+                    // Replace tabs with a special placeholder to preserve them during split
+                    const words = line.replace(/\t/g, ' {{TAB}} ').trim().split(/\s+/);
                     return (
                         <div key={colIdx} className="sso-col" style={{
                             gridColumn: `${colIdx + 1} / span 1`,
@@ -428,26 +471,40 @@ export default function App() {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            justifyContent: 'flex-start',
-                            gap: '0'
+                            justifyContent: 'flex-start', // Revert: Canh lề trên
+                            gap: '0',
+                            minWidth: '0',
+                            borderLeft: '1px solid #ccc' // Viền giữa các cột
                         }}>
-                            {words.map((word, wordIdx) => (
-                                <div key={wordIdx} className="sso-word" style={{
-                                    height: `calc(100% / ${item.rows})`,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: '100%',
-                                    overflow: 'visible',
-                                    whiteSpace: 'nowrap'
-                                }}>
-                                    <span style={{
-                                        fontSize: `clamp(10px, ${fontSize}cqi, 120px)`,
-                                        lineHeight: 1,
-                                        fontWeight: 600
-                                    }}>{word}</span>
-                                </div>
-                            ))}
+                            {words.map((word, wordIdx) => {
+                                if (word === '{{TAB}}') {
+                                    return (
+                                        <div key={wordIdx} className="sso-word" style={{
+                                            height: `calc(100% / ${item.rows})`,
+                                            width: '100%',
+                                            // Empty cell for spacing
+                                        }}></div>
+                                    );
+                                }
+                                return (
+                                    <div key={wordIdx} className="sso-word" style={{
+                                        height: `calc(100% / ${item.rows})`,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: '100%',
+                                        overflow: 'visible',
+                                        whiteSpace: 'nowrap',
+                                        // borderBottom: '1px solid #eee' // Đã bỏ kẻ ngang theo yêu cầu
+                                    }}>
+                                        <span style={{
+                                            fontSize: `clamp(8px, ${fontSize}cqi, 120px)`,
+                                            lineHeight: 1.0,
+                                            fontWeight: 600
+                                        }}>{word}</span>
+                                    </div>
+                                )
+                            })}
                         </div>
                     );
                 })}
@@ -678,8 +735,7 @@ export default function App() {
                                                     backgroundSize: `calc(100% / ${item.cols}) calc(100% / ${item.rows})`
                                                 }}></div>
                                             )}
-                                            <div className="fancy-border h-full w-full absolute inset-0 pointer-events-none z-10"></div>
-                                            <div className="h-full w-full p-[2cqi] sm:p-[3cqi] flex flex-col items-center relative z-0">
+                                            <div className="h-full w-full p-0 flex flex-col items-center relative z-0">
                                                 <div className="text-center mb-2 w-full pb-2"></div>
                                                 <div className="flex-1 w-full overflow-hidden font-sso leading-relaxed" style={{ fontSize: 'clamp(8px, 1.8cqi, 24px)' }}>
                                                     {renderSsoContent(item)}
