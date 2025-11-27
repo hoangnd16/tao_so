@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Printer, Copy, FileText, Save, FolderOpen, X, ArrowDown, Settings, FileDigit, Ruler, Plus, Trash2, User, Calendar as CalendarIcon, ChevronUp, ChevronDown, Edit3, Check, AlertCircle, CheckSquare, Square, Play, RotateCcw, Coffee, Grid3X3, PanelTopClose, PanelTopOpen } from 'lucide-react';
+import { Printer, Copy, FileText, Save, FolderOpen, X, ArrowDown, Settings, FileDigit, Ruler, Plus, Trash2, User, Calendar as CalendarIcon, ChevronUp, ChevronDown, Edit3, Check, AlertCircle, CheckSquare, Square, Play, RotateCcw, Coffee, PanelTopClose, PanelTopOpen } from 'lucide-react';
 
 // --- CẤU HÌNH KHỔ GIẤY ---
 const PAPER_SIZES = {
@@ -163,21 +163,46 @@ const TEMPLATES = {
         title: 'DÂNG SAO GIẢI HẠN SỚ',
         content: (data) => `Phục dĩ\nChí tâm\nbái lễ.\nViệt Nam Quốc,\n${data.address}\ncư phụng.\nKim thần\n${generateMembersText(data.members)}\nNgụ tại:\n${data.address}.\nThiết niệm:\nTín chủ\nnăm nay\nvận gặp sao\nchiếu mệnh.\nLo sợ\ntai ương,\nvận hạn\ntrắc trở,\nnay thành tâm\nsắm lễ,\nhương hoa\ntrà quả,\nkim ngân\nchỉ tiền.\nCung thỉnh:\nĐức Bắc Đẩu\nCửu Hàm\nGiải Ách\nTinh Quân.\nĐức\nTinh Quân\n(Vị tiền).\nĐương cai\nBản Mệnh\nThần Quân.\nKhấu đầu\nquy mệnh:\nCầu xin\ngiải trừ\nvận hạn,\ntống khứ\nhung tinh,\nnghinh đón\ncát khánh.\nCầu cho\nbản mệnh\nvững vàng,\ngia môn\nkhang thái,\nđắc tài\nđắc lộc.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Nguyện dốc\nlòng thành,\ncúi xin\nchứng giám.\nCẩn tấu.`
     },
+    hinh_nhan: {
+        id: 'hinh_nhan',
+        name: '3. Sớ Hình Nhân',
+        title: 'HÌNH NHÂN SỚ',
+        content: (data) => {
+            // Template này dành riêng cho từng người, nên data.members sẽ chỉ có 1 người
+            const member = data.members[0] || {};
+
+            // Helper to join array into newline-separated string (column)
+            const col = (arr) => arr.join(' ');
+
+            const c0 = "Phục Dĩ\n Lục Quần Lê";
+            const c1 = `Việt Nam Quốc ${data.address}`;
+            const c2 = `${member.name?.toUpperCase() || ''} Bản Mệnh Sinh ${member.han || ''} Niên ${member.age || ''} Tuổi`;
+            const c3 = "Phật Thánh Hiến Cúng Lệnh Tiết Tiến Cống Hình Nhân Thế Đại Giải Hạn Trừ Tai Cầu Bản Mệnh Bình An Tăng Duyên Thọ Sự Kim Thần";
+            const c4 = "Thượng Thánh Thính Phủ Giám Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Trung Giới Mệnh Thuộc";
+            const c5 = `Kim Niên Vận Lâm ${member.sao || ''} Tinh Quân ${member.han || ''} Tinh Quân`;
+            const c6 = "Thanh Đức Uy Tuất Thùy Tình Bảo Hộ Cờ Tự Nhiên Khang Cát Trường Xuân Hưởng Phúc Khánh Mông Bất Khả Tư Nghị Công Đức";
+            const c7 = "Tam Giới Thiên Chúa Tứ Phủ Vạn Linh Công Đồng Thánh Đế Ngọc Bệ Hạ Tấu Cung Duy";
+            const c8 = "Hương Hoa Kim Ngân Phù Nhân Tiến Cúng Đồng Chi Nghi Cát Nhật";
+            const c9 = `Thiên Vận ${data.year} Niên ${data.month} Nguyệt ${data.day} Nhật Tiến Hình Nhân`;
+
+            return [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9].join('\n');
+        }
+    },
     gia_tien: {
         id: 'gia_tien',
-        name: '3. Sớ Gia Tiên (Thông dụng)',
+        name: '4. Sớ Gia Tiên',
         title: 'GIA TIÊN SỚ',
         content: (data) => `Phục dĩ\nChí tâm\nbái lễ.\nViệt Nam Quốc,\n${data.address}\ncư phụng.\nTu thiết\nlễ nghi,\ntạ ơn\nTiên Tổ,\ncầu an\nbản mệnh.\nKim thần\n${generateMembersText(data.members)}\nĐồng gia\nquyến đẳng.\nNay nhân\ntiết:\n${data.reason || 'Chính kỵ'},\ntín chủ\nchạnh lòng\nnhớ đức\ncù lao.\nCung duy:\nGia tiên\ndòng họ:\n....................\nCao Tằng\nTổ Khảo,\nCao Tằng\nTổ Tỷ.\nBá Thúc\nHuynh Đệ,\nCô Di\nTỷ Muội.\nNội ngoại\ngia tiên,\nđồng lai\nhâm hưởng.\nCúi xin:\nTổ tiên\nlinh thiêng\nchứng giám\nlòng thành.\nPhù hộ\nđộ trì\ncho con cháu:\nGià\nmạnh khỏe,\ntrẻ\nbình an.\nHọc hành\ntiến tới,\ncông tác\nhanh thông.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Cẩn tấu.`
     },
     le_phat: {
         id: 'le_phat',
-        name: '4. Sớ Lễ Phật',
+        name: '5. Sớ Lễ Phật',
         title: 'LỄ PHẬT SỚ',
         content: (data) => `Phục dĩ\nPhật đức\ntừ bi,\ndĩ độ chúng.\nViệt Nam Quốc,\n${data.address}\ncư phụng.\nPhật Thánh\nhiến cúng,\ntiến lễ\ncầu an.\nKim thần\n${generateMembersText(data.members)}\nNgụ tại:\n${data.address}.\nNhất tâm\nthiện nguyện,\nhương hoa\nkim ngân\nthành tâm\nphụng hiến.\nCung duy:\nNam Mô\nThập Phương\nThường Trụ\nTam Bảo\nTác Đại\nChứng Minh.\nNam Mô\nSa Bà\nGiáo Chủ\nBản Sư\nThích Ca\nMâu Ni\nPhật.\nPhục nguyện:\nPhật nhật\ntăng huy,\nPháp luân\nthường chuyển.\nPhong điều\nvũ thuận,\nquốc thái\ndân an.\nTín chủ\ngia đình\nhưng thịnh,\nphúc thọ\nkhang ninh.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Cẩn tấu.`
     },
     le_mau: {
         id: 'le_mau',
-        name: '5. Sớ Lễ Mẫu',
+        name: '6. Sớ Lễ Mẫu',
         title: 'THÁNH MẪU SỚ',
         content: (data) => `Phục dĩ\nMẫu đức\nbao la.\nViệt Nam Quốc,\n${data.address}\ncư phụng.\nKim thần\n${generateMembersText(data.members)}\nĐồng gia\nquyến đẳng.\nThiết lễ\nkính dâng\ncửa Mẫu.\nCung duy:\nTam Tòa\nThánh Mẫu,\nTứ Phủ\nVạn Linh\nCông Đồng.\nĐệ Nhất\nThượng Thiên\nThánh Mẫu.\nĐệ Nhị\nThượng Ngàn\nThánh Mẫu.\nĐệ Tam\nThoải Phủ\nThánh Mẫu.\nCúi xin:\nMẫu nghi\nthiên hạ,\ntừ bi\ntiếp độ.\nBan tài\ntiếp lộc,\ngiải bệnh\ntrừ tai.\nSở cầu\nnhư ý,\nsở nguyện\ntòng tâm.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Cẩn tấu.`
     },
@@ -231,7 +256,7 @@ export default function App() {
     const [showDonateModal, setShowDonateModal] = useState(false);
     const [saveName, setSaveName] = useState('');
     const [isTemplateDropdownOpen, setIsTemplateDropdownOpen] = useState(false);
-    const [showGrid, setShowGrid] = useState(false);
+
 
     const templateDropdownRef = useRef(null);
     const [confirmAction, setConfirmAction] = useState(null);
@@ -294,24 +319,56 @@ export default function App() {
             return;
         }
 
-        const newData = formData.selectedTemplates.map(id => {
+        const newData = [];
+
+        formData.selectedTemplates.forEach(id => {
             const template = TEMPLATES[id];
-            const rawContent = template.content(computedData);
-            const formatted = formatVerticalText(rawContent);
-            const lines = formatted.split('\n');
 
-            // --- LOGIC TÍNH TOÁN GRID ĐỘNG ---
-            const cols = lines.length;
-            const maxWords = Math.max(...lines.map(l => l.trim().split(/\s+/).length), 15);
-            const rows = maxWords;
+            // Logic đặc biệt cho Sớ Hình Nhân: Mỗi người 1 sớ
+            if (id === 'hinh_nhan') {
+                computedData.members.forEach(member => {
+                    // Tạo data riêng cho từng thành viên
+                    const memberData = {
+                        ...computedData,
+                        members: [member] // Chỉ truyền 1 thành viên vào template
+                    };
 
-            return {
-                id: id,
-                title: template.title,
-                contentLines: lines,
-                rows: rows,
-                cols: cols
-            };
+                    const rawContent = template.content(memberData);
+                    const formatted = formatVerticalText(rawContent);
+                    const lines = formatted.split('\n');
+
+                    // --- LOGIC TÍNH TOÁN GRID ĐỘNG ---
+                    const cols = lines.length;
+                    const maxWords = Math.max(...lines.map(l => l.trim().split(/\s+/).length), 15);
+                    const rows = maxWords;
+
+                    newData.push({
+                        id: `${id}_${member.id}`, // Unique ID cho từng sớ
+                        title: `${template.title} - ${member.name}`,
+                        contentLines: lines,
+                        rows: rows,
+                        cols: cols
+                    });
+                });
+            } else {
+                // Logic cũ cho các sớ khác (gộp chung)
+                const rawContent = template.content(computedData);
+                const formatted = formatVerticalText(rawContent);
+                const lines = formatted.split('\n');
+
+                // --- LOGIC TÍNH TOÁN GRID ĐỘNG ---
+                const cols = lines.length;
+                const maxWords = Math.max(...lines.map(l => l.trim().split(/\s+/).length), 15);
+                const rows = maxWords;
+
+                newData.push({
+                    id: id,
+                    title: template.title,
+                    contentLines: lines,
+                    rows: rows,
+                    cols: cols
+                });
+            }
         });
 
         setPreviewData(newData);
@@ -539,20 +596,7 @@ export default function App() {
                 .excel-label { font-size: 10px; font-weight: 700; color: #4b5563; margin-bottom: 1px; display: block; text-transform: uppercase; }
                 .preview-wrapper { container-type: inline-size; width: 100%; }
                 
-                /* DYNAMIC GRID OVERLAY */
-                .grid-overlay {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    pointer-events: none;
-                    z-index: 15;
-                    /* Grid size will be set inline via React */
-                    background-image:
-                        linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px);
-                }
+
 
                 @media print {
                     @page { size: ${currentPaper.css}; margin: 0; }
@@ -563,8 +607,7 @@ export default function App() {
                     .print-page-break:last-child { break-after: auto; }
                     .font-sso { font-size: 20px !important; }
                     .no-print { display: none !important; }
-                    /* Ẩn lưới khi in */
-                    .grid-overlay { display: none; }
+
                 }
             `}</style>
 
@@ -714,7 +757,7 @@ export default function App() {
                         {formData.paperSize === 'custom' && (<div className="flex items-center gap-1 bg-white px-2 py-1 rounded shadow-sm border text-xs"><Ruler size={14} className="text-orange-600" /><input type="number" name="customWidth" value={formData.customWidth} onChange={handleCustomSizeChange} className="w-12 border-b border-orange-300 outline-none text-center font-bold text-orange-700" placeholder="Rộng" /><span className="text-gray-400">x</span><input type="number" name="customHeight" value={formData.customHeight} onChange={handleCustomSizeChange} className="w-12 border-b border-orange-300 outline-none text-center font-bold text-orange-700" placeholder="Cao" /></div>)}
                     </div>
                     <div className="flex gap-2 w-full sm:w-auto justify-end">
-                        <button onClick={() => setShowGrid(!showGrid)} className={`px-3 py-1 rounded shadow-sm text-xs flex items-center gap-1 font-medium transition border ${showGrid ? 'bg-blue-100 text-blue-700 border-blue-300' : 'bg-white hover:bg-gray-100 hover:text-gray-900 text-gray-600 border-gray-200'}`} title="Bật/Tắt lưới căn dòng"><Grid3X3 size={14} /> {showGrid ? 'Tắt lưới' : 'Bật lưới'}</button>
+
                         <button onClick={handleCopy} className="bg-white hover:bg-gray-100 hover:text-gray-900 text-gray-600 border border-gray-200 px-3 py-1 rounded shadow-sm text-xs flex items-center gap-1 font-medium transition"><Copy size={14} /> Sao chép</button>
                     </div>
                 </div>
@@ -730,11 +773,7 @@ export default function App() {
                                     <div className="mb-2 text-left no-print"><span className="text-red-800 font-bold text-sm uppercase tracking-widest border-b-2 border-red-800 pb-1 inline-block">{item.title}</span></div>
                                     <div className="print-page-break relative w-full" style={{ aspectRatio: currentPaper.aspectRatio, height: 'auto' }}>
                                         <div className="paper-bg text-black relative shadow-2xl overflow-hidden h-full w-full">
-                                            {showGrid && (
-                                                <div className="grid-overlay" style={{
-                                                    backgroundSize: `calc(100% / ${item.cols}) calc(100% / ${item.rows})`
-                                                }}></div>
-                                            )}
+
                                             <div className="h-full w-full p-0 flex flex-col items-center relative z-0">
                                                 <div className="text-center mb-2 w-full pb-2"></div>
                                                 <div className="flex-1 w-full overflow-hidden font-sso leading-relaxed" style={{ fontSize: 'clamp(8px, 1.8cqi, 24px)' }}>
