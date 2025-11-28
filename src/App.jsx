@@ -329,13 +329,13 @@ export default function App() {
     }, [formData]);
 
     const handleCreateSo = () => {
-        if (!formData.address.trim()) {
-            showNotification("Vui lòng nhập địa chỉ!", 'error');
-            return;
-        }
         const emptyNameMember = formData.members.find(m => !m.name.trim());
         if (emptyNameMember) {
             showNotification("Vui lòng điền đầy đủ họ tên cho tất cả thành viên!", 'error');
+            return;
+        }
+        if (!formData.address.trim()) {
+            showNotification("Vui lòng nhập địa chỉ!", 'error');
             return;
         }
         if (!formData.selectedTemplates || formData.selectedTemplates.length === 0) {
