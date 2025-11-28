@@ -55,7 +55,7 @@ const LUNAR_UTILS = {
         return TU_VI_DATA[index];
     },
     convertSolarToLunar: (dateString) => {
-        if (!dateString) return { d: 1, m: 1, y: 2024 };
+        if (!dateString) return { d: 1, m: 1, y: new Date().getFullYear() };
         const date = new Date(dateString);
         try {
             const formatter = new Intl.DateTimeFormat('vi-VN-u-ca-chinese', {
@@ -64,9 +64,10 @@ const LUNAR_UTILS = {
                 year: 'numeric'
             });
             const parts = formatter.formatToParts(date);
-            const d = parts.find(p => p.type === 'day').value;
-            const m = parts.find(p => p.type === 'month').value;
-            const y = date.getFullYear();
+            const d = parseInt(parts.find(p => p.type === 'day').value);
+            const m = parseInt(parts.find(p => p.type === 'month').value);
+            const yPart = parts.find(p => p.type === 'relatedYear' || p.type === 'year');
+            const y = parseInt(yPart.value.replace(/\D/g, ''));
             return { d, m, y };
         } catch (e) {
             return { d: date.getDate(), m: date.getMonth() + 1, y: date.getFullYear() };
@@ -247,7 +248,7 @@ const TEMPLATES = {
 export default function App() {
     const [formData, setFormData] = useState({
         members: [
-            { id: 1, title: 'Tín chủ', name: '', birthDay: 1, birthMonth: 1, birthYear: 1990, gender: 'male' }
+            { id: 1, title: 'Tín chủ', name: '', birthDate: '1990-01-01', gender: 'male' }
         ],
         address: '',
         familyLine: '', reason: '',
@@ -304,20 +305,25 @@ export default function App() {
 
     const computedData = useMemo(() => {
         const year = LUNAR_UTILS.getCanChi(formData.currentYear);
+        const lunarDate = LUNAR_UTILS.convertSolarToLunar(formData.ceremonyDate);
+        const currentLunarYear = lunarDate.y;
+
         const members = formData.members.map(m => {
-            const age = m.birthYear ? formData.currentYear - m.birthYear + 1 : 0;
+            const birthLunar = LUNAR_UTILS.convertSolarToLunar(m.birthDate);
+            const birthLunarYear = birthLunar.y;
+            const age = birthLunarYear ? currentLunarYear - birthLunarYear + 1 : 0;
             const tuvi = LUNAR_UTILS.getTuVi(age);
+
             return {
                 ...m,
                 age: age > 0 ? age : 0,
-                canChi: LUNAR_UTILS.getCanChi(m.birthYear),
+                canChi: LUNAR_UTILS.getCanChi(birthLunarYear),
                 sao: LUNAR_UTILS.getSao(age, m.gender),
                 han: LUNAR_UTILS.getHan(age, m.gender),
                 soTuVi: tuvi.so,
                 saoTuVi: tuvi.sao
             };
         });
-        const lunarDate = LUNAR_UTILS.convertSolarToLunar(formData.ceremonyDate);
         const yearCanChi = LUNAR_UTILS.getCanChi(lunarDate.y);
         return { ...formData, members, year: yearCanChi, day: lunarDate.d, month: lunarDate.m, lunarDateObj: lunarDate };
     }, [formData]);
@@ -414,7 +420,7 @@ export default function App() {
         setFormData(prev => ({ ...prev, members: prev.members.map(m => m.id === id ? { ...m, [field]: value } : m) }));
     };
     const addMember = () => {
-        setFormData(prev => ({ ...prev, members: [...prev.members, { id: Date.now(), title: '', name: '', birthDay: 1, birthMonth: 1, birthYear: 1990, gender: 'female' }] }));
+        setFormData(prev => ({ ...prev, members: [...prev.members, { id: Date.now(), title: '', name: '', birthDate: '1990-01-01', gender: 'female' }] }));
     };
     const removeMember = (id) => {
         if (formData.members.length <= 1) return;
@@ -495,7 +501,7 @@ export default function App() {
         } else if (type === 'reset') {
             setFormData(prev => ({
                 ...prev,
-                members: [{ id: Date.now(), title: 'Tín chủ', name: '', birthDay: 1, birthMonth: 1, birthYear: 1990, gender: 'male' }],
+                members: [{ id: Date.now(), title: 'Tín chủ', name: '', birthDate: '1990-01-01', gender: 'male' }],
                 address: '', familyLine: '', reason: '', userPrayer: ''
             }));
             setPreviewData(null);
@@ -703,10 +709,14 @@ export default function App() {
                                             <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Giới tính</label>
                                             <select value={member.gender} onChange={(e) => handleMemberChange(member.id, 'gender', e.target.value)} className="excel-input px-0 text-center w-full h-8 md:h-6"><option value="male">Nam</option><option value="female">Nữ</option></select>
                                         </div>
-                                        <div className="col-span-8 md:col-span-2 flex gap-1">
-                                            <div className="flex-1"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Ngày</label><input type="number" placeholder="Ng" value={member.birthDay} onChange={(e) => handleMemberChange(member.id, 'birthDay', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="31" /></div>
-                                            <div className="flex-1"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Tháng</label><input type="number" placeholder="Th" value={member.birthMonth} onChange={(e) => handleMemberChange(member.id, 'birthMonth', e.target.value)} className="excel-input text-center px-0 w-full h-8 md:h-6" min="1" max="12" /></div>
-                                            <div className="flex-[1.5]"><label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Năm</label><input type="number" placeholder="Năm" value={member.birthYear} onChange={(e) => handleMemberChange(member.id, 'birthYear', e.target.value)} className="excel-input text-center px-0 w-full font-medium h-8 md:h-6" /></div>
+                                        <div className="col-span-8 md:col-span-2">
+                                            <label className="block md:hidden text-[10px] font-bold text-gray-500 uppercase mb-0.5">Ngày sinh</label>
+                                            <input
+                                                type="date"
+                                                value={member.birthDate}
+                                                onChange={(e) => handleMemberChange(member.id, 'birthDate', e.target.value)}
+                                                className="excel-input px-1 text-center w-full h-8 md:h-6"
+                                            />
                                         </div>
                                         <div className="col-span-12 grid grid-cols-5 gap-1 md:contents">
                                             <div className="col-span-1 md:col-span-1 text-center font-mono text-[10px] font-bold text-purple-700 bg-purple-50 py-1 md:py-0.5 rounded border border-purple-100 flex items-center justify-center h-full">{computedData.members[index]?.canChi}</div>
