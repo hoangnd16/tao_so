@@ -94,6 +94,9 @@ const formatVerticalText = (text) => {
     return formatted;
 };
 
+// Helper to mark text for bolding
+const markBold = (text) => text ? text.toString().trim().split(/\s+/).map(w => '^' + w).join(' ') : '';
+
 const generateMembersText = (members) => {
     if (!members || members.length === 0) return "....................";
     return members.map(m => {
@@ -116,9 +119,9 @@ const TEMPLATES = {
             const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
             const c1 = "Phúc Thọ Khang Ninh Nãi Nhân Tâm Chi Cờ Nguyện Tai Ương Hạn Ách Bằng";
             const c2 = "Thánh Lực Dĩ Giải Trừ Nhất Niệm Chí Thành Thập Phương Cảm Cách \t\t\t Viên Hữu";
-            const c3 = `Việt Nam Quốc ${data.address}`;
+            const c3 = markBold(`Việt Nam Quốc ${data.address}`);
             const c4 = "Mõ Hạc Linh Từ Thượng Phụng \t\t\t\t Phật Thánh Hiến Cúng Lệnh Tiết \nTiến Lễ Cầu An Giải Hạn Tổng Ách Trừ Tai Tại Cờ Gia Nội Bình An Nhân Khang Vật Thịnh Duyên Sinh Trường Thọ Kim Thần";
-            const c5 = `${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${data.userPrayer || ''}`;
+            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${data.userPrayer || ''}`);
             const c7 = "Ngọc Bệ Hạ Dáng Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Dương Thế Số Hệ \tThiên Cung Hạ Càn Khôn Phủ Tài Chi An Vận Cản";
             const c8 = "Phật Thánh Khuông Phù Chi Đức Tư Phùng Lệnh Tiết \tTiến Lễ Cờ An Giải Nhất Thiết Tai Ương Cờ Vạn Ban Chi Cát Khánh Do Thị Kim Nguyệt \tNhật";
             const c9 = "Tu Thiết Kim Ngân Hương Hoa Lễ Vật Tịnh Cúng Phu Trần Cụ Hữu Sớ Văn Kiền Thân \t\t\t Thượng Tấu\t\t\t\t Cung";
@@ -131,7 +134,7 @@ const TEMPLATES = {
             const c16 = "Vô Sâm Phạm Chi Ngu Bách Phú Thiên Tường Thường Hưởng Thọ Khang Chi Khánh Nhất Triết Sở Cầu Vạn Ban Như Ý Đãn Thần Hạ Tinh Vô Nhận";
             const c17 = "Kích Thiết Bình Dinh Chi Chí Cẩn Sớ";
             const firstMember = data.members[0] || {};
-            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} \t\tNguyệt ${data.day} \t\tNhật \t\t\tPhúc-Lộc-Thọ Cầu Bình An \t${firstMember.title || ''} ${firstMember.name || ''}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} \t\tNguyệt ${data.day} \t\tNhật \t\t\tPhúc-Lộc-Thọ Cầu Bình An \t${markBold(firstMember.title || '')} ${markBold(firstMember.name || '')}`;
 
             // Combine columns (Note: The app renders lines from the string split by \n. 
             // If the app renders columns Right-to-Left, we should list them in that order? 
@@ -174,18 +177,24 @@ const TEMPLATES = {
             // Helper to join array into newline-separated string (column)
             const col = (arr) => arr.join(' ');
 
-            const c0 = "Phục Dĩ\n Lục Quần Lê";
-            const c1 = `Việt Nam Quốc ${data.address}`;
-            const c2 = `${member.name?.toUpperCase() || ''} Bản Mệnh Sinh ${member.han || ''} Niên ${member.age || ''} Tuổi`;
-            const c3 = "Phật Thánh Hiến Cúng Lệnh Tiết Tiến Cống Hình Nhân Thế Đại Giải Hạn Trừ Tai Cầu Bản Mệnh Bình An Tăng Duyên Thọ Sự Kim Thần";
-            const c4 = "Thượng Thánh Thính Phủ Giám Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Trung Giới Mệnh Thuộc";
-            const c5 = `Kim Niên Vận Lâm ${member.sao || ''} Tinh Quân ${member.han || ''} Tinh Quân`;
-            const c6 = "Thanh Đức Uy Tuất Thùy Tình Bảo Hộ Cờ Tự Nhiên Khang Cát Trường Xuân Hưởng Phúc Khánh Mông Bất Khả Tư Nghị Công Đức";
-            const c7 = "Tam Giới Thiên Chúa Tứ Phủ Vạn Linh Công Đồng Thánh Đế Ngọc Bệ Hạ Tấu Cung Duy";
-            const c8 = "Hương Hoa Kim Ngân Phù Nhân Tiến Cúng Đồng Chi Nghi Cát Nhật";
-            const c9 = `Thiên Vận ${data.year} Niên ${data.month} Nguyệt ${data.day} Nhật Tiến Hình Nhân`;
+            const c0 = "\t\t\t\t\t\t\t\tPhục Dĩ\n Lục Quần Lê Lâm Lâm Tư Biểu Kim Sao Anh Khí Chi Chung Linh Ngưỡng Lại Hồng Ân Chi Dục Tú Dục Cầu Nguyện Thọ Tu Hạ \n \t\t\tViên Hữu";
+            const c1 = markBold(`Việt Nam Quốc ${data.address}`);
+            const c2 = "Phật Thánh Hiến Cúng Lệnh Tiết Tiến Cống Hình Nhân Thế Đại Giải Hạn Trừ Tai Cầu Bản Mệnh Bình An Tăng Duyên Thọ Sự Kim Thần";
+            const c3 = markBold(`${member.name?.toUpperCase() || ''} Sinh Ư ${member.canChi || ''} Niên ${member.age || ''} Tuổi * Chiếu Sao ${member.sao} * Chiếu Hạn ${member.han}`);
+            const c4 = "Thánh Thính Phủ Giám Phàm Tâm Ngôn Liệm Thần Đăng Sinh Cư Trung Giới Mệnh Thuộc";
+            const c5 = `Thượng Cung Tư Sinh Tu Thủy Tố Bẩm Ư`;
+            const c6 = "Càn Khôn Thành Tượng Thành Hình Nguyên Nhân Hồ Tạo Hóa Thiết Lự Kim Niên Khung Tinh Phản Súc Khủng Kỳ Tuế Nguyệt Hạn Ách Đa Sâm Tai Ương Vận Hạn Bất";
+            const c7 = "Kỳ Thời Khí Lưu Hành Vô Độ Mỗi Lự Du Trương Tuế Nguyệt Tu Đương Thành Kính Khẩn Cầu Giải Nhất Thiết Chi Tai Ương Cờ Vạn Ban Chi Phúc Khánh Mông";
+            const c8 = "Uy Quang Thùy Tính Bảo Hựu Cờ";
+            const c9 = "Đức Tuất Cập Khuông Phù Do Thị Kim Nguyệt Cát Nhật Tu Thiết";
+            const c10 = "Hương Hoa Kim Ngân Hình Nhân Tiến Cống Chi Nghi Cẩn Cụ Sớ Văn Kiền Thân \t\t\t Thượng Tấu \t\t\t Cung Duy";
+            const c11 = "Tam Giới Thiên Chúa Tứ Phủ Vạn Linh Công Đồng Thánh Đế \t\t\t Ngọc Bệ Hạ \t\t\t Phục Nguyện";
+            const c12 = "Chi Tôn Chiếu Lăm Phàm Khổn Đại Khai Phát Dục Chi Ân Quang Bố Hiếu Sinh Chi Đức Biển Hung Thành Cát Cải Hoạ Vị Tường Hắc Bạ Tiêu Trừ";
+            const c13 = "Chu Phê Tang Toán Ty Thần Đảng Thân Cung Trường Thọ Tứ Thời Vô Hạn Ách Chi Sâm Mệnh Vị Bình An Bát Tiết Hữu Chính Tường Chi Ưng";
+            const c14 = "Cầu Chi Như Ý Nguyện Gia Tòng Tâm Đã Thần Hạ Tinh Vô Nhậm Khích Thiết Bình Doanh Chi Chí Cẩn Sớ";
+            const c15 = `Thiên Vận ${data.year} \t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật Thần Khấu Thủ Thượng Tấu \t\t\t Tiến Hình Hình Nhân`;
 
-            return [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9].join('\n');
+            return [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15].join('\n');
         }
     },
     gia_tien: {
@@ -543,6 +552,10 @@ export default function App() {
                                         }}></div>
                                     );
                                 }
+
+                                const isBold = word.startsWith('^');
+                                const displayWord = isBold ? word.substring(1) : word;
+
                                 return (
                                     <div key={wordIdx} className="sso-word" style={{
                                         height: `calc(100% / ${item.rows})`,
@@ -557,8 +570,9 @@ export default function App() {
                                         <span style={{
                                             fontSize: `clamp(8px, ${fontSize}cqi, 120px)`,
                                             lineHeight: 1.0,
-                                            fontWeight: 600
-                                        }}>{word}</span>
+                                            fontWeight: isBold ? 800 : 500, // Đậm cho dynamic, thường cho static
+                                            fontFamily: isBold ? '"Noto Serif", serif' : '"Noto Serif", serif'
+                                        }}>{displayWord}</span>
                                     </div>
                                 )
                             })}
