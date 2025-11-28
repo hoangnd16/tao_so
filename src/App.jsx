@@ -6,6 +6,9 @@ const PAPER_SIZES = {
     a3: { name: 'A3 (420x297mm)', width: '420', height: '297', css: 'A3 landscape' },
     a4: { name: 'A4 (297x210mm)', width: '297', height: '210', css: 'A4 landscape' },
     a5: { name: 'A5 (210x148mm)', width: '210', height: '148', css: 'A5 landscape' },
+    b3: { name: 'B3 (500x353mm)', width: '500', height: '353', css: 'B3 landscape' },
+    b4: { name: 'B4 (353x250mm)', width: '353', height: '250', css: 'B4 landscape' },
+    b5: { name: 'B5 (250x176mm)', width: '250', height: '176', css: 'B5 landscape' },
     custom: { name: 'Tự nhập kích thước...', width: 'custom', height: 'custom', css: 'custom' }
 };
 
@@ -252,9 +255,9 @@ export default function App() {
         ceremonyDate: new Date().toISOString().split('T')[0],
         currentYear: new Date().getFullYear(),
         selectedTemplates: ['cau_an'],
-        paperSize: 'a4',
-        customWidth: 297,
-        customHeight: 210
+        paperSize: localStorage.getItem('paperSize') || 'a4',
+        customWidth: localStorage.getItem('customWidth') || 297,
+        customHeight: localStorage.getItem('customHeight') || 210
     });
 
     const [isInputVisible, setIsInputVisible] = useState(true);
@@ -291,6 +294,13 @@ export default function App() {
             try { setSavedSos(JSON.parse(saved)); } catch (e) { console.error(e); }
         }
     }, []);
+
+    // Persist paper size and custom dimensions
+    useEffect(() => {
+        localStorage.setItem('paperSize', formData.paperSize);
+        localStorage.setItem('customWidth', formData.customWidth);
+        localStorage.setItem('customHeight', formData.customHeight);
+    }, [formData.paperSize, formData.customWidth, formData.customHeight]);
 
     const computedData = useMemo(() => {
         const year = LUNAR_UTILS.getCanChi(formData.currentYear);
