@@ -557,7 +557,7 @@ export default function App() {
 
         // Tính toán font size dựa trên tổng số đơn vị fr (cols - 1 + 2 = cols + 1)
         const totalFr = item.cols + 1;
-        const fontSize = Math.min(100 / totalFr, 100 / item.rows * 1.4) * 0.25; // Hệ số 0.25 để đảm bảo vừa vặn
+        const fontSize = Math.min(100 / totalFr, 100 / item.rows * 1.4) * 0.15; // Hệ số 0.15 để đảm bảo vừa vặn với từ dài (VD: NGUYỄN)
 
         return (
             <div className="sso-container relative" style={{
