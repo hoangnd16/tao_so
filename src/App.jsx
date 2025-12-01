@@ -138,7 +138,7 @@ const TEMPLATES = {
             const c16 = "Vô Sâm Phạm Chi Ngu Bách Phú Thiên Tường Thường Hưởng Thọ Khang Chi Khánh Nhất Triết Sở Cầu Vạn Ban Như Ý Đãn Thần Hạ Tinh Vô Nhận";
             const c17 = "Kích Thiết Bình Dinh Chi Chí Cẩn Sớ";
             const firstMember = data.members[0] || {};
-            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} \t\tNguyệt ${data.day} \t\tNhật \t\t\tPhúc-Lộc-Thọ Cầu Bình An \t${markBold(firstMember.title || '')} ${markBold(firstMember.name || '')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t\tPhúc-Lộc-Thọ Cầu Bình An \t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
 
             // Combine columns (Note: The app renders lines from the string split by \n. 
             // If the app renders columns Right-to-Left, we should list them in that order? 
@@ -168,7 +168,36 @@ const TEMPLATES = {
         id: 'dang_sao',
         name: '2. Sớ Dâng Sao Giải Hạn',
         title: 'DÂNG SAO GIẢI HẠN SỚ',
-        content: (data) => `Phục dĩ\nChí tâm\nbái lễ.\nViệt Nam Quốc,\n${data.address}\ncư phụng.\nKim thần\n${generateMembersText(data.members)}\nNgụ tại:\n${data.address}.\nThiết niệm:\nTín chủ\nnăm nay\nvận gặp sao\nchiếu mệnh.\nLo sợ\ntai ương,\nvận hạn\ntrắc trở,\nnay thành tâm\nsắm lễ,\nhương hoa\ntrà quả,\nkim ngân\nchỉ tiền.\nCung thỉnh:\nĐức Bắc Đẩu\nCửu Hàm\nGiải Ách\nTinh Quân.\nĐức\nTinh Quân\n(Vị tiền).\nĐương cai\nBản Mệnh\nThần Quân.\nKhấu đầu\nquy mệnh:\nCầu xin\ngiải trừ\nvận hạn,\ntống khứ\nhung tinh,\nnghinh đón\ncát khánh.\nCầu cho\nbản mệnh\nvững vàng,\ngia môn\nkhang thái,\nđắc tài\nđắc lộc.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Nguyện dốc\nlòng thành,\ncúi xin\nchứng giám.\nCẩn tấu.`
+        content: (data) => {
+            const firstMember = data.members[0] || {};
+            const membersText = data.members.map(m => {
+                let suffix = "";
+                if (m.soTuVi === "Sở Bị") suffix = " Tướng Quan Chiếu Lộc";
+                else if (m.soTuVi === "Sở Được") suffix = " Tinh Quân Chiếu Mệnh";
+                const line = `${m.title || ""} ${m.name.toUpperCase()} Sinh Ư ${m.canChi} Niên ${m.age} Tuổi \t Chiếu Sao ${m.sao} ${m.soTuVi} ${m.saoTuVi} ${suffix} ${m.han} Tinh Quân Chiếu Hạn`;
+                return markBold(line);
+            }).join('\n');
+
+            const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ \n Tinh Huy Ngân Hán Hoàng Hoàng Nan Trắc Nan Danh Nhân Sứ Dương Môn Lộc Lộc Hữu Lượng Hữu Đảo Phàm Tâm Bất Cách";
+            const c1 = "Từ Nhãn Diêu Quan \t\t\t\t\t Viên Hữu \n Phật Cúng Dường \t\t\t\t\t Thiên Tiến Lễ Hương Tinh Giải Hạn Cầu Gia Nội Bình An Sự Kim Thần";
+            const c2 = markBold(`Việt Nam Quốc ${data.address}`);
+            const c3 = membersText;
+            const c4 = "Tam Quan Phó Thân Nhất Ý Ngôn Niệm Thần Đẳng Sinh Phùng Đế Vương Tỉnh Đàn Thiên Lương Trấn Tai Tinh Tinh Bất Hoán Dĩ Biến Biến Khủng Ác Diệu Gia Ư";
+            const c5 = "Cảnh Cảnh Cục Dương Nguyện Cúng Trần Bái Đảo Ngiu \t\t\tNguyên Đắc Trường Sinh Chi Phúc Kim Tấc Đầu Thành Ngũ Thể Tĩnh Tín Nhất Tâm";
+            const c6 = "Cụ Hữu Sớ Văn Thiền Thận \t\t\t\t\tThượng Tấu";
+            const c7 = "Trung Thiên Tinh Chủ Bắc Cực Tử Vi Trường Sinh Đại Đế \t\t\t\tNgọc Bệ Hạ";
+            const c8 = "Tả Nam Tào Lục Ty Điện Tinh Quân \t\t\t\t\tThánh Tiền";
+            const c9 = "Hữu Bắc Đẩu Cửu Hoàng Giải Ách \t\t\t\t\tThánh Tiền";
+            const c10 = "Thiên Đình Cửu Cung Bát Quái Cửu Diệu Ngũ Hành Đẩu Số Tinh Quân \t\t\t\tVị Tiền Cúng Vọng";
+            const c11 = "Tôn Tinh Đổng Thừa Chiếu Giám Phục Nguyện";
+            const c12 = "Tử Vi Chiếu Mệnh Thiên Phủ Phù Cung Bảo Mệnh Vị Thiên Tài Thiên Thọ Thiên Tương Đồng Vũ Khúc Dĩ Phù Trì Sử Thân Cung Hóa Lộc Hóa Quyến Hóa Khoa";
+            const c13 = "Đối Văn Sương Nhi Ứng Hộ Tam Tai Tống Khứ Tứ Thời Không Bạch Hổ Chi Đàn La Ngũ Phúc Hoàn Lai Bát Tiết Hỷ Thạch Long Chí Tả Phù";
+            const c14 = "Tử Tôn Quan Đới Phụ Phụ Lộc Tồnác Diệu Bổn Đằng Cát Tinh Biền Tập";
+            const c15 = "Đán Thần Hải Tình Vô Nhậm Khích Thiết Bình Doanh Chi Chí Cẩn Sớ";
+            const c16 = `Thiên Vận ${data.year} \t\tNiên ${data.month} Nguyệt ${data.day} \tNhật \tNhượng Chu Thành Tâm Hòa Nam Thượng Sớ Dâng Sao \t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
+
+            return [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16].join('\n');
+        }
     },
     hinh_nhan: {
         id: 'hinh_nhan',
@@ -654,7 +683,7 @@ export default function App() {
                         <div className="flex flex-col md:flex-row justify-between items-center">
                             <h1 className="text-lg md:text-xl font-bold text-red-800 font-header flex items-center gap-2"><FileText className="w-5 h-5 md:w-6 md:h-6" /> SOẠN SỚ CHUYÊN NGHIỆP</h1>
                             <div className="flex gap-2 items-center mt-1 md:mt-0">
-                                <button onClick={() => setShowDonateModal(true)} className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Coffee size={12} /> Donate a coffee</button>
+                                {/* <button onClick={() => setShowDonateModal(true)} className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Coffee size={12} /> Donate a coffee</button> */}
                                 <button onClick={() => setShowLoadModal(true)} className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><FolderOpen size={12} /> Sớ đã lưu ({savedSos.length})</button>
                                 <button onClick={openSaveModal} className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Save size={12} /> Lưu sớ</button>
                                 <button onClick={handlePrint} className="bg-gray-800 hover:bg-gray-900 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Printer size={12} /> In ngay</button>
@@ -844,7 +873,7 @@ export default function App() {
                             <button onClick={() => setShowDonateModal(false)} className="absolute top-2 right-2 text-gray-400 hover:text-red-500"><X size={24} /></button>
                             <h3 className="text-lg font-bold text-center mb-4 text-gray-800 flex items-center gap-2"><Coffee size={20} className="text-yellow-600" /> Mời tác giả ly cà phê</h3>
                             <div className="flex justify-center w-full bg-gray-50 p-2 rounded-lg border border-gray-100">
-                                <img src="/image_1b419f.jpg" alt="QR Code Donate" className="max-w-full h-auto rounded shadow-sm object-contain" style={{ maxHeight: '300px' }} />
+                                <img src="/donate.jpeg" alt="QR Code Donate" className="max-w-full h-auto rounded shadow-sm object-contain" style={{ maxHeight: '300px' }} />
                             </div>
                             <p className="text-center text-sm text-gray-500 mt-4 italic">Cảm ơn tấm lòng của bạn!</p>
                         </div>
