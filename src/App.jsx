@@ -138,7 +138,7 @@ const TEMPLATES = {
             const c16 = "Vô Sâm Phạm Chi Ngu Bách Phú Thiên Tường Thường Hưởng Thọ Khang Chi Khánh Nhất Triết Sở Cầu Vạn Ban Như Ý Đãn Thần Hạ Tinh Vô Nhận";
             const c17 = "Kích Thiết Bình Dinh Chi Chí Cẩn Sớ";
             const firstMember = data.members[0] || {};
-            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t\tPhúc-Lộc-Thọ Cầu Bình An \t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t\tPhúc-Lộc-Thọ Cầu Bình An \t\t\t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
 
             // Combine columns (Note: The app renders lines from the string split by \n. 
             // If the app renders columns Right-to-Left, we should list them in that order? 
@@ -210,7 +210,7 @@ const TEMPLATES = {
             // Helper to join array into newline-separated string (column)
             const col = (arr) => arr.join(' ');
 
-            const c0 = "\t\t\t\t\t\t\t\tPhục Dĩ\n Lục Quần Lê Lâm Lâm Tư Biểu Kim Sao Anh Khí Chi Chung Linh Ngưỡng Lại Hồng Ân Chi Dục Tú Dục Cầu Nguyện Thọ Tu Hạ \n \t\t\tViên Hữu";
+            const c0 = "\t\t\t\t\t\t\t\tPhục Dĩ\n Lục Quần Lê Lâm Lâm Tư Biểu Kim Sao Anh Khí Chi Chung Linh Ngưỡng Lại Hồng Ân Chi Dục Tú Dục Cầu Nguyện Thọ Tu Hạ \t\tViên Hữu";
             const c1 = markBold(`Việt Nam Quốc ${data.address}`);
             const c2 = "Phật Thánh Hiến Cúng Lệnh Tiết Tiến Cống Hình Nhân Thế Đại Giải Hạn Trừ Tai Cầu Bản Mệnh Bình An Tăng Duyên Thọ Sự Kim Thần";
             const c3 = markBold(`${member.name?.toUpperCase() || ''} Sinh Ư ${member.canChi || ''} Niên ${member.age || ''} Tuổi * Chiếu Sao ${member.sao} * Chiếu Hạn ${member.han}`);
@@ -225,7 +225,7 @@ const TEMPLATES = {
             const c12 = "Chi Tôn Chiếu Lăm Phàm Khổn Đại Khai Phát Dục Chi Ân Quang Bố Hiếu Sinh Chi Đức Biển Hung Thành Cát Cải Hoạ Vị Tường Hắc Bạ Tiêu Trừ";
             const c13 = "Chu Phê Tang Toán Ty Thần Đảng Thân Cung Trường Thọ Tứ Thời Vô Hạn Ách Chi Sâm Mệnh Vị Bình An Bát Tiết Hữu Chính Tường Chi Ưng";
             const c14 = "Cầu Chi Như Ý Nguyện Gia Tòng Tâm Đã Thần Hạ Tinh Vô Nhậm Khích Thiết Bình Doanh Chi Chí Cẩn Sớ";
-            const c15 = `Thiên Vận ${data.year} \t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật Thần Khấu Thủ Thượng Tấu \t\t\t Tiến Hình Hình Nhân`;
+            const c15 = `Thiên Vận ${data.year} \t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật Thần Khấu Thủ Thượng Tấu \t\t\t\t\t ${markBold('Tiến Hình Hình Nhân')}`;
 
             return [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15].join('\n');
         }
@@ -568,7 +568,7 @@ export default function App() {
                 width: '100%',
                 height: '100%',
                 direction: 'rtl',
-                padding: '0',
+                padding: '4px',
                 boxSizing: 'border-box',
                 border: '1px solid #ccc' // Viền bao ngoài
             }}>
@@ -585,7 +585,8 @@ export default function App() {
                             justifyContent: 'flex-start', // Revert: Canh lề trên
                             gap: '0',
                             minWidth: '0',
-                            borderLeft: '1px solid #ccc' // Viền giữa các cột
+                            //borderLeft: '1px solid #ccc', // Viền giữa các cột
+                            padding: '0 1px'
                         }}>
                             {words.map((word, wordIdx) => {
                                 if (word === '{{TAB}}') {
@@ -838,7 +839,7 @@ export default function App() {
                                         <div className="paper-bg text-black relative shadow-2xl overflow-hidden h-full w-full">
 
                                             <div className="h-full w-full p-0 flex flex-col items-center relative z-0">
-                                                <div className="text-center mb-2 w-full pb-2"></div>
+
                                                 <div className="flex-1 w-full overflow-hidden font-sso leading-relaxed" style={{ fontSize: 'clamp(8px, 1.8cqi, 24px)' }}>
                                                     {renderSsoContent(item)}
                                                 </div>
