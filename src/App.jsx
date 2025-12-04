@@ -635,26 +635,136 @@ export default function App() {
     };
 
     return (
-        <div className="min-h-screen font-sans text-gray-800 bg-[#e0d6c2]">
+        <div className="min-h-screen font-sans" style={{ color: 'var(--vn-dark-brown)' }}>
             <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700&display=swap');
+                
+                /* Traditional Vietnamese Color Palette */
+                :root {
+                    --vn-red: #8B0000;
+                    --vn-gold: #D4AF37;
+                    --vn-jade: #00A86B;
+                    --vn-parchment: #F5E6D3;
+                    --vn-dark-brown: #3E2723;
+                    --vn-light-gold: #F4E4C1;
+                }
+                
                 .font-sso { font-family: 'Noto Serif', serif; }
-                .font-header { font-family: 'Playfair Display', serif; }
+                .font-header { font-family: 'Cinzel Decorative', serif; }
+                
+                /* Traditional Paper Background with Texture */
                 .paper-bg { 
-                    background-color: #fffdf0; 
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-                    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E"); 
+                    background-color: var(--vn-parchment);
+                    box-shadow: 0 15px 40px rgba(139, 0, 0, 0.3); 
+                    background-image: 
+                        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E"),
+                        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 10 Q35 15 30 20 Q25 15 30 10' fill='none' stroke='%23D4AF37' stroke-width='0.3' opacity='0.1'/%3E%3C/svg%3E");
                     container-type: size; 
                 }
-                .fancy-border { border: 10px solid transparent; padding: 30px; border-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h30v30H0z' fill='none'/%3E%3Cpath d='M2 2h26v26H2z' stroke='%23B91C1C' stroke-width='2' fill='none'/%3E%3Cpath d='M5 5h20v20H5z' stroke='%23D97706' stroke-width='1' fill='none'/%3E%3C/svg>") 30 stretch; }
                 
-                .excel-input { border: 1px solid #d1d5db; border-radius: 2px; padding: 2px 4px; width: 100%; font-size: 12px; transition: all 0.2s; }
+                /* Traditional Vietnamese Border with Dragon/Cloud Motifs */
+                .fancy-border { 
+                    border: 8px solid transparent; 
+                    padding: 30px; 
+                    border-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='2' y='2' width='36' height='36' fill='none' stroke='%238B0000' stroke-width='3'/%3E%3Crect x='6' y='6' width='28' height='28' fill='none' stroke='%23D4AF37' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='4' r='2' fill='%23D4AF37'/%3E%3Ccircle cx='36' cy='20' r='2' fill='%23D4AF37'/%3E%3Ccircle cx='20' cy='36' r='2' fill='%23D4AF37'/%3E%3Ccircle cx='4' cy='20' r='2' fill='%23D4AF37'/%3E%3C/svg%3E") 40 stretch; 
+                }
+                
+                /* Input Fields with Traditional Style */
+                .excel-input { 
+                    border: 1px solid var(--vn-gold); 
+                    border-radius: 2px; 
+                    padding: 2px 4px; 
+                    width: 100%; 
+                    font-size: 12px; 
+                    transition: all 0.3s; 
+                    background-color: rgba(255, 253, 240, 0.8);
+                }
                 .excel-input:not(textarea) { height: 24px; }
-                .excel-input:focus { border-color: #b91c1c; outline: none; box-shadow: 0 0 0 1px rgba(185, 28, 28, 0.2); }
-                .excel-label { font-size: 10px; font-weight: 700; color: #4b5563; margin-bottom: 1px; display: block; text-transform: uppercase; }
+                .excel-input:focus { 
+                    border-color: var(--vn-red); 
+                    outline: none; 
+                    box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.1), 0 0 8px rgba(212, 175, 55, 0.3); 
+                    background-color: #fffef5;
+                }
+                .excel-label { 
+                    font-size: 10px; 
+                    font-weight: 700; 
+                    color: var(--vn-dark-brown); 
+                    margin-bottom: 1px; 
+                    display: block; 
+                    text-transform: uppercase; 
+                }
                 .preview-wrapper { container-type: inline-size; width: 100%; }
                 
+                /* Traditional Background Pattern - Generated Image */
+                
+                /* Traditional Background Pattern - Generated Image with Opacity */
+                body {
+                    background-color: #F5E6D3;
+                    position: relative;
+                    min-height: 100vh;
+                }
+                body::before {
+                    content: "";
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, #F5E6D3 0%, #E8D5B7 100%);
+                    background-image: url("/bg-pattern.png");
+                    background-size: cover;
+                    background-attachment: fixed;
+                    background-blend-mode: multiply;
+                    opacity: 0.15;
+                    z-index: -1;
+                    pointer-events: none;
+                }
+                
+                /* Decorative divider */
+                .traditional-divider {
+                    position: relative;
+                    height: 2px;
+                    background: linear-gradient(90deg, transparent 0%, var(--vn-gold) 50%, transparent 100%);
+                }
+                .traditional-divider::before {
+                    content: '❖';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    color: var(--vn-gold);
+                    background: var(--vn-parchment);
+                    padding: 0 10px;
+                    font-size: 12px;
+                }
 
+                /* Traditional Modal Styling */
+                .traditional-modal {
+                    background-color: var(--vn-parchment);
+                    border: 2px solid var(--vn-gold);
+                    position: relative;
+                    overflow: hidden;
+                }
+                .traditional-modal::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, #F5E6D3 0%, #E8D5B7 100%);
+                    background-image: url("/bg-pattern.png");
+                    background-size: cover;
+                    background-blend-mode: multiply;
+                    opacity: 0.15;
+                    z-index: 0;
+                    pointer-events: none;
+                }
+                .traditional-modal > * {
+                    position: relative;
+                    z-index: 1;
+                }
 
                 @media print {
                     @page { size: ${currentPaper.css}; margin: 0; }
@@ -665,7 +775,6 @@ export default function App() {
                     .print-page-break:last-child { break-after: auto; }
                     .font-sso { font-size: 20px !important; }
                     .no-print { display: none !important; }
-
                 }
             `}</style>
 
@@ -677,15 +786,15 @@ export default function App() {
             )}
 
             <div ref={headerRef} className="sticky top-0 z-50 shadow-xl no-print w-full">
-                <div className="bg-white border-b-2 border-red-800 w-full">
+                <div className="border-b-4 border-[var(--vn-gold)] w-full" style={{ background: 'linear-gradient(135deg, var(--vn-red) 0%, #6B0000 100%)' }}>
                     <div className="w-full px-2 py-2">
                         <div className="flex flex-col md:flex-row justify-between items-center">
-                            <h1 className="text-lg md:text-xl font-bold text-red-800 font-header flex items-center gap-2"><FileText className="w-5 h-5 md:w-6 md:h-6" /> SOẠN SỚ CHUYÊN NGHIỆP</h1>
+                            <h1 className="text-lg md:text-xl font-bold font-header flex items-center gap-2" style={{ color: 'var(--vn-gold)', textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}><FileText className="w-5 h-5 md:w-6 md:h-6" style={{ filter: 'drop-shadow(0 0 3px var(--vn-gold))' }} /> SỚ VĂN CỔ TRUYỀN</h1>
                             <div className="flex gap-2 items-center mt-1 md:mt-0">
                                 {/* <button onClick={() => setShowDonateModal(true)} className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Coffee size={12} /> Donate a coffee</button> */}
-                                <button onClick={() => setShowLoadModal(true)} className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><FolderOpen size={12} /> Sớ đã lưu ({savedSos.length})</button>
-                                <button onClick={openSaveModal} className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Save size={12} /> Lưu sớ</button>
-                                <button onClick={handlePrint} className="bg-gray-800 hover:bg-gray-900 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow transition"><Printer size={12} /> In ngay</button>
+                                <button onClick={() => setShowLoadModal(true)} className="hover:opacity-90 px-3 py-1 rounded text-[10px] font-bold flex items-center gap-1 shadow-lg transition" style={{ background: 'var(--vn-light-gold)', color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-gold)' }}><FolderOpen size={12} /> Sớ đã lưu ({savedSos.length})</button>
+                                <button onClick={openSaveModal} className="hover:opacity-90 px-3 py-1 rounded text-[10px] font-bold flex items-center gap-1 shadow-lg transition" style={{ background: 'linear-gradient(135deg, var(--vn-light-gold) 0%, var(--vn-gold) 100%)', color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-red)' }}><Save size={12} /> Lưu sớ</button>
+                                <button onClick={handlePrint} className="hover:opacity-90 px-3 py-1 rounded text-[10px] font-bold flex items-center gap-1 shadow-lg transition" style={{ background: 'linear-gradient(135deg, var(--vn-gold) 0%, #B8963A 100%)', color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-red)' }}><Printer size={12} /> In ngay</button>
                             </div>
                         </div>
                     </div>
@@ -694,24 +803,13 @@ export default function App() {
 
             <main className="w-full p-0 pt-0">
                 <div className={`transition-all duration-500 w-full ${isInputVisible ? 'opacity-100 max-h-[2000px] overflow-visible' : 'opacity-0 max-h-0 overflow-hidden'}`}>
-                    <div className="bg-white p-2 border-b border-gray-200 mb-0 no-print">
-                        <div className="bg-blue-50 p-1 rounded border border-blue-200 mb-2 shadow-sm">
-                            <div className="flex justify-between items-center mb-1 border-b border-blue-200 pb-1 px-1">
-                                <h3 className="text-blue-800 text-xs font-bold flex items-center gap-1"><User size={14} /> NHẬP LIỆU GIA ĐÌNH</h3>
-                                <button onClick={addMember} className="bg-green-600 hover:bg-green-700 text-white px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition shadow"><Plus size={10} /> Thêm người</button>
+                    <div className="p-2 border-b mb-0 no-print" style={{ background: 'rgba(245, 230, 211, 0.5)', borderBottom: '2px solid var(--vn-gold)' }}>
+                        <div className="p-1 rounded mb-2 shadow-sm" style={{ background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(245, 230, 211, 0.2) 100%)', border: '1px solid var(--vn-gold)' }}>
+                            <div className="flex justify-between items-center mb-1 pb-1 px-1" style={{ borderBottom: '1px solid var(--vn-gold)' }}>
+                                <h3 className="text-xs font-bold flex items-center gap-1" style={{ color: 'var(--vn-red)' }}><User size={14} /> NHẬP LIỆU GIA ĐÌNH</h3>
+                                <button onClick={addMember} className="hover:opacity-90 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition shadow" style={{ background: 'linear-gradient(135deg, var(--vn-light-gold) 0%, var(--vn-gold) 100%)', color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-red)' }}><Plus size={10} /> Thêm người</button>
                             </div>
                             <div className="max-h-40 overflow-y-auto pr-1">
-                                <div className="grid grid-cols-12 gap-1 mb-1 text-[10px] font-bold text-gray-500 px-1 text-center hidden md:grid">
-                                    <div className="col-span-1 text-left">DANH XƯNG</div>
-                                    <div className="col-span-3 text-left">HỌ VÀ TÊN</div>
-                                    <div className="col-span-1">GIỚI</div>
-                                    <div className="col-span-2">NGÀY SINH</div>
-                                    <div className="col-span-1">NĂM ÂM</div>
-                                    <div className="col-span-1">TUỔI</div>
-                                    <div className="col-span-1">SAO</div>
-                                    <div className="col-span-1">HẠN</div>
-                                    <div className="col-span-1 text-left">SỞ/SAO(TV)</div>
-                                </div>
                                 {formData.members.map((member, index) => (
                                     <div key={member.id} className="grid grid-cols-12 gap-2 gap-y-3 p-3 bg-white rounded-lg shadow-sm border border-gray-200 mb-2 relative md:gap-1 md:p-1 md:items-center md:border-gray-100 md:rounded md:shadow-none md:mb-1 group">
                                         {formData.members.length > 1 && (
@@ -758,27 +856,27 @@ export default function App() {
                             </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div className="bg-gray-50 p-3 rounded-lg border border-gray-200 w-full flex flex-col gap-3">
+                            <div className="p-3 rounded-lg w-full flex flex-col gap-3" style={{ background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(245, 230, 211, 0.2) 100%)', border: '1px solid var(--vn-gold)' }}>
                                 <div className="flex-grow flex flex-col">
                                     <label className="excel-label mb-1 ml-1">Địa chỉ</label>
-                                    <textarea name="address" value={formData.address} onChange={handleChange} className="excel-input w-full resize-none text-sm flex-grow border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded transition-shadow" placeholder="Nhập đầy đủ địa chỉ..." style={{ minHeight: '88px' }} />
+                                    <textarea name="address" value={formData.address} onChange={handleChange} className="excel-input w-full resize-none text-sm flex-grow rounded transition-shadow" placeholder="Nhập đầy đủ địa chỉ..." style={{ minHeight: '88px' }} />
                                 </div>
                                 <div className="grid grid-cols-12 gap-2 h-10">
-                                    <div className="col-span-7 flex items-center border border-gray-300 rounded px-2 bg-white h-full">
-                                        <CalendarIcon size={16} className="text-blue-600 flex-shrink-0 mr-1" />
+                                    <div className="col-span-7 flex items-center rounded px-2 bg-white h-full" style={{ border: '1px solid var(--vn-gold)' }}>
+                                        <CalendarIcon size={16} className="flex-shrink-0 mr-1" style={{ color: 'var(--vn-red)' }} />
                                         <span className="text-xs font-bold text-gray-600 whitespace-nowrap mr-1">Ngày lễ</span>
-                                        <input type="date" name="ceremonyDate" value={formData.ceremonyDate} onChange={handleChange} className="flex-grow outline-none text-blue-800 font-bold text-sm bg-transparent text-right w-full min-w-0" />
+                                        <input type="date" name="ceremonyDate" value={formData.ceremonyDate} onChange={handleChange} className="flex-grow outline-none font-bold text-sm bg-transparent text-right w-full min-w-0" style={{ color: 'var(--vn-red)' }} />
                                     </div>
-                                    <div className="col-span-5 h-full px-1 bg-purple-50 border border-purple-200 rounded flex items-center justify-center gap-1 whitespace-nowrap overflow-hidden">
-                                        <span className="text-sm font-bold text-purple-700">{computedData.day}/{computedData.month}</span>
-                                        <span className="text-xs font-bold text-purple-600">({computedData.year})</span>
+                                    <div className="col-span-5 h-full px-1 rounded flex items-center justify-center gap-1 whitespace-nowrap overflow-hidden" style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid var(--vn-gold)' }}>
+                                        <span className="text-sm font-bold" style={{ color: 'var(--vn-red)' }}>{computedData.day}/{computedData.month}</span>
+                                        <span className="text-xs font-bold" style={{ color: 'var(--vn-dark-brown)' }}>({computedData.year})</span>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-200 w-full relative flex flex-col gap-3">
-                                <h3 className="text-yellow-800 text-[10px] font-bold uppercase ml-1">Nội Dung Sớ (Có thể chọn nhiều)</h3>
+                            <div className="p-3 rounded-lg w-full relative flex flex-col gap-3" style={{ background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(245, 230, 211, 0.2) 100%)', border: '1px solid var(--vn-gold)' }}>
+                                <h3 className="text-[10px] font-bold uppercase ml-1" style={{ color: 'var(--vn-red)' }}>Nội Dung Sớ (Có thể chọn nhiều)</h3>
                                 <div ref={templateDropdownRef} className="relative">
-                                    <button onClick={() => setIsTemplateDropdownOpen(!isTemplateDropdownOpen)} className="excel-input font-bold text-red-700 border-red-200 text-left flex items-center justify-between w-full bg-white h-9 rounded hover:border-red-300 transition-colors"><span className="truncate">{getSelectedTemplatesLabel()}</span><ChevronDown size={14} className="text-gray-500" /></button>
+                                    <button onClick={() => setIsTemplateDropdownOpen(!isTemplateDropdownOpen)} className="excel-input font-bold text-left flex items-center justify-between w-full bg-white h-9 rounded hover:border-red-300 transition-colors" style={{ color: 'var(--vn-red)', borderColor: 'var(--vn-gold)' }}><span className="truncate">{getSelectedTemplatesLabel()}</span><ChevronDown size={14} className="text-gray-500" /></button>
                                     {isTemplateDropdownOpen && (
                                         <div className="absolute z-[200] top-full left-0 w-full bg-white border border-gray-300 rounded shadow-lg max-h-60 overflow-y-auto mt-1">
                                             {Object.values(TEMPLATES).map(t => {
@@ -793,8 +891,8 @@ export default function App() {
                                         </div>
                                     )}
                                 </div>
-                                {formData.selectedTemplates?.includes('gia_tien') && (<input type="text" name="familyLine" value={formData.familyLine} onChange={handleChange} placeholder="Dòng họ (VD: Nguyễn Văn)..." className="excel-input animate-in fade-in h-9 rounded border-yellow-300 focus:border-yellow-500" />)}
-                                <textarea name="userPrayer" value={formData.userPrayer} onChange={handleChange} placeholder="Nhập lời cầu nguyện riêng (nếu có)..." className="excel-input w-full resize-none border-yellow-300 focus:border-yellow-500 bg-white flex-grow rounded" style={{ minHeight: '80px' }} />
+                                {formData.selectedTemplates?.includes('gia_tien') && (<input type="text" name="familyLine" value={formData.familyLine} onChange={handleChange} placeholder="Dòng họ (VD: Nguyễn Văn)..." className="excel-input animate-in fade-in h-9 rounded" />)}
+                                <textarea name="userPrayer" value={formData.userPrayer} onChange={handleChange} placeholder="Nhập lời cầu nguyện riêng (nếu có)..." className="excel-input w-full resize-none bg-white flex-grow rounded" style={{ minHeight: '80px' }} />
                                 <div className="mt-auto flex gap-2">
                                     <button onClick={triggerReset} className="bg-white hover:bg-gray-50 text-gray-500 font-bold py-2 px-3 rounded shadow-sm flex items-center justify-center gap-1 transition-all text-xs uppercase tracking-wide border border-gray-200 h-9 hover:border-red-200 hover:text-red-500" title="Xóa hết thông tin nhập"><RotateCcw size={14} /></button>
                                     <button onClick={handleCreateSo} className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-2 px-4 rounded shadow-sm flex items-center justify-center gap-2 transition-all text-xs uppercase tracking-wide h-9 transform active:scale-[0.98]"><Play size={14} fill="currentColor" /> Tạo Sớ</button>
@@ -805,22 +903,22 @@ export default function App() {
                 </div>
 
                 <div className={`flex justify-center mb-4 relative z-[60] no-print group transition-all duration-300 ${isInputVisible ? 'mt-2' : 'mt-0'}`}>
-                    <button onClick={() => setIsInputVisible(!isInputVisible)} className="bg-white hover:bg-red-50 text-gray-500 hover:text-red-700 border border-gray-200 px-4 py-1.5 rounded-full shadow-sm text-xs font-bold flex items-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0">{isInputVisible ? <><PanelTopClose size={14} /> THU GỌN</> : <><PanelTopOpen size={14} /> MỞ RỘNG</>}</button>
+                    <button onClick={() => setIsInputVisible(!isInputVisible)} className="hover:opacity-90 px-4 py-1.5 rounded shadow-lg text-xs font-bold flex items-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0" style={{ background: 'linear-gradient(135deg, var(--vn-light-gold) 0%, var(--vn-gold) 100%)', color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-red)' }}>{isInputVisible ? <><PanelTopClose size={14} /> THU GỌN</> : <><PanelTopOpen size={14} /> MỞ RỘNG</>}</button>
                     <div className="absolute top-1/2 left-0 w-full h-px bg-gray-300 -z-10 opacity-30 group-hover:opacity-50 transition"></div>
                 </div>
 
-                <div className="sticky top-14 z-40 bg-[#e0d6c2]/95 backdrop-blur-sm border-y border-white/50 p-2 shadow-md mb-2 no-print flex flex-col sm:flex-row justify-between items-center gap-2 transition-all duration-300 w-full">
+                <div className="sticky top-14 z-40 backdrop-blur-sm p-2 shadow-md mb-2 no-print flex flex-col sm:flex-row justify-between items-center gap-2 transition-all duration-300 w-full" style={{ background: 'rgba(245, 230, 211, 0.95)', borderTop: '1px solid var(--vn-gold)', borderBottom: '1px solid var(--vn-gold)' }}>
                     <div className="flex items-center gap-2 w-full sm:w-auto">
-                        <div className="flex items-center gap-1 text-xs font-medium text-gray-700 bg-white px-2 py-1 rounded shadow-sm border w-full sm:w-auto">
-                            <FileDigit size={14} className="text-indigo-600" />
+                        <div className="flex items-center gap-1 text-xs font-medium px-2 py-1 rounded shadow-sm w-full sm:w-auto" style={{ color: 'var(--vn-dark-brown)', background: 'rgba(255, 255, 255, 0.9)', border: '1px solid var(--vn-gold)' }}>
+                            <FileDigit size={14} style={{ color: 'var(--vn-red)' }} />
                             <span className="whitespace-nowrap">Khổ giấy:</span>
-                            <select name="paperSize" value={formData.paperSize} onChange={handleChange} className="bg-transparent font-bold text-indigo-700 outline-none cursor-pointer flex-grow sm:flex-grow-0">{Object.entries(PAPER_SIZES).map(([key, size]) => (<option key={key} value={key}>{size.name}</option>))}</select>
+                            <select name="paperSize" value={formData.paperSize} onChange={handleChange} className="bg-transparent font-bold outline-none cursor-pointer flex-grow sm:flex-grow-0" style={{ color: 'var(--vn-red)' }}>{Object.entries(PAPER_SIZES).map(([key, size]) => (<option key={key} value={key}>{size.name}</option>))}</select>
                         </div>
                         {formData.paperSize === 'custom' && (<div className="flex items-center gap-1 bg-white px-2 py-1 rounded shadow-sm border text-xs"><Ruler size={14} className="text-orange-600" /><input type="number" name="customWidth" value={formData.customWidth} onChange={handleCustomSizeChange} className="w-12 border-b border-orange-300 outline-none text-center font-bold text-orange-700" placeholder="Rộng" /><span className="text-gray-400">x</span><input type="number" name="customHeight" value={formData.customHeight} onChange={handleCustomSizeChange} className="w-12 border-b border-orange-300 outline-none text-center font-bold text-orange-700" placeholder="Cao" /></div>)}
                     </div>
                     <div className="flex gap-2 w-full sm:w-auto justify-end">
 
-                        <button onClick={handleCopy} className="bg-white hover:bg-gray-100 hover:text-gray-900 text-gray-600 border border-gray-200 px-3 py-1 rounded shadow-sm text-xs flex items-center gap-1 font-medium transition"><Copy size={14} /> Sao chép</button>
+                        <button onClick={handleCopy} className="hover:opacity-90 px-3 py-1 rounded shadow-lg text-xs flex items-center gap-1 font-medium transition" style={{ background: 'linear-gradient(135deg, var(--vn-light-gold) 0%, var(--vn-gold) 100%)', color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-red)' }}><Copy size={14} /> Sao chép</button>
                     </div>
                 </div>
 
@@ -832,7 +930,7 @@ export default function App() {
                             <React.Fragment key={index}>
                                 {index > 0 && (<div className="w-full h-px bg-gray-300 border-t border-dashed border-gray-400 my-4 no-print relative"><span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#e0d6c2] px-2 text-[10px] text-gray-500 font-bold uppercase">Hết sớ {index} - Sang sớ {index + 1}</span></div>)}
                                 <div className="relative mx-auto transition-all duration-300" style={{ width: '100%', maxWidth: currentPaper.width }}>
-                                    <div className="mb-2 text-left no-print"><span className="text-red-800 font-bold text-sm uppercase tracking-widest border-b-2 border-red-800 pb-1 inline-block">{item.title}</span></div>
+                                    <div className="mb-2 text-left no-print"><span className="font-bold text-sm uppercase tracking-widest pb-1 inline-block" style={{ color: 'var(--vn-red)', borderBottom: '2px solid var(--vn-gold)' }}>{item.title}</span></div>
                                     <div className="print-page-break relative w-full" style={{ aspectRatio: currentPaper.aspectRatio, height: 'auto' }}>
                                         <div className="paper-bg text-black relative shadow-2xl overflow-hidden h-full w-full">
 
@@ -853,13 +951,14 @@ export default function App() {
                 {/* --- GLOBAL MODALS --- */}
                 {/* Save Modal */}
                 {showSaveModal && (
-                    <div className="fixed inset-0 bg-black/50 z-[200] flex items-center justify-center p-4 no-print backdrop-blur-sm">
-                        <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
-                            <h3 className="text-lg font-bold text-blue-800 mb-4 flex items-center gap-2"><Save size={20} /> Lưu Sớ Hiện Tại</h3>
-                            <input type="text" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="Nhập tên gợi nhớ..." className="w-full border p-2 rounded mb-4 focus:ring-2 focus:ring-blue-500 outline-none" autoFocus />
+                    <div className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 no-print backdrop-blur-sm">
+                        <div className="rounded-lg shadow-2xl w-full max-w-md p-6 relative traditional-modal">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--vn-gold)] to-transparent opacity-50"></div>
+                            <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--vn-red)' }}><Save size={20} /> Lưu Sớ Hiện Tại</h3>
+                            <input type="text" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="Nhập tên gợi nhớ..." className="w-full border p-2 rounded mb-4 outline-none font-sso" style={{ background: 'rgba(255,255,255,0.8)', borderColor: 'var(--vn-gold)', color: 'var(--vn-dark-brown)' }} autoFocus />
                             <div className="flex justify-end gap-2">
-                                <button onClick={() => setShowSaveModal(false)} className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Hủy</button>
-                                <button onClick={handleSave} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Lưu ngay</button>
+                                <button onClick={() => setShowSaveModal(false)} className="px-4 py-2 rounded hover:opacity-80 transition" style={{ color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-gold)' }}>Hủy</button>
+                                <button onClick={handleSave} className="px-4 py-2 text-white rounded shadow-lg hover:opacity-90 transition font-bold" style={{ background: 'linear-gradient(135deg, var(--vn-red) 0%, #6B0000 100%)', border: '1px solid var(--vn-gold)' }}>Lưu ngay</button>
                             </div>
                         </div>
                     </div>
@@ -867,29 +966,30 @@ export default function App() {
 
                 {/* Donate Modal */}
                 {showDonateModal && (
-                    <div className="fixed inset-0 bg-black/50 z-[200] flex items-center justify-center p-4 no-print backdrop-blur-sm">
-                        <div className="bg-white rounded-lg shadow-xl p-6 relative max-w-sm w-full animate-in zoom-in duration-200 flex flex-col items-center">
-                            <button onClick={() => setShowDonateModal(false)} className="absolute top-2 right-2 text-gray-400 hover:text-red-500"><X size={24} /></button>
-                            <h3 className="text-lg font-bold text-center mb-4 text-gray-800 flex items-center gap-2"><Coffee size={20} className="text-yellow-600" /> Mời tác giả ly cà phê</h3>
-                            <div className="flex justify-center w-full bg-gray-50 p-2 rounded-lg border border-gray-100">
+                    <div className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 no-print backdrop-blur-sm">
+                        <div className="rounded-lg shadow-2xl p-6 relative max-w-sm w-full animate-in zoom-in duration-200 flex flex-col items-center traditional-modal">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--vn-gold)] to-transparent opacity-50"></div>
+                            <button onClick={() => setShowDonateModal(false)} className="absolute top-2 right-2 hover:text-red-500" style={{ color: 'var(--vn-dark-brown)' }}><X size={24} /></button>
+                            <h3 className="text-lg font-bold text-center mb-4 flex items-center gap-2" style={{ color: 'var(--vn-red)' }}><Coffee size={20} style={{ color: 'var(--vn-gold)' }} /> Mời tác giả ly cà phê</h3>
+                            <div className="flex justify-center w-full p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.5)', border: '1px solid var(--vn-gold)' }}>
                                 <img src="/donate.jpeg" alt="QR Code Donate" className="max-w-full h-auto rounded shadow-sm object-contain" style={{ maxHeight: '300px' }} />
                             </div>
-                            <p className="text-center text-sm text-gray-500 mt-4 italic">Cảm ơn tấm lòng của bạn!</p>
+                            <p className="text-center text-sm mt-4 italic font-sso" style={{ color: 'var(--vn-dark-brown)' }}>Cảm ơn tấm lòng của bạn!</p>
                         </div>
                     </div>
                 )}
 
                 {/* Saved Sớ List Modal */}
                 {showLoadModal && (
-                    <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4 no-print backdrop-blur-sm">
-                        <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] flex flex-col">
-                            <div className="p-4 border-b flex justify-between items-center bg-indigo-50 rounded-t-lg">
-                                <h3 className="text-lg font-bold text-indigo-800 flex items-center gap-2"><FolderOpen size={20} /> Danh Sách Sớ Đã Lưu</h3>
-                                <button onClick={() => setShowLoadModal(false)}><X className="text-gray-400 hover:text-red-500" /></button>
+                    <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 no-print backdrop-blur-sm">
+                        <div className="rounded-lg shadow-2xl w-full max-w-lg max-h-[80vh] flex flex-col traditional-modal">
+                            <div className="p-4 border-b flex justify-between items-center rounded-t-lg" style={{ background: 'rgba(212, 175, 55, 0.1)', borderBottom: '1px solid var(--vn-gold)' }}>
+                                <h3 className="text-lg font-bold flex items-center gap-2" style={{ color: 'var(--vn-red)' }}><FolderOpen size={20} /> Danh Sách Sớ Đã Lưu</h3>
+                                <button onClick={() => setShowLoadModal(false)}><X className="hover:text-red-500" style={{ color: 'var(--vn-dark-brown)' }} /></button>
                             </div>
                             <div className="p-2 overflow-y-auto flex-1 relative">
-                                {savedSos.length === 0 ? (<p className="text-center text-gray-500 py-8">Chưa có sớ nào được lưu.</p>) : (
-                                    <div className="space-y-2">{savedSos.map(item => (<div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 border rounded hover:bg-white hover:shadow transition group"><div><div className="font-bold text-gray-800 text-sm line-clamp-1">{item.name}</div><div className="text-[10px] text-gray-500">{new Date(item.createdAt).toLocaleString('vi-VN')}</div></div><div className="flex gap-2"><button onClick={() => triggerLoad(item)} className="p-2 text-blue-600 hover:bg-blue-100 rounded transition" title="Mở sớ này"><Edit3 size={16} /></button><button onClick={() => triggerDelete(item)} className="p-2 text-red-500 hover:bg-red-100 rounded transition" title="Xóa"><Trash2 size={16} /></button></div></div>))}</div>
+                                {savedSos.length === 0 ? (<p className="text-center py-8 italic" style={{ color: 'var(--vn-dark-brown)' }}>Chưa có sớ nào được lưu.</p>) : (
+                                    <div className="space-y-2">{savedSos.map(item => (<div key={item.id} className="flex items-center justify-between p-3 border rounded hover:shadow transition group" style={{ background: 'rgba(255,255,255,0.6)', borderColor: 'var(--vn-gold)' }}><div><div className="font-bold text-sm line-clamp-1" style={{ color: 'var(--vn-red)' }}>{item.name}</div><div className="text-[10px]" style={{ color: 'var(--vn-dark-brown)' }}>{new Date(item.createdAt).toLocaleString('vi-VN')}</div></div><div className="flex gap-2"><button onClick={() => triggerLoad(item)} className="p-2 rounded transition hover:bg-white" style={{ color: 'var(--vn-jade)' }} title="Mở sớ này"><Edit3 size={16} /></button><button onClick={() => triggerDelete(item)} className="p-2 hover:bg-red-50 rounded transition" style={{ color: 'var(--vn-red)' }} title="Xóa"><Trash2 size={16} /></button></div></div>))}</div>
                                 )}
                             </div>
                         </div>
@@ -898,17 +998,18 @@ export default function App() {
 
                 {/* Global Confirmation Modal */}
                 {confirmAction && (
-                    <div className="fixed inset-0 bg-black/50 z-[300] flex items-center justify-center p-4 no-print backdrop-blur-sm">
-                        <div className="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 animate-in zoom-in duration-200">
+                    <div className="fixed inset-0 bg-black/60 z-[300] flex items-center justify-center p-4 no-print backdrop-blur-sm">
+                        <div className="rounded-lg shadow-2xl w-full max-w-sm p-6 animate-in zoom-in duration-200 relative traditional-modal">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--vn-gold)] to-transparent opacity-50"></div>
                             <div className="flex flex-col items-center text-center">
                                 {confirmAction.type === 'reset' ? (
-                                    <><div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 bg-orange-100 text-orange-600"><RotateCcw size={32} /></div><h4 className="text-lg font-bold mb-2 text-gray-800">Làm mới dữ liệu?</h4><p className="text-gray-500 mb-6 text-sm">Tất cả thông tin nhập liệu (Thành viên, Địa chỉ...) sẽ bị xóa trắng.</p></>
+                                    <><div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ background: 'rgba(212, 175, 55, 0.2)', color: 'var(--vn-red)' }}><RotateCcw size={32} /></div><h4 className="text-lg font-bold mb-2" style={{ color: 'var(--vn-red)' }}>Làm mới dữ liệu?</h4><p className="mb-6 text-sm italic" style={{ color: 'var(--vn-dark-brown)' }}>Tất cả thông tin nhập liệu (Thành viên, Địa chỉ...) sẽ bị xóa trắng.</p></>
                                 ) : (
-                                    <><div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${confirmAction.type === 'delete' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>{confirmAction.type === 'delete' ? <Trash2 size={32} /> : <FolderOpen size={32} />}</div><h4 className="text-lg font-bold mb-2 text-gray-800">{confirmAction.type === 'delete' ? 'Xác nhận xóa sớ này?' : 'Tải lại sớ này?'}</h4><p className="text-gray-500 mb-6 text-sm">"{confirmAction.item?.name}"{confirmAction.type === 'load' && <br />}{confirmAction.type === 'load' && "(Dữ liệu hiện tại trên màn hình sẽ bị thay thế)"}</p></>
+                                    <><div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4`} style={{ background: confirmAction.type === 'delete' ? 'rgba(139, 0, 0, 0.1)' : 'rgba(0, 168, 107, 0.1)', color: confirmAction.type === 'delete' ? 'var(--vn-red)' : 'var(--vn-jade)' }}>{confirmAction.type === 'delete' ? <Trash2 size={32} /> : <FolderOpen size={32} />}</div><h4 className="text-lg font-bold mb-2" style={{ color: 'var(--vn-red)' }}>{confirmAction.type === 'delete' ? 'Xác nhận xóa sớ này?' : 'Tải lại sớ này?'}</h4><p className="mb-6 text-sm italic" style={{ color: 'var(--vn-dark-brown)' }}>"{confirmAction.item?.name}"{confirmAction.type === 'load' && <br />}{confirmAction.type === 'load' && "(Dữ liệu hiện tại trên màn hình sẽ bị thay thế)"}</p></>
                                 )}
                                 <div className="flex gap-3 w-full">
-                                    <button onClick={() => setConfirmAction(null)} className="flex-1 py-2 border rounded hover:bg-gray-50 font-medium text-gray-600">Hủy bỏ</button>
-                                    <button onClick={executeAction} className={`flex-1 py-2 rounded text-white font-bold shadow ${confirmAction.type === 'delete' ? 'bg-red-600 hover:bg-red-700' : confirmAction.type === 'reset' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-blue-600 hover:bg-blue-700'}`}>{confirmAction.type === 'delete' ? 'Xóa vĩnh viễn' : confirmAction.type === 'reset' ? 'Đồng ý làm mới' : 'Đồng ý tải'}</button>
+                                    <button onClick={() => setConfirmAction(null)} className="flex-1 py-2 border rounded hover:opacity-80 font-medium transition" style={{ borderColor: 'var(--vn-gold)', color: 'var(--vn-dark-brown)' }}>Hủy bỏ</button>
+                                    <button onClick={executeAction} className={`flex-1 py-2 rounded text-white font-bold shadow hover:opacity-90 transition`} style={{ background: confirmAction.type === 'delete' ? 'var(--vn-red)' : confirmAction.type === 'reset' ? 'var(--vn-gold)' : 'var(--vn-jade)', color: confirmAction.type === 'reset' ? 'var(--vn-dark-brown)' : 'white' }}>{confirmAction.type === 'delete' ? 'Xóa vĩnh viễn' : confirmAction.type === 'reset' ? 'Đồng ý làm mới' : 'Đồng ý tải'}</button>
                                 </div>
                             </div>
                         </div>
