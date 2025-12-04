@@ -770,9 +770,37 @@ export default function App() {
                     @page { size: ${currentPaper.css}; margin: 0; }
                     body * { visibility: hidden; }
                     #printable-area, #printable-area * { visibility: visible; }
-                    #printable-area { position: absolute; left: 0; top: 0; width: 100%; height: auto !important; margin: 0; padding: 0; background-color: white !important; max-width: none !important; aspect-ratio: auto !important; }
-                    .print-page-break { break-after: page; }
-                    .print-page-break:last-child { break-after: auto; }
+                    #printable-area { 
+                        position: absolute; 
+                        left: 0; 
+                        top: 0; 
+                        width: 100%; 
+                        height: auto !important; 
+                        margin: 0; 
+                        padding: 0; 
+                        background-color: white !important; 
+                        max-width: none !important; 
+                        aspect-ratio: auto !important; 
+                    }
+                    .print-page-break { 
+                        break-after: page; 
+                        page-break-after: always;
+                        height: 100vh !important;
+                        max-height: 100vh !important;
+                        overflow: hidden !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: center !important;
+                    }
+                    .print-page-break:last-child { 
+                        break-after: auto; 
+                        page-break-after: auto;
+                    }
+                    .print-page-break .paper-bg {
+                        max-height: 100vh !important;
+                        height: 100vh !important;
+                        overflow: hidden !important;
+                    }
                     .font-sso { font-size: 20px !important; }
                     .no-print { display: none !important; }
                 }
