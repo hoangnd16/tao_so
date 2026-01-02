@@ -357,11 +357,47 @@ const TEMPLATES = {
             return [c0, c1, c2, c3, c4, ...c5Columns, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18].join('\n');
         }
     },
-    than_tai: {
-        id: 'than_tai',
-        name: '7. Sớ Thần Tài',
-        title: 'THẦN TÀI SỚ',
-        content: (data) => `Phục dĩ\nTài thần\ngiáng phúc.\nViệt Nam Quốc,\n${data.address}\ncư phụng.\nKim thần\n${generateMembersText(data.members)}\nKinh doanh\ntại:\n${data.address}.\nCung duy:\nNgũ Phương\nNgũ Thổ\nLong Thần.\nTiền Hậu\nĐịa Chủ\nTài Thần.\nThành tâm\ncầu nguyện:\nCầu xin\nChư vị\nTôn Thần\nphù hộ\nđộ trì.\nBuôn may\nbán đắt,\ntài lộc\ndồi dào.\nVào cửa\nbình an,\nra cửa\nđại lợi.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Cẩn tấu.`
+    tho_cong: {
+        id: 'tho_cong',
+        name: '7. Sớ Thổ Công',
+        title: 'THỔ CÔNG SỚ',
+        content: (data) => {
+            const address = toTitleCase(data.address);
+            const prayer = toTitleCase(data.userPrayer);
+
+            const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
+            const c1 = "Chí Thành Khả Cách Nam Danh Cảm Ưng Chi Huyền Cơ Khắc Kính Dĩ Thân Liêu Ngụ Thành Chi Tô Khổn Phàm Tâm Khẩn Đảo Tuệ Nhỡn Chứng Minh";
+            const c2 = "\t\t\t\t\t\t\tViên Hữu";
+            const c3 = markBold(`Việt Nam Quốc ${address}`);
+            const c4 = `${data.templeName || 'Mõ Hạc Linh Từ'} Thượng Phụng \t\t\t Thổ Công Long Mạch Thổ Trạch Thổ Chủ \nPhật Thánh Hiến Cúng \t\t\t Thiên \t\tGiải Hạn Tống Ách Trừ Tai Khất Cờ Gia Nội Bình An Lộc Tài Vượng Tiến Diên Sinh Sự Kim Thần`;
+            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${prayer.replace(/([,.;])*/g, "") || ''}`);
+            const c7 = "Thiết Khủng Phương Ngung Cấm Kỵ Hoặc Do Phạm Cửu Dĩ Nan Thông Cư Xử Hành Tàng Mạc Thức Cát Hung Chi Sám Tạ Tư Phùng Lệ";
+            const c8 = "Tiết Bái Đảo Cờ An Giải Nhất Thiên Tai Ương Nhạ Hà Sa Cát Khánh Do Thị Kim Nguyệt Cát Nhật";
+            const c9 = "Tu Thiết Nhang Hoa Kim Ngân Đầu Thánh Ngũ Thể Tịnh Tín Nhất Tâm Cụ Hữu Sớ Văn Chí Tâm";
+            const c10 = "Thượng Tấu \t\t\t\t Cung Duy";
+            const c11 = "Bản Xứ Thổ Công Địa Chủ Ngũ Phương Vạn Phúc Phu Nhân \t\t\t Vị Tiền";
+            const c12 = "Bản Gia Đông Trù Tư Mệnh Táo Phủ Thần Quân \t\t\t\t\t Vị Tiền";
+            const c13 = "Bản Xứ Thổ Đại Phúc Đức Chính Thần \t\t\t\t\t\t\t Vị Tiền";
+            const c14 = "Ngũ Phương Long Mạch Tiền Chủ Tiếp Dẫn Tài Thần \t\t\t\t\t Vị Tiền";
+            const c15 = "Tôn Thần \t\t\t\tĐổng Thùy \t\t\t\tChiếu Giám \t\t\t\tPhục Nguyện";
+            const c16 = "Thần Vị Trấn Phương Ngung Quyền Chi Chiêu Tịch Linh Thông Hữu Hách Át Phục Thi Cố Khí Nhi Khẳng Sử Bằng Lăng Chính Trực Vô Tư Ngoại Đạo Yêu";
+            const c17 = "Tà Quy Bất Dung Tiệp Đột Hoàng Thi Âm Lực Tĩnh Trấn Dương Môn Sở Cư Chi Nam Đắc Tây Đông Vô Ngu Thử Thiết Khuyết Xứ Chi \n Bạch Điêu Nam Nữ Hầm Toại Tiến An Đản Thần Hạ Tình Vô Nhậm Khích Thiết Bình Dinh Chi Chí Cẩn Sớ Văn";
+            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\tThần Khấu Thủ Thượng Sớ\t\t ${markBold('THỔ CÔNG')}`;
+
+            const c16WordCount = c16.trim().split(/\s+/).length;
+            const c5Words = c5.trim().split(/\s+/);
+            const c5Columns = [];
+
+            if (c5Words.length > c16WordCount) {
+                for (let i = 0; i < c5Words.length; i += c16WordCount) {
+                    c5Columns.push(c5Words.slice(i, i + c16WordCount).join(' '));
+                }
+            } else {
+                c5Columns.push(c5);
+            }
+
+            return [c0, c1, c2, c3, c4, ...c5Columns, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18].join('\n');
+        }
     },
     tao_quan: {
         id: 'tao_quan',
