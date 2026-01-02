@@ -124,7 +124,7 @@ const TEMPLATES = {
             const c1 = "Phúc Thọ Khang Ninh Nãi Nhân Tâm Chi Cờ Nguyện Tai Ương Hạn Ách Bằng";
             const c2 = "Thánh Lực Dĩ Giải Trừ Nhất Niệm Chí Thành Thập Phương Cảm Cách \t\t\t Viên Hữu";
             const c3 = markBold(`Việt Nam Quốc ${data.address}`);
-            const c4 = "Mõ Hạc Linh Từ Thượng Phụng \t\t\t\t Phật Thánh Hiến Cúng Lệnh Tiết \nTiến Lễ Cầu An Giải Hạn Tổng Ách Trừ Tai Tại Cờ Gia Nội Bình An Nhân Khang Vật Thịnh Duyên Sinh Trường Thọ Kim Thần";
+            const c4 = `${data.templeName || 'Mõ Hạc Linh Từ'} Thượng Phụng \t\t\t\t Phật Thánh Hiến Cúng Lệnh Tiết \nTiến Lễ Cầu An Giải Hạn Tổng Ách Trừ Tai Tại Cờ Gia Nội Bình An Nhân Khang Vật Thịnh Duyên Sinh Trường Thọ Kim Thần`;
             const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${data.userPrayer.replace(/([,.;])*/g, "") || ''}`);
             const c7 = "Ngọc Bệ Hạ Dáng Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Dương Thế Số Hệ \tThiên Cung Hạ Càn Khôn Phủ Tài Chi An Vận Cản";
             const c8 = "Phật Thánh Khuông Phù Chi Đức Tư Phùng Lệnh Tiết \tTiến Lễ Cờ An Giải Nhất Thiết Tai Ương Cờ Vạn Ban Chi Cát Khánh Do Thị Kim Nguyệt \tNhật";
@@ -236,7 +236,7 @@ const TEMPLATES = {
             const c1 = "Phật Từ Quản Đại Năng Trừ Hạn Ách Tai Ương \t\t\t Thánh Đức Khoan Hồng Tăng Tứ Khang Ninh Phúc Thọ Phù Nhân Khấu Đảo Ngưỡng Đát";
             const c2 = "Kim Dung \t\t\t\t\t\t\t\t\t Viên Hữu";
             const c3 = markBold(`Việt Nam Quốc ${data.address}`);
-            const c4 = "Mõ Hạc Linh Từ Thượng Phụng \t\t\t Chín Phương Trời Mười Phương Chư Phật \n Phật Thánh Hiến Cúng Đương Thiên Bá Đảo Giải Hạn Trừ Tai Cầu Bản Mệnh Khang Cường Sự Kim Thần Đệ Tử";
+            const c4 = `${data.templeName || 'Mõ Hạc Linh Từ'} Thượng Phụng \t\t\t Chín Phương Trời Mười Phương Chư Phật \n Phật Thánh Hiến Cúng Đương Thiên Bá Đảo Giải Hạn Trừ Tai Cầu Bản Mệnh Khang Cường Sự Kim Thần Đệ Tử`;
             const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${data.userPrayer.replace(/([,.;])*/g, "") || ''}`);
             const c7 = "Liên Tọa Phù Giám Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Chung Giới Mệnh Thuộc";
             const c8 = "Thượng Cung Hạ Càn Khôn Phú Tài Chi Hồng Ân Cảm Nhật Nguyệt Chiếu Lâm Chi Đại Đức \t Thần Hồn Xuất Nhập Khởi Vô Thiên Ác Chi Quan Tuế Nguyệt";
@@ -304,7 +304,7 @@ export default function App() {
             { id: 1, title: 'Tín chủ', name: '', birthDate: '1990-01-01', gender: 'male' }
         ],
         address: '',
-        familyLine: '', reason: '',
+        templeName: 'Mõ Hạc Linh Từ',
         userPrayer: '',
         ceremonyDate: new Date().toISOString().split('T')[0],
         currentYear: new Date().getFullYear(),
@@ -946,6 +946,7 @@ export default function App() {
                                     )}
                                 </div>
                                 {formData.selectedTemplates?.includes('gia_tien') && (<input type="text" name="familyLine" value={formData.familyLine} onChange={handleChange} placeholder="Dòng họ (VD: Nguyễn Văn)..." className="excel-input animate-in fade-in h-9 rounded" />)}
+                                <input type="text" name="templeName" value={formData.templeName} onChange={handleChange} placeholder="Tên đền/phủ (VD: Mõ Hạc Linh Từ)..." className="excel-input w-full h-9 rounded bg-white shadow-sm border-gray-200" />
                                 <textarea name="userPrayer" value={formData.userPrayer} onChange={handleChange} placeholder="Nhập lời cầu nguyện riêng (nếu có)..." className="excel-input w-full resize-none bg-white flex-grow rounded" style={{ minHeight: '80px' }} />
                                 <div className="mt-auto flex gap-2">
                                     <button onClick={triggerReset} className="bg-white hover:bg-gray-50 text-gray-500 font-bold py-2 px-3 rounded shadow-sm flex items-center justify-center gap-1 transition-all text-xs uppercase tracking-wide border border-gray-200 h-9 hover:border-red-200 hover:text-red-500" title="Xóa hết thông tin nhập"><RotateCcw size={14} /></button>
