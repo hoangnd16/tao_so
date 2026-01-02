@@ -441,11 +441,47 @@ const TEMPLATES = {
             return [c0, c1, c2, c3, c4, ...c5Columns, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18].join('\n');
         }
     },
-    tat_nien: {
-        id: 'tat_nien',
-        name: '9. Sớ Tất Niên',
-        title: 'TẤT NIÊN SỚ',
-        content: (data) => `Phục dĩ\nTống cựu\nnghinh tân.\nViệt Nam Quốc,\n${data.address}\ncư phụng.\nKim thần\n${generateMembersText(data.members)}\nNay nhân\nngày cuối năm\n${data.year}.\nCung duy:\nĐương Niên\nHành Khiển\nTôn Thần.\nBản Cảnh\nThành Hoàng\nChư Vị\nĐại Vương.\nGia Tiên\nTiền Tổ\ndòng họ\n....................\nKính cáo:\nKính tạ\nchư vị\nTôn Thần,\nGia Tiên\nđã phù hộ\nđộ trì\ntrong một\nnăm qua.\nCúi xin\nxá tội\nlỗi lầm,\nban phúc\nlộc thọ\ncho năm mới.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Cẩn tấu.`
+    trang_td: {
+        id: 'trang_td',
+        name: '9. Trạng thông dụng',
+        title: 'TRẠNG THÔNG DỤNG',
+        content: (data) => {
+            const address = toTitleCase(data.address);
+            const prayer = toTitleCase(data.userPrayer);
+
+            const c0 = "\t\t\t\t\t\t\t\t\tTuân Phụng"
+            const c1 = "THÍCH CA NHƯ LAI DI GIÁO ĐỆ TỬ THẦN KHỂ THỦ KHẨU THỦ BÁCH BÁI CẨN TẤU VI";
+            const c2 = "\t\t\t\t\t\t\tViên Hữu";
+            const c3 = markBold(`Việt Nam Quốc ${address}`);
+            const c4 = `${data.templeName || 'Mõ Hạc Linh Từ'} Thượng Phụng \t\t\t Phật Thánh Hiến Cúng Đương Thiên Tiến Lễ Bá Khiếu Kim Thần`;
+            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${prayer.replace(/([,.;])*/g, "") || ''}`);
+            const c7 = "Ngôn Niệm Thần Đẳng Sinh Cư Dương Thế Số Hệ \t\t\t\t Thiên Cung Vọng Tác Vọng Vi Bất Giác Khiêm Viu Quá Cứu Viên Cứ Thường La Hạn Ách Tai Ương";
+            const c8 = "Phi Tai Hoành Họa Hạt Cung Thống Khổ Chi Tư Dương Hiến Âm Hình Nam Miễn Tốc Chì Báo Khởi Hữu Khoa Danh Khoa Lợi Tăng Vô Tranh Ngã Tranh Nhân Chi Thủ Chung Chính Chi"; //
+            const c9 = "Tâm Đồ Vi Bình Đẳng Chi Sự Hoặc Niên Sung Chi Sở Chiếu Hoặc Nguyệt Ách Chi Đa Sâm Vạn Tự Tình Tư Bách Đoan Sầu Khổ Phàm Trần Nhỡn Nhục Mạc Thức Căn Do Bất Bằng \nBái Đào Chi Nghi Hà Đắc Chinh Tường Chi Phúc";
+            const c10 = "Do Thi Kim Nguyệt Cát Nhật Tu Khiết Hương Hoa Kim Ngân Lễ Vật Đầu Thành Ngũ Thể Tịnh Tín Nhất Tâm Cụ Hữu Trạng Văn Bái Tấu \t\t\t\t Cung Duy";
+            const c11 = "Nam Mô Đại Từ Đại Bi Cứu Khổ Cứu Nạn Linh Cảm Quan Thế Âm Bồ Tát \t\t\t\t\t\tHồng Liên Tọa Hạ";
+            const c12 = "Tả Hữu Văn Quan Võ Tướng Liệt Vị Bộ Hạ Linh Quan \t\t\t\t\t\tTọa Hạ Cung Vọng";
+            const c13 = "Thánh Từ \t\t\t\tĐổng Thùy \t\t\t\tChiếu Giám \t\t\t\tPhục Nguyện";
+            const c14 = "Đức Đại Khuông Phù Ân Hoằng Quảng Sét Minh Tra Thiên Ác Dĩ Vô Tư Thẩm Tuất Thi Phi Nghi Hữu Chuẩn Bất Duy Quý Tiện Bất Lệ Thân Sơ Phàm Hữu Khẩn Đảo";
+            const c15 = "Cung Lãm Phủ Tuất Thi Hành Ứng Nghiệm Tường Kỳ Văn Trạng Chứng Giám Đãn Thành Tỷ Hạ Thần Cờ Đắc Hư Tâm Nhi Sự Sự Hanh Thông Chi Lý Khang Như Ý";
+            const c16 = "Thời Thời Thọ Vực Chi Ca Hạn Ách Tiêu Trừ Trinh Tường Bền Tập Thần Thực Lại";
+            const c17 = "Tôn Nhang Mặc Tướng Âm Phù Chi Đại Đức Gia Cẩn Trạng \t\t\t Thượng Tấu Dĩ Văn";
+            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t Thần Khấu Thủ Bách Bái Hòa Nam Thượng Trạng \t\t ${markBold('TRẠNG THÔNG DỤNG')}`;
+
+            const c8WordCount = c8.trim().split(/\s+/).length;
+            const c5Words = c5.trim().split(/\s+/);
+            const c5Columns = [];
+
+            if (c5Words.length > c8WordCount) {
+                for (let i = 0; i < c5Words.length; i += c8WordCount) {
+                    c5Columns.push(c5Words.slice(i, i + c8WordCount).join(' '));
+                }
+            } else {
+                c5Columns.push(c5);
+            }
+
+            return [c0, c1, c2, c3, c4, ...c5Columns, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18].join('\n');
+        }
     },
     giao_thua: {
         id: 'giao_thua',
