@@ -98,6 +98,12 @@ const formatVerticalText = (text) => {
     return formatted;
 };
 
+// Helper to capitalize first letter of each word
+const toTitleCase = (str) => {
+    if (!str) return '';
+    return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+};
+
 // Helper to mark text for bolding
 const markBold = (text) => text ? text.toString().trim().split(/\s+/).map(w => '^' + w).join(' ') : '';
 
@@ -119,13 +125,16 @@ const TEMPLATES = {
             // Helper to join array into newline-separated string (column)
             const col = (arr) => arr.join(' ');
 
+            const address = toTitleCase(data.address);
+            const prayer = toTitleCase(data.userPrayer);
+
             // Columns from Right to Left based on the image
             const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
             const c1 = "Phúc Thọ Khang Ninh Nãi Nhân Tâm Chi Cờ Nguyện Tai Ương Hạn Ách Bằng";
             const c2 = "Thánh Lực Dĩ Giải Trừ Nhất Niệm Chí Thành Thập Phương Cảm Cách \t\t\t Viên Hữu";
-            const c3 = markBold(`Việt Nam Quốc ${data.address}`);
+            const c3 = markBold(`Việt Nam Quốc ${address}`);
             const c4 = `${data.templeName || 'Mõ Hạc Linh Từ'} Thượng Phụng \t\t\t\t Phật Thánh Hiến Cúng Lệnh Tiết \nTiến Lễ Cầu An Giải Hạn Tổng Ách Trừ Tai Tại Cờ Gia Nội Bình An Nhân Khang Vật Thịnh Duyên Sinh Trường Thọ Kim Thần`;
-            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${data.userPrayer.replace(/([,.;])*/g, "") || ''}`);
+            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${prayer.replace(/([,.;])*/g, "") || ''}`);
             const c7 = "Ngọc Bệ Hạ Dáng Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Dương Thế Số Hệ \tThiên Cung Hạ Càn Khôn Phủ Tài Chi An Vận Cản";
             const c8 = "Phật Thánh Khuông Phù Chi Đức Tư Phùng Lệnh Tiết \tTiến Lễ Cờ An Giải Nhất Thiết Tai Ương Cờ Vạn Ban Chi Cát Khánh Do Thị Kim Nguyệt \tNhật";
             const c9 = "Tu Thiết Kim Ngân Hương Hoa Lễ Vật Tịnh Cúng Phu Trần Cụ Hữu Sớ Văn Kiền Thân \t\t\t Thượng Tấu\t\t\t\t Cung";
@@ -169,9 +178,11 @@ const TEMPLATES = {
                 return markBold(line);
             }).join('\n');
 
+            const address = toTitleCase(data.address);
+
             const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ \n Tinh Huy Ngân Hán Hoàng Hoàng Nan Trắc Nan Danh Nhân Sứ Dương Môn Lộc Lộc Hữu Lượng Hữu Đảo Phàm Tâm Bất Cách";
             const c1 = "Từ Nhãn Diêu Quan \t\t\t\t\t Viên Hữu \n Phật Cúng Dường \t\t\t\t\t Thiên Tiến Lễ Hương Tinh Giải Hạn Cầu Gia Nội Bình An Sự Kim Thần";
-            const c2 = markBold(`Việt Nam Quốc ${data.address}`);
+            const c2 = markBold(`Việt Nam Quốc ${address}`);
             const c3 = membersText;
             const c4 = "Tam Quan Phó Thân Nhất Ý Ngôn Niệm Thần Đẳng Sinh Phùng Đế Vương Tỉnh Đàn Thiên Lương Trấn Tai Tinh Tinh Bất Hoán Dĩ Biến Biến Khủng Ác Diệu Gia Ư";
             const c5 = "Cảnh Cảnh Cục Dương Nguyện Cúng Trần Bái Đảo Ngiu \t\t\tNguyên Đắc Trường Sinh Chi Phúc Kim Tấc Đầu Thành Ngũ Thể Tĩnh Tín Nhất Tâm";
@@ -197,12 +208,13 @@ const TEMPLATES = {
         content: (data) => {
             // Template này dành riêng cho từng người, nên data.members sẽ chỉ có 1 người
             const member = data.members[0] || {};
+            const address = toTitleCase(data.address);
 
             // Helper to join array into newline-separated string (column)
             const col = (arr) => arr.join(' ');
 
             const c0 = "\t\t\t\t\t\t\t\tPhục Dĩ\n Lục Quần Lê Lâm Lâm Tư Biểu Kim Sao Anh Khí Chi Chung Linh Ngưỡng Lại Hồng Ân Chi Dục Tú Dục Cầu Nguyện Thọ Tu Hạ \t\tViên Hữu";
-            const c1 = markBold(`Việt Nam Quốc ${data.address}`);
+            const c1 = markBold(`Việt Nam Quốc ${address}`);
             const c2 = "Phật Thánh Hiến Cúng Lệnh Tiết Tiến Cống Hình Nhân Thế Đại Giải Hạn Trừ Tai Cầu Bản Mệnh Bình An Tăng Duyên Thọ Sự Kim Thần";
             const c3 = markBold(`${member.name?.toUpperCase() || ''} Sinh Ư ${member.canChi || ''} Niên ${member.age || ''} Tuổi * Chiếu Sao ${member.sao} * Chiếu Hạn ${member.han}`);
             const c4 = "Thánh Thính Phủ Giám Phàm Tâm Ngôn Liệm Thần Đăng Sinh Cư Trung Giới Mệnh Thuộc";
@@ -232,12 +244,15 @@ const TEMPLATES = {
         name: '5. Sớ Lễ Phật',
         title: 'LỄ PHẬT SỚ',
         content: (data) => {
+            const address = toTitleCase(data.address);
+            const prayer = toTitleCase(data.userPrayer);
+
             const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
             const c1 = "Phật Từ Quản Đại Năng Trừ Hạn Ách Tai Ương \t\t\t Thánh Đức Khoan Hồng Tăng Tứ Khang Ninh Phúc Thọ Phù Nhân Khấu Đảo Ngưỡng Đát";
             const c2 = "Kim Dung \t\t\t\t\t\t\t\t\t Viên Hữu";
-            const c3 = markBold(`Việt Nam Quốc ${data.address}`);
+            const c3 = markBold(`Việt Nam Quốc ${address}`);
             const c4 = `${data.templeName || 'Mõ Hạc Linh Từ'} Thượng Phụng \t\t\t Chín Phương Trời Mười Phương Chư Phật \n Phật Thánh Hiến Cúng Đương Thiên Bá Đảo Giải Hạn Trừ Tai Cầu Bản Mệnh Khang Cường Sự Kim Thần Đệ Tử`;
-            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${data.userPrayer.replace(/([,.;])*/g, "") || ''}`);
+            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${prayer.replace(/([,.;])*/g, "") || ''}`);
             const c7 = "Liên Tọa Phù Giám Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Chung Giới Mệnh Thuộc";
             const c8 = "Thượng Cung Hạ Càn Khôn Phú Tài Chi Hồng Ân Cảm Nhật Nguyệt Chiếu Lâm Chi Đại Đức \t Thần Hồn Xuất Nhập Khởi Vô Thiên Ác Chi Quan Tuế Nguyệt";
             const c9 = "Lưu Hành Nam Miền Cát Hưng Chi Vận Cận Phi Khấu Đảo Bằng Nhất Niệm Chi Thiên Duyên Hạt Đắc An Ninh Bảo Tử Thời Chi Cát Khánh Do Thị";
