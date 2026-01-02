@@ -140,13 +140,6 @@ const TEMPLATES = {
             const firstMember = data.members[0] || {};
             const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t\tPhúc-Lộc-Thọ Cầu Bình An \t\t\t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
 
-            // Combine columns (Note: The app renders lines from the string split by \n. 
-            // If the app renders columns Right-to-Left, we should list them in that order? 
-            // Actually App.jsx renders: lines.map(line => col). 
-            // And CSS is: flex-direction: row-reverse.
-            // So the first line in the string becomes the Rightmost column.
-
-            // Logic tự động xuống dòng (thêm cột) cho c5 nếu dài hơn c8
             const c8WordCount = c8.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
             const c5Columns = [];
@@ -238,7 +231,40 @@ const TEMPLATES = {
         id: 'le_phat',
         name: '5. Sớ Lễ Phật',
         title: 'LỄ PHẬT SỚ',
-        content: (data) => `Phục dĩ\nPhật đức\ntừ bi,\ndĩ độ chúng.\nViệt Nam Quốc,\n${data.address}\ncư phụng.\nPhật Thánh\nhiến cúng,\ntiến lễ\ncầu an.\nKim thần\n${generateMembersText(data.members)}\nNgụ tại:\n${data.address}.\nNhất tâm\nthiện nguyện,\nhương hoa\nkim ngân\nthành tâm\nphụng hiến.\nCung duy:\nNam Mô\nThập Phương\nThường Trụ\nTam Bảo\nTác Đại\nChứng Minh.\nNam Mô\nSa Bà\nGiáo Chủ\nBản Sư\nThích Ca\nMâu Ni\nPhật.\nPhục nguyện:\nPhật nhật\ntăng huy,\nPháp luân\nthường chuyển.\nPhong điều\nvũ thuận,\nquốc thái\ndân an.\nTín chủ\ngia đình\nhưng thịnh,\nphúc thọ\nkhang ninh.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Cẩn tấu.`
+        content: (data) => {
+            const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
+            const c1 = "Phật Từ Quản Đại Năng Trừ Hạn Ách Tai Ương \t\t\t Thánh Đức Khoan Hồng Tăng Tứ Khang Ninh Phúc Thọ Phù Nhân Khấu Đảo Ngưỡng Đát";
+            const c2 = "Kim Dung \t\t\t\t\t\t\t\t\t Viên Hữu";
+            const c3 = markBold(`Việt Nam Quốc ${data.address}`);
+            const c4 = "Mõ Hạc Linh Từ Thượng Phụng \t\t\t Chín Phương Trời Mười Phương Chư Phật \n Phật Thánh Hiến Cúng Đương Thiên Bá Đảo Giải Hạn Trừ Tai Cầu Bản Mệnh Khang Cường Sự Kim Thần Đệ Tử";
+            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${data.userPrayer.replace(/([,.;])*/g, "") || ''}`);
+            const c7 = "Liên Tọa Phù Giám Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Chung Giới Mệnh Thuộc";
+            const c8 = "Thượng Cung Hạ Càn Khôn Phú Tài Chi Hồng Ân Cảm Nhật Nguyệt Chiếu Lâm Chi Đại Đức \t Thần Hồn Xuất Nhập Khởi Vô Thiên Ác Chi Quan Tuế Nguyệt";
+            const c9 = "Lưu Hành Nam Miền Cát Hưng Chi Vận Cận Phi Khấu Đảo Bằng Nhất Niệm Chi Thiên Duyên Hạt Đắc An Ninh Bảo Tử Thời Chi Cát Khánh Do Thị";
+            const c10 = "Kim Nguyệt Cát Nhật Đầu Thành Ngũ Tịnh Tín Nhất Tâm Cụ Hữu Sớ Văn Kiền Thân Thượng Tấu \t\t\t\t Cung Duy";
+            const c11 = "Nam Mô Thập Phương Vô Lượng Thường Trụ Tam Bảo \t\t\t\t\t\t Kim Liên Tọa Hạ";
+            const c12 = "Nam Mô Tam Thừa Đẳng Giáp Chư Vị Bồ Tát \t\t\t\t\t\t Niệm Tọa Hạ";
+            const c13 = "Nam Mô Đại Từ Đại Bi Cứu Khổ Cứu Nạn Linh Cảm Quan Thế Âm Bồ Tát \t\t\t\t\t Hồng Liên Tọa Hạ";
+            const c14 = "Tam Giới Thiên Chủ Tứ Phủ Vạn Linh Công Đồng Thánh Đế \t\t\t\t\t Ngọc Bệ Hạ";
+            const c15 = "Thập Bát Long Thần Già Lam Chân Tể \t\t\t\t\t\t Vị Tiền Phục Nguyện";
+            const c16 = "Chư Phật Chứng Minh Vạn Ninh Giám Cách Siêu Khổ Hải Dĩ Từ Hàng Thứ Đắc Hữu Cầu Tất ứng Độ Mê Tân Vũ Bảo Phật Sử Chi Nguyện";
+            const c17 = "Dã Tòng Tâm Niên Niên Cảm Lạc Vũ Xuân Đài Cá Cá Đồng Tê Ư Thọ Vực Tam Tai Bát Nạn Sử Vô Xâm Phạn Chi Ngu Bách Phúc \n Thiên Tường Thường Hưởng Thọ Khang Chi Khánh Lộc Tài Vượng Tiến Nhân Vật Bình An Đãn Thần Hạ Tình Vô Nhân Kích Thiết Bình Minh Chi Chí Cẩn Sớ";
+            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t\tThần Đệ Tử Khấu Thủ Thượng Sớ \t\t\t\ ${markBold('LỄ PHẬT')}`;
+
+            const c8WordCount = c8.trim().split(/\s+/).length;
+            const c5Words = c5.trim().split(/\s+/);
+            const c5Columns = [];
+
+            if (c5Words.length > c8WordCount) {
+                for (let i = 0; i < c5Words.length; i += c8WordCount) {
+                    c5Columns.push(c5Words.slice(i, i + c8WordCount).join(' '));
+                }
+            } else {
+                c5Columns.push(c5);
+            }
+
+            return [c0, c1, c2, c3, c4, ...c5Columns, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18].join('\n');
+        }
     },
     le_mau: {
         id: 'le_mau',
