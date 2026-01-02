@@ -483,6 +483,48 @@ const TEMPLATES = {
             return [c0, c1, c2, c3, c4, ...c5Columns, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18].join('\n');
         }
     },
+    trang_ma: {
+        id: 'trang_ma',
+        name: '10. Trạng mã',
+        title: 'TRẠNG MÃ',
+        content: (data) => {
+            const address = toTitleCase(data.address);
+            const prayer = toTitleCase(data.userPrayer);
+
+            const c0 = "\t\t\t\t\tGiới Dương\t\t\t Tiết"
+            const c1 = "\t\t\t\t\t\t\t Kim Cử";
+            const c2 = "\t\t\t\tViên Hữu";
+            const c3 = markBold(`Việt Nam Quốc ${address}`);
+            const c4 = `${data.templeName || 'Mõ Hạc Linh Từ'} Thượng Phụng \t\t\t Tôn Thần Kim Thần`;
+            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${prayer.replace(/([,.;])*/g, "") || ''}`);
+            const c7 = "Đồng Dương Môn Quyến Đẳng Sở Hữu Minh Y Tài Mã Khí Cụ Như Sinh Thời Chi Dụng Liệt Kê Vu Hậu";
+            const c8 = "\t\t\t Kê"; //
+            const c9 = "Các Hạng Đẳng Vật Cung Tiến Cung Vong Linh \t Nhận Thủ Kim Ngân Tài Mã Tương Hồi Âm Cung";
+            const c10 = "Vĩnh Vi Kỷ Vật Nhược Ngoại Quỷ Vô Danh Bất Đắc Vọng Hành Chiếm Đoạt \t Dĩ Thượng Đẳng Vật Cảm Khuất";
+            const c11 = "Hoàng Lục Viện Chưởng Minh Ý Sứ Giả \t\t\t\t\t\tVị Tiền";
+            const c12 = "Từ Miện Khanh Đại Tướng Vũ Lâm Đại Thần \t\t\t\t\tVị Tiền";
+            const c13 = "Chiểu Y Trạng Nội Cấp Phó Vong Linh \t\t\t\t\t\tVong Hồn Thu Chấp";
+            const c14 = "Tả Đường Nhân Mục";
+            const c15 = "Nhị Viên Chứng Kiến\t\t\t\t\t\t\t\tVị Bằng Chuẩn Thử";
+            const c16 = "\t\t\t\t\t\t\tHữu Lý Thành Cảnh";
+            const c17 = "";
+            const c18 = `Tuế Thứ ${data.year} \t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t Thời Trạng  \t ${markBold('TRẠNG MÃ')}`;
+
+            const c7WordCount = c7.trim().split(/\s+/).length;
+            const c5Words = c5.trim().split(/\s+/);
+            const c5Columns = [];
+
+            if (c5Words.length > c7WordCount) {
+                for (let i = 0; i < c5Words.length; i += c7WordCount) {
+                    c5Columns.push(c5Words.slice(i, i + c7WordCount).join(' '));
+                }
+            } else {
+                c5Columns.push(c5);
+            }
+
+            return [c0, c1, c3, c4, ...c5Columns, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c18].join('\n');
+        }
+    },
     giao_thua: {
         id: 'giao_thua',
         name: '10. Sớ Giao Thừa',
