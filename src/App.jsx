@@ -900,7 +900,7 @@ export default function App() {
             <div className="sso-container relative" style={{
                 display: 'grid',
                 // Cột cuối cùng (bên trái trong RTL) gấp đôi kích thước
-                gridTemplateColumns: `repeat(${item.cols - 1}, 1fr) 2fr`,
+                gridTemplateColumns: `repeat(${item.cols - 1}, 1fr) calc(100% / 6)`,
                 gridTemplateRows: `repeat(${item.rows}, 1fr)`,
                 width: '100%',
                 height: '100%',
