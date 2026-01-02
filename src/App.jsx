@@ -237,7 +237,41 @@ const TEMPLATES = {
         id: 'gia_tien',
         name: '4. Sớ Gia Tiên',
         title: 'GIA TIÊN SỚ',
-        content: (data) => `Phục dĩ\nChí tâm\nbái lễ.\nViệt Nam Quốc,\n${data.address}\ncư phụng.\nTu thiết\nlễ nghi,\ntạ ơn\nTiên Tổ,\ncầu an\nbản mệnh.\nKim thần\n${generateMembersText(data.members)}\nĐồng gia\nquyến đẳng.\nNay nhân\ntiết:\n${data.reason || 'Chính kỵ'},\ntín chủ\nchạnh lòng\nnhớ đức\ncù lao.\nCung duy:\nGia tiên\ndòng họ:\n....................\nCao Tằng\nTổ Khảo,\nCao Tằng\nTổ Tỷ.\nBá Thúc\nHuynh Đệ,\nCô Di\nTỷ Muội.\nNội ngoại\ngia tiên,\nđồng lai\nhâm hưởng.\nCúi xin:\nTổ tiên\nlinh thiêng\nchứng giám\nlòng thành.\nPhù hộ\nđộ trì\ncho con cháu:\nGià\nmạnh khỏe,\ntrẻ\nbình an.\nHọc hành\ntiến tới,\ncông tác\nhanh thông.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Cẩn tấu.`
+        content: (data) => {
+            const address = toTitleCase(data.address);
+            const prayer = toTitleCase(data.userPrayer);
+
+            const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
+            const c1 = "Tiên Tổ Thị Hoàng Bá Dẫn Chí Công Phất Thế Hạn Cổn Khắc Thiệu Dục Thùy Chi Niệm Bất Vong Viên Kỳ Sở Tôn Chuy Chi";
+            const c2 = "Nhị Tự \t\t\t\t\t\t\t\t\t Viên Hữu";
+            const c3 = markBold(`Việt Nam Quốc ${address}`);
+            const c4 = `${data.templeName || 'Mõ Hạc Linh Từ'} Thượng Phụng \t\t\t Gia Tiên Tiền Tổ \t Tổ Tiên Cúng Dạng \t\tCon Cháu Họ`;
+            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${prayer.replace(/([,.;])*/g, "") || ''}`);
+            const c7 = "Tiên Dám Phú Tuất Thân Tình Ngôn Niệm Càn Thủy Khôn Sinh Ngưỡng Hạ Di Phong Chí Âm Thiên Kinh Địa Nghĩa Thường Tồn Thốn Thảo";
+            const c8 = "Chí Tâm Phụng Thừa Hoặc Khuyết Ư Lễ Nghi Tu Tri Hoặc Sá Ư Phần Mộ Phú Kim Tử Tích Hữu Quý Vũ Chung Tu";
+            const c9 = "Nhân Linh Tiết Kiến Cụ Phí Nghi Cụ Hữu Trạng Văn \t\t\tPhụng Thượng";
+            const c10 = "Môn Đường Thượng Lịch Đại Nội Ngoại Tổ Tiên Đẳng Chư Vị Chân Linh \t\t\t\t\t\t Vị Tiền";
+            const c11 = "Tộc Tổ Cô Chân Linh \t\t\t\t\t\t Mãnh Tổ Chân Linh \t\t\t\t\t\t Vị Tiền";
+            const c12 = "Tiên Linh \t\t\t\t\t\t\t\t\t\t\t\t Vị Tiền";
+            const c13 = "Phu Thùy Am Lạp Dám Chuy Tự Chi Chí Khổn Dĩ Diễn Dĩ Thừa Thí Phù Hựu Ư Âm Công Năng Bảo Năng Trọ";
+            const c14 = "Báo Tứ Tôn Nhi Hữu Lợi Thùy Tộ Dẫn Ư Vô Cương Tông Tự Trường Lưu Hóa Hương Bất Dân Dận Thục Lai";
+            const c15 = "Tổ Đức Âm Phù Chi Lục Dã";
+            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} Nguyệt ${data.day} \tNhật \tLễ Chủ Thành Tâm Thượng Tấu \t${markBold('LỄ GIA TIÊN')}`;
+
+            const c8WordCount = c8.trim().split(/\s+/).length;
+            const c5Words = c5.trim().split(/\s+/);
+            const c5Columns = [];
+
+            if (c5Words.length > c8WordCount) {
+                for (let i = 0; i < c5Words.length; i += c8WordCount) {
+                    c5Columns.push(c5Words.slice(i, i + c8WordCount).join(' '));
+                }
+            } else {
+                c5Columns.push(c5);
+            }
+
+            return [c0, c1, c2, c3, c4, ...c5Columns, c7, c8, c9, c10, c11, c12, c13, c14, c15, c18].join('\n');
+        }
     },
     le_phat: {
         id: 'le_phat',
@@ -996,7 +1030,6 @@ export default function App() {
                                         </div>
                                     )}
                                 </div>
-                                {formData.selectedTemplates?.includes('gia_tien') && (<input type="text" name="familyLine" value={formData.familyLine} onChange={handleChange} placeholder="Dòng họ (VD: Nguyễn Văn)..." className="excel-input animate-in fade-in h-9 rounded" />)}
                                 <input type="text" name="templeName" value={formData.templeName} onChange={handleChange} placeholder="Tên đền/phủ (VD: Mõ Hạc Linh Từ)..." className="excel-input w-full h-9 rounded bg-white shadow-sm border-gray-200" />
                                 <textarea name="userPrayer" value={formData.userPrayer} onChange={handleChange} placeholder="Nhập lời cầu nguyện riêng (nếu có)..." className="excel-input w-full resize-none bg-white flex-grow rounded" style={{ minHeight: '80px' }} />
                                 <div className="mt-auto flex gap-2">
