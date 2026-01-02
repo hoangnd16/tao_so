@@ -284,8 +284,44 @@ const TEMPLATES = {
     le_mau: {
         id: 'le_mau',
         name: '6. Sớ Lễ Mẫu',
-        title: 'THÁNH MẪU SỚ',
-        content: (data) => `Phục dĩ\nMẫu đức\nbao la.\nViệt Nam Quốc,\n${data.address}\ncư phụng.\nKim thần\n${generateMembersText(data.members)}\nĐồng gia\nquyến đẳng.\nThiết lễ\nkính dâng\ncửa Mẫu.\nCung duy:\nTam Tòa\nThánh Mẫu,\nTứ Phủ\nVạn Linh\nCông Đồng.\nĐệ Nhất\nThượng Thiên\nThánh Mẫu.\nĐệ Nhị\nThượng Ngàn\nThánh Mẫu.\nĐệ Tam\nThoải Phủ\nThánh Mẫu.\nCúi xin:\nMẫu nghi\nthiên hạ,\ntừ bi\ntiếp độ.\nBan tài\ntiếp lộc,\ngiải bệnh\ntrừ tai.\nSở cầu\nnhư ý,\nsở nguyện\ntòng tâm.\n${data.userPrayer ? formatVerticalText(data.userPrayer) + '\n' : ''}Cẩn tấu.`
+        title: 'LỄ MẪU SỚ',
+        content: (data) => {
+            const address = toTitleCase(data.address);
+            const prayer = toTitleCase(data.userPrayer);
+
+            const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
+            const c1 = "Hữu Tiền Tắc Danh Nguyệt Kính Khả Thiên Khai Sắc Tướng Thánh Mẫu Thụ Phúc Vân Xa Táp Địa Hiển Linh \t\t\tNghĩ Khổ Đấu Thành";
+            const c2 = "Long Nhan Động \t\tGiám \t\t\t\t\t\tViên Hữu";
+            const c3 = markBold(`Việt Nam Quốc ${address}`);
+            const c4 = `${data.templeName || 'Mõ Hạc Linh Từ'} Thượng Phụng \t\t\t Tam Tòa Thánh Mẫu \n Phật Thánh Hiến Cúng \t\t\t Thiên Bái Đảo Cầu Bình An Tập Phúc Lộc Thọ Nghênh Tường Sự Kim Thần`;
+            const c5 = markBold(`${generateMembersText(data.members)} Đồng Gia Quyền Đẳng ${prayer.replace(/([,.;])*/g, "") || ''}`);
+            const c7 = "Cao Ngự Phủ Giám Phi Thánh Thiết Niệm Thần Thao Sinh Trân Giới Kết Tập Nghiệp Duyên Mỗi Tư Thành Khả Thần U Hiển Sớ Vô";
+            const c8 = "Nhi Lý Nham Tín Nhân Hoàn Hữu Cố Kim Nguyên Thị Nhất Đồ Dục Cầu Phúc Thọ Dĩ An Toán Tất Tượng Âm Quang Chí Tuế Độ";
+            const c9 = "Cung Phùng Lệnh Tiết Bị Dung Nghi Hương Hoa Kim Ngân Lễ Vật Tịnh Cúng Phu Trần Cụ Hữu Sớ Văn";
+            const c10 = "Mao Thần\t\t\t\t Thượng Tấu \t\t\t\t Cung Duy";
+            const c11 = "Nam Mô Đại Từ Đại Bi Cứu Khổ Cứu Nạn Linh Cảm Quan Thế Âm Bồ Tát \t\t\t\t\t Hồng Liên Tọa Hạ";
+            const c12 = "Tam Giới Thiên Chủ Tứ Phủ Vạn Linh Công Đồng Thánh Đế \t\t\t\t\t Ngọc Bệ Hạ";
+            const c13 = "Vân Hương Thiên Tiên Tam Vị Thánh Mẫu Ngũ Vị Tôn Ông Tứ Vị Khâm Sai\t\t\t\t\t\tNgọc Bệ Hạ";
+            const c14 = "Tứ Phủ Chầu Bà Tứ Phủ Thanh Hoàng Công Đồng Tiên Cô Công Đồng Hoàng Quận \t\t\t\t\t Ngọc Bệ Hạ";
+            const c15 = "Bản Điện Phụng Sự Nhất Thiết Liệt Vị Uy Linh Ngũ Hổ Thần Tướng \t\t\t\t\t\t Vị Tiền Cung Vọng";
+            const c16 = "Thánh Từ \t\t\t\tĐổng Thùy \t\t\t\tChiếu Giám \t\t\t\tPhục Nguyện";
+            const c17 = "Bàng Chúc Vô Cương Giám Lam Bát Viên Quang Ba Hiếu Sinh Chi Đức Độ Ách Tiêu Tài Hoằng Suy Tế Chúng Chi Nhân Giáng Tường Tích Phúm \n Tý Đắc Uy Quang Phu Anh Như Phung Ba Đan Chi Thiên Lạc Nghiệp An Cư Bát Phu Vạn Minh Chi Địa Thứ Phu Yên Hỷ Cộng Mộc \n Hồng Hữu Đãn Thần Hạ Tình Vô Nhân Khích Thiết Bình Doanh Chi Chí Cẩn Sớ Văn";
+            const c18 = `Thiên Vận ${data.year} \t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\tThần Khấu Thủ Thượng Cụ Sớ \t\t ${markBold('LỄ MẪU')}`;
+
+            const c8WordCount = c8.trim().split(/\s+/).length;
+            const c5Words = c5.trim().split(/\s+/);
+            const c5Columns = [];
+
+            if (c5Words.length > c8WordCount) {
+                for (let i = 0; i < c5Words.length; i += c8WordCount) {
+                    c5Columns.push(c5Words.slice(i, i + c8WordCount).join(' '));
+                }
+            } else {
+                c5Columns.push(c5);
+            }
+
+            return [c0, c1, c2, c3, c4, ...c5Columns, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18].join('\n');
+        }
     },
     than_tai: {
         id: 'than_tai',
