@@ -126,7 +126,7 @@ const TEMPLATES = {
             const col = (arr) => arr.join(' ');
 
             const address = toTitleCase(data.address);
-            const prayer = toTitleCase(data.userPrayer);
+            const prayer = toTitleCase(data.userPrayer).replace(/\n/g, ' \t*\t ');
 
             // Columns from Right to Left based on the image
             const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
@@ -239,7 +239,7 @@ const TEMPLATES = {
         title: 'CẦU DANH SỚ',
         content: (data) => {
             const address = toTitleCase(data.address);
-            const prayer = toTitleCase(data.userPrayer);
+            const prayer = toTitleCase(data.userPrayer).replace(/\n/g, ' \t*\t ');
 
             const c0 = "Quốc Gia Dĩ Khảo Kỳ Nhân Lập Công Tiên Tu Ư Hiến Chế Thiên Mệnh Dĩ Định Kỳ Vị Cầu Vị Tất Tạ Ư"
             const c1 = "Thiên Quan Đốc Kính Quyền Quyền Chí Thành Khẩn Khẩn \t\tViên Hữu";
@@ -282,7 +282,7 @@ const TEMPLATES = {
         title: 'CẦU DUYÊN SỚ',
         content: (data) => {
             const address = toTitleCase(data.address);
-            const prayer = toTitleCase(data.userPrayer);
+            const prayer = toTitleCase(data.userPrayer).replace(/\n/g, ' \t*\t ');
 
             const c0 = "Thiên Đạo Chi Tại Hữu Nhật Nguyệt Hữu Âm Dương Nhân Luân Chi Trung Hữu Phu Hữu Phụ Dục Thành Nghi Gia Nghi Thất";
             const c1 = "Tu Thiết Hữu Cầu \t\t\t\tViên Hữu";
@@ -323,7 +323,7 @@ const TEMPLATES = {
         title: 'THỔ CÔNG SỚ',
         content: (data) => {
             const address = toTitleCase(data.address);
-            const prayer = toTitleCase(data.userPrayer);
+            const prayer = toTitleCase(data.userPrayer).replace(/\n/g, ' \t*\t ');
 
             const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
             const c1 = "Chí Thành Khả Cách Nam Danh Cảm Ưng Chi Huyền Cơ Khắc Kính Dĩ Thân Liêu Ngụ Thành Chi Tô Khổn Phàm Tâm Khẩn Đảo Tuệ Nhỡn Chứng Minh";
@@ -365,7 +365,7 @@ const TEMPLATES = {
         title: 'GIA TIÊN SỚ',
         content: (data) => {
             const address = toTitleCase(data.address);
-            const prayer = toTitleCase(data.userPrayer);
+            const prayer = toTitleCase(data.userPrayer).replace(/\n/g, ' \t*\t ');
 
             const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
             const c1 = "Tiên Tổ Thị Hoàng Bá Dẫn Chí Công Phất Thế Hạn Cổn Khắc Thiệu Dục Thùy Chi Niệm Bất Vong Viên Kỳ Sở Tôn Chuy Chi";
@@ -405,7 +405,7 @@ const TEMPLATES = {
         title: 'LỄ PHẬT SỚ',
         content: (data) => {
             const address = toTitleCase(data.address);
-            const prayer = toTitleCase(data.userPrayer);
+            const prayer = toTitleCase(data.userPrayer).replace(/\n/g, ' \t*\t ');
 
             const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
             const c1 = "Phật Từ Quản Đại Năng Trừ Hạn Ách Tai Ương \t\t\t Thánh Đức Khoan Hồng Tăng Tứ Khang Ninh Phúc Thọ Phù Nhân Khấu Đảo Ngưỡng Đát";
@@ -447,7 +447,7 @@ const TEMPLATES = {
         title: 'LỄ MẪU SỚ',
         content: (data) => {
             const address = toTitleCase(data.address);
-            const prayer = toTitleCase(data.userPrayer);
+            const prayer = toTitleCase(data.userPrayer).replace(/\n/g, ' \t*\t ');
 
             const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
             const c1 = "Hữu Tiền Tắc Danh Nguyệt Kính Khả Thiên Khai Sắc Tướng Thánh Mẫu Thụ Phúc Vân Xa Táp Địa Hiển Linh \t\t\tNghĩ Khổ Đấu Thành";
@@ -489,7 +489,7 @@ const TEMPLATES = {
         title: 'TRẦN TRIỀU SỚ',
         content: (data) => {
             const address = toTitleCase(data.address);
-            const prayer = toTitleCase(data.userPrayer);
+            const prayer = toTitleCase(data.userPrayer).replace(/\n/g, ' \t*\t ');
 
             const c0 = "\t\t\t\t\t\t\t\t\tPhục Dĩ"
             const c1 = "Đông A Khởi Thánh Nam Nhạc Giáng Thần Hoàng An Dân Tế Chi Công Uy Sát Quỷ Trừ Tà Chi Diệu Bạch Đằng Ký Tích Thanh Sở Phương Lưu";
@@ -531,7 +531,7 @@ const TEMPLATES = {
         title: 'TRẠNG THÔNG DỤNG',
         content: (data) => {
             const address = toTitleCase(data.address);
-            const prayer = toTitleCase(data.userPrayer);
+            const prayer = toTitleCase(data.userPrayer).replace(/\n/g, ' \t*\t ');
 
             const c0 = "\t\t\t\t\t\t\t\t\tTuân Phụng"
             const c1 = "THÍCH CA NHƯ LAI DI GIÁO ĐỆ TỬ THẦN KHỂ THỦ KHẨU THỦ BÁCH BÁI CẨN TẤU VI";
@@ -573,7 +573,7 @@ const TEMPLATES = {
         title: 'TRẠNG MÃ',
         content: (data) => {
             const address = toTitleCase(data.address);
-            const prayer = toTitleCase(data.userPrayer);
+            const prayer = toTitleCase(data.userPrayer).replace(/\n/g, ' \t*\t ');
 
             const c0 = "\t\t\t\t\tGiới Dương\t\t\t Tiết"
             const c1 = "\t\t\t\t\t\t\t Kim Cử";
