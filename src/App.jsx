@@ -639,6 +639,15 @@ export default function App() {
     const [saveName, setSaveName] = useState('');
     const [isTemplateDropdownOpen, setIsTemplateDropdownOpen] = useState(false);
 
+    // Category management
+    const [categories, setCategories] = useState([]);
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
+    const [newCategoryName, setNewCategoryName] = useState('');
+    const [editingCategory, setEditingCategory] = useState(null);
+    const [filterCategoryId, setFilterCategoryId] = useState(null); // null = tất cả
+    const [searchQuery, setSearchQuery] = useState(''); // Tìm kiếm sớ theo tên
+
 
     const templateDropdownRef = useRef(null);
     const [confirmAction, setConfirmAction] = useState(null);
@@ -662,6 +671,16 @@ export default function App() {
         const saved = localStorage.getItem('saved_sos');
         if (saved) {
             try { setSavedSos(JSON.parse(saved)); } catch (e) { console.error(e); }
+        }
+        // Load categories
+        const savedCategories = localStorage.getItem('sso_categories');
+        if (savedCategories) {
+            try { setCategories(JSON.parse(savedCategories)); } catch (e) { console.error(e); }
+        } else {
+            // Default category
+            const defaultCategories = [{ id: 1, name: 'Chung' }];
+            setCategories(defaultCategories);
+            localStorage.setItem('sso_categories', JSON.stringify(defaultCategories));
         }
     }, []);
 
@@ -829,7 +848,55 @@ export default function App() {
         const count = formData.selectedTemplates?.length || 0;
         const templateName = count > 1 ? `${count} loại sớ` : (TEMPLATES[formData.selectedTemplates[0]]?.name || "Sớ");
         setSaveName(`${firstMember} - ${templateName} (${new Date().toLocaleDateString('vi-VN')})`);
+        setSelectedCategoryId(categories[0]?.id || null);
         setShowSaveModal(true);
+    };
+
+    // Category CRUD functions
+    const handleAddCategory = () => {
+        if (!newCategoryName.trim()) {
+            showNotification("Vui lòng nhập tên danh mục!", 'error');
+            return;
+        }
+        const newCategory = { id: Date.now(), name: newCategoryName.trim() };
+        const newCategories = [...categories, newCategory];
+        setCategories(newCategories);
+        localStorage.setItem('sso_categories', JSON.stringify(newCategories));
+        setNewCategoryName('');
+        showNotification("Đã thêm danh mục mới!");
+    };
+
+    const handleUpdateCategory = () => {
+        if (!editingCategory || !editingCategory.name.trim()) {
+            showNotification("Tên danh mục không hợp lệ!", 'error');
+            return;
+        }
+        const newCategories = categories.map(c =>
+            c.id === editingCategory.id ? { ...c, name: editingCategory.name.trim() } : c
+        );
+        setCategories(newCategories);
+        localStorage.setItem('sso_categories', JSON.stringify(newCategories));
+        setEditingCategory(null);
+        showNotification("Đã cập nhật danh mục!");
+    };
+
+    const handleDeleteCategory = (categoryId) => {
+        if (categories.length <= 1) {
+            showNotification("Cần giữ ít nhất 1 danh mục!", 'error');
+            return;
+        }
+        const defaultCategoryId = categories.find(c => c.id !== categoryId)?.id;
+        // Move all saved_sos from deleted category to default
+        const updatedSos = savedSos.map(s =>
+            s.categoryId === categoryId ? { ...s, categoryId: defaultCategoryId } : s
+        );
+        setSavedSos(updatedSos);
+        localStorage.setItem('saved_sos', JSON.stringify(updatedSos));
+
+        const newCategories = categories.filter(c => c.id !== categoryId);
+        setCategories(newCategories);
+        localStorage.setItem('sso_categories', JSON.stringify(newCategories));
+        showNotification("Đã xóa danh mục!");
     };
 
     const handleSave = () => {
@@ -837,7 +904,13 @@ export default function App() {
             showNotification("Vui lòng nhập tên!", 'error');
             return;
         }
-        const newItem = { id: Date.now(), name: saveName, data: formData, createdAt: new Date().toISOString() };
+        const newItem = {
+            id: Date.now(),
+            name: saveName,
+            categoryId: selectedCategoryId || categories[0]?.id || null,
+            data: formData,
+            createdAt: new Date().toISOString()
+        };
         const newSavedList = [newItem, ...savedSos];
         setSavedSos(newSavedList);
         localStorage.setItem('saved_sos', JSON.stringify(newSavedList));
@@ -1322,10 +1395,36 @@ export default function App() {
                 {/* Save Modal */}
                 {showSaveModal && (
                     <div className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 no-print backdrop-blur-sm">
-                        <div className="rounded-lg shadow-2xl w-full max-w-md p-6 relative traditional-modal">
+                        <div className="rounded-lg shadow-2xl w-full max-w-md p-6 relative traditional-modal min-h-[300px] flex flex-col justify-center">
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--vn-gold)] to-transparent opacity-50"></div>
                             <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--vn-red)' }}><Save size={20} /> Lưu Sớ Hiện Tại</h3>
-                            <input type="text" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="Nhập tên gợi nhớ..." className="w-full border p-2 rounded mb-4 outline-none font-sso" style={{ background: 'rgba(255,255,255,0.8)', borderColor: 'var(--vn-gold)', color: 'var(--vn-dark-brown)' }} autoFocus />
+                            <input type="text" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="Nhập tên gợi nhớ..." className="w-full border p-2 rounded mb-3 outline-none font-sso" style={{ background: 'rgba(255,255,255,0.8)', borderColor: 'var(--vn-gold)', color: 'var(--vn-dark-brown)' }} autoFocus />
+
+                            {/* Category Selection */}
+                            <div className="mb-4">
+                                <label className="block text-sm font-bold mb-1" style={{ color: 'var(--vn-dark-brown)' }}>Danh mục:</label>
+                                <div className="flex gap-2">
+                                    <select
+                                        value={selectedCategoryId || ''}
+                                        onChange={(e) => setSelectedCategoryId(Number(e.target.value))}
+                                        className="flex-1 border p-2 rounded outline-none font-sso"
+                                        style={{ background: 'rgba(255,255,255,0.8)', borderColor: 'var(--vn-gold)', color: 'var(--vn-dark-brown)' }}
+                                    >
+                                        {categories.map(cat => (
+                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                    <button
+                                        onClick={() => { setShowSaveModal(false); setShowCategoryModal(true); }}
+                                        className="px-3 py-2 rounded hover:opacity-80 transition text-xs font-bold"
+                                        style={{ background: 'var(--vn-light-gold)', color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-gold)' }}
+                                        title="Quản lý danh mục"
+                                    >
+                                        <Settings size={14} />
+                                    </button>
+                                </div>
+                            </div>
+
                             <div className="flex justify-end gap-2">
                                 <button onClick={() => setShowSaveModal(false)} className="px-4 py-2 rounded hover:opacity-80 transition" style={{ color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-gold)' }}>Hủy</button>
                                 <button onClick={handleSave} className="px-4 py-2 text-white rounded shadow-lg hover:opacity-90 transition font-bold" style={{ background: 'linear-gradient(135deg, var(--vn-red) 0%, #6B0000 100%)', border: '1px solid var(--vn-gold)' }}>Lưu ngay</button>
@@ -1352,15 +1451,210 @@ export default function App() {
                 {/* Saved Sớ List Modal */}
                 {showLoadModal && (
                     <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 no-print backdrop-blur-sm">
-                        <div className="rounded-lg shadow-2xl w-full max-w-lg max-h-[80vh] flex flex-col traditional-modal">
+                        <div className="rounded-lg shadow-2xl w-full max-w-lg h-[80vh] flex flex-col traditional-modal">
                             <div className="p-4 border-b flex justify-between items-center rounded-t-lg" style={{ background: 'rgba(212, 175, 55, 0.1)', borderBottom: '1px solid var(--vn-gold)' }}>
                                 <h3 className="text-lg font-bold flex items-center gap-2" style={{ color: 'var(--vn-red)' }}><FolderOpen size={20} /> Danh Sách Sớ Đã Lưu</h3>
-                                <button onClick={() => setShowLoadModal(false)}><X className="hover:text-red-500" style={{ color: 'var(--vn-dark-brown)' }} /></button>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => { setShowLoadModal(false); setShowCategoryModal(true); }}
+                                        className="px-2 py-1 rounded text-xs font-bold hover:opacity-80 transition"
+                                        style={{ background: 'var(--vn-light-gold)', color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-gold)' }}
+                                        title="Quản lý danh mục"
+                                    >
+                                        <Settings size={14} />
+                                    </button>
+                                    <button onClick={() => setShowLoadModal(false)}><X className="hover:text-red-500" style={{ color: 'var(--vn-dark-brown)' }} /></button>
+                                </div>
                             </div>
+
+                            {/* Category Filter Tabs */}
+                            <div className="flex gap-2 p-2 pb-4 overflow-x-auto flex-shrink-0" style={{ borderBottom: '1px solid var(--vn-gold)', minHeight: '48px' }}>
+                                <button
+                                    onClick={() => setFilterCategoryId(null)}
+                                    className={`px-3 py-1 rounded text-xs font-bold whitespace-nowrap transition ${filterCategoryId === null ? 'text-white' : ''}`}
+                                    style={{
+                                        background: filterCategoryId === null ? 'var(--vn-red)' : 'rgba(212, 175, 55, 0.2)',
+                                        color: filterCategoryId === null ? 'white' : 'var(--vn-dark-brown)',
+                                        border: '1px solid var(--vn-gold)'
+                                    }}
+                                >
+                                    Tất cả ({savedSos.length})
+                                </button>
+                                {categories.map(cat => {
+                                    const count = savedSos.filter(s => s.categoryId === cat.id || (!s.categoryId && cat.id === categories[0]?.id)).length;
+                                    return (
+                                        <button
+                                            key={cat.id}
+                                            onClick={() => setFilterCategoryId(cat.id)}
+                                            className={`px-3 py-1 rounded text-xs font-bold whitespace-nowrap transition`}
+                                            style={{
+                                                background: filterCategoryId === cat.id ? 'var(--vn-red)' : 'rgba(212, 175, 55, 0.2)',
+                                                color: filterCategoryId === cat.id ? 'white' : 'var(--vn-dark-brown)',
+                                                border: '1px solid var(--vn-gold)'
+                                            }}
+                                        >
+                                            {cat.name} ({count})
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Search Input */}
+                            <div className="px-2 py-2" style={{ borderBottom: '1px solid var(--vn-gold)' }}>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        placeholder="Tim kiem theo ten so..."
+                                        className="w-full border p-2 pl-8 rounded outline-none font-sso text-sm"
+                                        style={{ background: 'rgba(255,255,255,0.8)', borderColor: 'var(--vn-gold)', color: 'var(--vn-dark-brown)' }}
+                                    />
+                                    <span className="absolute left-2 top-1/2 -translate-y-1/2" style={{ color: 'var(--vn-dark-brown)', opacity: 0.5 }}>&#128269;</span>
+                                    {searchQuery && (
+                                        <button
+                                            onClick={() => setSearchQuery('')}
+                                            className="absolute right-2 top-1/2 -translate-y-1/2 hover:opacity-70"
+                                            style={{ color: 'var(--vn-dark-brown)' }}
+                                        >
+                                            <X size={14} />
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
                             <div className="p-2 overflow-y-auto flex-1 relative">
-                                {savedSos.length === 0 ? (<p className="text-center py-8 italic" style={{ color: 'var(--vn-dark-brown)' }}>Chưa có sớ nào được lưu.</p>) : (
-                                    <div className="space-y-2">{savedSos.map(item => (<div key={item.id} className="flex items-center justify-between p-3 border rounded hover:shadow transition group" style={{ background: 'rgba(255,255,255,0.6)', borderColor: 'var(--vn-gold)' }}><div><div className="font-bold text-sm line-clamp-1" style={{ color: 'var(--vn-red)' }}>{item.name}</div><div className="text-[10px]" style={{ color: 'var(--vn-dark-brown)' }}>{new Date(item.createdAt).toLocaleString('vi-VN')}</div></div><div className="flex gap-2"><button onClick={() => triggerLoad(item)} className="p-2 rounded transition hover:bg-white" style={{ color: 'var(--vn-jade)' }} title="Mở sớ này"><Edit3 size={16} /></button><button onClick={() => triggerDelete(item)} className="p-2 hover:bg-red-50 rounded transition" style={{ color: 'var(--vn-red)' }} title="Xóa"><Trash2 size={16} /></button></div></div>))}</div>
+                                {(() => {
+                                    let filteredSos = filterCategoryId === null
+                                        ? savedSos
+                                        : savedSos.filter(s => s.categoryId === filterCategoryId || (!s.categoryId && filterCategoryId === categories[0]?.id));
+
+                                    // Apply search filter
+                                    if (searchQuery.trim()) {
+                                        const query = searchQuery.toLowerCase().trim();
+                                        filteredSos = filteredSos.filter(s => s.name.toLowerCase().includes(query));
+                                    }
+
+                                    return filteredSos.length === 0 ? (
+                                        <p className="text-center py-8 italic" style={{ color: 'var(--vn-dark-brown)' }}>Chưa có sớ nào trong danh mục này.</p>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            {filteredSos.map(item => {
+                                                const category = categories.find(c => c.id === item.categoryId) || categories[0];
+                                                return (
+                                                    <div key={item.id} className="flex items-center justify-between p-3 border rounded hover:shadow transition group" style={{ background: 'rgba(255,255,255,0.6)', borderColor: 'var(--vn-gold)' }}>
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="font-bold text-sm line-clamp-1" style={{ color: 'var(--vn-red)' }}>{item.name}</div>
+                                                            <div className="flex items-center gap-2 mt-1">
+                                                                <span className="text-[10px] px-2 py-0.5 rounded" style={{ background: 'var(--vn-light-gold)', color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-gold)' }}>{category?.name || 'Chung'}</span>
+                                                                <span className="text-[10px]" style={{ color: 'var(--vn-dark-brown)' }}>{new Date(item.createdAt).toLocaleString('vi-VN')}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex gap-2">
+                                                            <button onClick={() => triggerLoad(item)} className="p-2 rounded transition hover:bg-white" style={{ color: 'var(--vn-jade)' }} title="Mở sớ này"><Edit3 size={16} /></button>
+                                                            <button onClick={() => triggerDelete(item)} className="p-2 hover:bg-red-50 rounded transition" style={{ color: 'var(--vn-red)' }} title="Xóa"><Trash2 size={16} /></button>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    );
+                                })()}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Category Management Modal */}
+                {showCategoryModal && (
+                    <div className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 no-print backdrop-blur-sm">
+                        <div className="rounded-lg shadow-2xl w-full max-w-md h-[600px] flex flex-col traditional-modal">
+                            <div className="p-4 border-b flex justify-between items-center rounded-t-lg" style={{ background: 'rgba(212, 175, 55, 0.1)', borderBottom: '1px solid var(--vn-gold)' }}>
+                                <h3 className="text-lg font-bold flex items-center gap-2" style={{ color: 'var(--vn-red)' }}><Settings size={20} /> Quản Lý Danh Mục</h3>
+                                <button onClick={() => { setShowCategoryModal(false); setEditingCategory(null); setNewCategoryName(''); }}><X className="hover:text-red-500" style={{ color: 'var(--vn-dark-brown)' }} /></button>
+                            </div>
+
+                            {/* Add new category */}
+                            <div className="p-3" style={{ borderBottom: '1px solid var(--vn-gold)' }}>
+                                <label className="block text-sm font-bold mb-1" style={{ color: 'var(--vn-dark-brown)' }}>Thêm danh mục mới:</label>
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={newCategoryName}
+                                        onChange={(e) => setNewCategoryName(e.target.value)}
+                                        placeholder="Tên danh mục..."
+                                        className="flex-1 border p-2 rounded outline-none font-sso"
+                                        style={{ background: 'rgba(255,255,255,0.8)', borderColor: 'var(--vn-gold)', color: 'var(--vn-dark-brown)' }}
+                                        onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
+                                    />
+                                    <button
+                                        onClick={handleAddCategory}
+                                        className="px-4 py-2 rounded font-bold hover:opacity-90 transition"
+                                        style={{ background: 'var(--vn-jade)', color: 'white' }}
+                                    >
+                                        <Plus size={16} />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Category list */}
+                            <div className="p-2 overflow-y-auto flex-1">
+                                {categories.length === 0 ? (
+                                    <p className="text-center py-8 italic" style={{ color: 'var(--vn-dark-brown)' }}>Chưa có danh mục nào.</p>
+                                ) : (
+                                    <div className="space-y-2">
+                                        {categories.map(cat => {
+                                            const count = savedSos.filter(s => s.categoryId === cat.id || (!s.categoryId && cat.id === categories[0]?.id)).length;
+                                            const isEditing = editingCategory?.id === cat.id;
+
+                                            return (
+                                                <div key={cat.id} className="flex items-center justify-between p-3 border rounded" style={{ background: 'rgba(255,255,255,0.6)', borderColor: 'var(--vn-gold)' }}>
+                                                    {isEditing ? (
+                                                        <input
+                                                            type="text"
+                                                            value={editingCategory.name}
+                                                            onChange={(e) => setEditingCategory({ ...editingCategory, name: e.target.value })}
+                                                            className="flex-1 border p-1 rounded outline-none font-sso mr-2"
+                                                            style={{ background: 'rgba(255,255,255,0.8)', borderColor: 'var(--vn-gold)', color: 'var(--vn-dark-brown)' }}
+                                                            autoFocus
+                                                            onKeyPress={(e) => e.key === 'Enter' && handleUpdateCategory()}
+                                                        />
+                                                    ) : (
+                                                        <div className="flex-1 min-w-0">
+                                                            <span className="font-bold text-sm" style={{ color: 'var(--vn-dark-brown)' }}>{cat.name}</span>
+                                                            <span className="text-xs ml-2 px-2 py-0.5 rounded" style={{ background: 'var(--vn-light-gold)', color: 'var(--vn-dark-brown)' }}>({count} sớ)</span>
+                                                        </div>
+                                                    )}
+                                                    <div className="flex gap-1">
+                                                        {isEditing ? (
+                                                            <>
+                                                                <button onClick={handleUpdateCategory} className="p-2 rounded transition hover:bg-green-50" style={{ color: 'var(--vn-jade)' }} title="Lưu"><Check size={16} /></button>
+                                                                <button onClick={() => setEditingCategory(null)} className="p-2 rounded transition hover:bg-gray-50" style={{ color: 'var(--vn-dark-brown)' }} title="Hủy"><X size={16} /></button>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <button onClick={() => setEditingCategory({ ...cat })} className="p-2 rounded transition hover:bg-blue-50" style={{ color: 'var(--vn-jade)' }} title="Sửa"><Edit3 size={16} /></button>
+                                                                {categories.length > 1 && (
+                                                                    <button onClick={() => handleDeleteCategory(cat.id)} className="p-2 rounded transition hover:bg-red-50" style={{ color: 'var(--vn-red)' }} title="Xóa"><Trash2 size={16} /></button>
+                                                                )}
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
                                 )}
+                            </div>
+
+                            <div className="p-3" style={{ borderTop: '1px solid var(--vn-gold)' }}>
+                                <button
+                                    onClick={() => { setShowCategoryModal(false); setEditingCategory(null); setNewCategoryName(''); }}
+                                    className="w-full py-2 rounded font-bold hover:opacity-90 transition"
+                                    style={{ background: 'var(--vn-light-gold)', color: 'var(--vn-dark-brown)', border: '1px solid var(--vn-gold)' }}
+                                >
+                                    Đóng
+                                </button>
                             </div>
                         </div>
                     </div>
