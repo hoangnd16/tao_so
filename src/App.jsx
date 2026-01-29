@@ -614,7 +614,10 @@ const TEMPLATES = {
 export default function App() {
     const [formData, setFormData] = useState({
         members: [
-            { id: 1, title: 'Tín chủ', name: '', birthDate: '1990-01-01', gender: 'male' }
+            { id: 1, title: 'Tín chủ', name: '', birthDate: '1990-01-01', gender: 'male' },
+            { id: 2, title: 'Thân thê', name: '', birthDate: '1992-01-01', gender: 'female' },
+            { id: 3, title: 'Nam tử', name: '', birthDate: '2010-01-01', gender: 'male' },
+            { id: 4, title: 'Nữ tử', name: '', birthDate: '2012-01-01', gender: 'female' }
         ],
         address: '',
         templeName: 'Mõ Hạc Linh Từ',
