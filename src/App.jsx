@@ -905,7 +905,7 @@ export default function App() {
                 width: '100%',
                 height: '100%',
                 direction: 'rtl',
-                padding: '4px',
+                padding: '12px', // Tăng từ 4px lên 8px để tránh bị cắt khi in
                 boxSizing: 'border-box',
                 border: '1px solid #ccc' // Viền bao ngoài
             }}>
