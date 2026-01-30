@@ -18,6 +18,18 @@ const TITLES = [
     "Hôn tử", "Tế tử", "Nội tôn", "Ngoại tôn", "Dưỡng tử"
 ];
 
+// --- GỢI Ý LỜI CẦU NGUYỆN ---
+const PRAYER_SUGGESTIONS = [
+    "Cầu cho gia đình bình an, mọi người khỏe mạnh, tai qua nạn khỏi, vạn sự hanh thông, phúc lộc đầy nhà, con cháu sum vầy hạnh phúc",
+    "Cầu cho công việc làm ăn thuận lợi, buôn may bán đắt, tiền tài như nước, của cải dồi dào, phát đạt thịnh vượng",
+    "Cầu cho sức khỏe dồi dào, thân tâm an lạc, bệnh tật tiêu trừ, tuổi thọ trường tồn, tinh thần minh mẫn sáng suốt",
+    "Cầu cho công danh sự nghiệp hanh thông, thăng quan tiến chức, được quý nhân phù trợ, danh tiếng vang xa, lập công dựng nghiệp",
+    "Cầu cho duyên lành sớm đến, hôn nhân hạnh phúc, phu thê hòa thuận, trăm năm gắn bó, gia đạo êm ấm hưng long",
+    "Cầu cho con cái học hành tiến tới, thông minh sáng dạ, thi cử đỗ đạt, nên người thành đạt, hiếu thảo với cha mẹ",
+    "Cầu cho gia đạo hưng long, tổ tiên phù hộ, âm siêu dương thái, cửu huyền thất tổ được siêu sinh tịnh độ",
+    "Cầu cho vạn sự như ý, tâm tưởng sự thành, cầu gì được nấy, mọi điều tốt đẹp, hung hóa thành cát, gặp dữ hóa lành"
+];
+
 // --- BỘ TÍNH TOÁN ÂM LỊCH ---
 const LUNAR_UTILS = {
     CAN: ["Canh", "Tân", "Nhâm", "Quý", "Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ"],
@@ -147,7 +159,7 @@ const TEMPLATES = {
             const c16 = "Vô Sâm Phạm Chi Ngu Bách Phú Thiên Tường Thường Hưởng Thọ Khang Chi Khánh Nhất Triết Sở Cầu Vạn Ban Như Ý Đãn Thần Hạ Tinh Vô Nhận";
             const c17 = "Kích Thiết Bình Dinh Chi Chí Cẩn Sớ";
             const firstMember = data.members[0] || {};
-            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\Phúc-Lộc-Thọ Cầu Bình An \t\t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t\Phúc-Lộc-Thọ Cầu Bình An \t\t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
 
             const c8WordCount = c8.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
@@ -196,7 +208,7 @@ const TEMPLATES = {
             const c13 = "Đối Văn Sương Nhi Ứng Hộ Tam Tai Tống Khứ Tứ Thời Không Bạch Hổ Chi Đàn La Ngũ Phúc Hoàn Lai Bát Tiết Hỷ Thạch Long Chí Tả Phù";
             const c14 = "Tử Tôn Quan Đới Phụ Phụ Lộc Tồn Diệu Bổn Đằng Cát Tinh Biền Tập";
             const c15 = "Đán Thần Hải Tình Vô Nhậm Khích Thiết Bình Doanh Chi Chí Cẩn Sớ";
-            const c16 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \tNhật \tNhượng Chu Thành Tâm Hòa Nam Thượng Sớ Dâng Sao \t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
+            const c16 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \tNhượng Chu Thành Tâm Hòa Nam Thượng Sớ Dâng Sao \t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
 
             return [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16].join('\n');
         }
@@ -228,7 +240,7 @@ const TEMPLATES = {
             const c12 = "Chi Tôn Chiếu Lăm Phàm Khổn Đại Khai Phát Dục Chi Ân Quang Bố Hiếu Sinh Chi Đức Biển Hung Thành Cát Cải Hoạ Vị Tường Hắc Bạ Tiêu Trừ";
             const c13 = "Chu Phê Tang Toán Ty Thần Đảng Thân Cung Trường Thọ Tứ Thời Vô Hạn Ách Chi Sâm Mệnh Vị Bình An Bát Tiết Hữu Chính Tường Chi Ưng";
             const c14 = "Cầu Chi Như Ý Nguyện Gia Tòng Tâm Đã Thần Hạ Tinh Vô Nhậm Khích Thiết Bình Doanh Chi Chí Cẩn Sớ";
-            const c15 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật Thần Khấu Thủ Thượng Tấu \t\t\t ${markBold('Tiến Hình Hình Nhân')}`;
+            const c15 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t Thần Khấu Thủ Thượng Tấu \t\t ${markBold('Tiến Hình Hình Nhân')}`;
 
             return [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15].join('\n');
         }
@@ -300,7 +312,7 @@ const TEMPLATES = {
             const c15 = "Hồng Từ \t\t\t\t Đồng Thùy\t\t\t\t Chiếu Giám\t\t\t\t Phục Nguyện";
             const c16 = "Thần Thông Báo Ứng Diệu Lực Phù Trì Ái Hộ Thường Tình Phàm Tâm Thiết Thiết Đảo Cờ Nguyện Rã Tòng Tâm";
             const c17 = "Sớ Cầu Như Ý Ngưỡng Thượng \t Hồng Ân Bản Thần Hạ Tình Vô Nhậm Khích Thiết Bình Dinh Chi Chí Cẩn Sớ";
-            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t Nhật \t Thần Khấu Thủ Hòa Nam Cụ Sớ ${markBold('CẦU DUYÊN')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t Thần Khấu Thủ Hòa Nam Cụ Sớ ${markBold('CẦU DUYÊN')}`;
 
             const c9WordCount = c9.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
@@ -342,7 +354,7 @@ const TEMPLATES = {
             const c15 = "Tôn Thần \t\t\t\tĐổng Thùy \t\t\t\tChiếu Giám \t\t\t\tPhục Nguyện";
             const c16 = "Thần Vị Trấn Phương Ngung Quyền Chi Chiêu Tịch Linh Thông Hữu Hách Át Phục Thi Cố Khí Nhi Khẳng Sử Bằng Lăng Chính Trực Vô Tư Ngoại Đạo Yêu";
             const c17 = "Tà Quy Bất Dung Tiệp Đột Hoàng Thi Âm Lực Tĩnh Trấn Dương Môn Sở Cư Chi Nam Đắc Tây Đông Vô Ngu Thử Thiết Khuyết Xứ Chi \n Bạch Điêu Nam Nữ Hầm Toại Tiến An Đản Thần Hạ Tình Vô Nhậm Khích Thiết Bình Dinh Chi Chí Cẩn Sớ Văn";
-            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\tThần Khấu Thủ Thượng Sớ\t\t ${markBold('THỔ CÔNG')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t\tThần Khấu Thủ Thượng Sớ\t\t ${markBold('THỔ CÔNG')}`;
 
             const c16WordCount = c16.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
@@ -382,7 +394,7 @@ const TEMPLATES = {
             const c13 = "Phu Thùy Am Lạp Dám Chuy Tự Chi Chí Khổn Dĩ Diễn Dĩ Thừa Thí Phù Hựu Ư Âm Công Năng Bảo Năng Trọ";
             const c14 = "Báo Tứ Tôn Nhi Hữu Lợi Thùy Tộ Dẫn Ư Vô Cương Tông Tự Trường Lưu Hóa Hương Bất Dân Dận Thục Lai";
             const c15 = "Tổ Đức Âm Phù Chi Lục Dã";
-            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \tNhật \tLễ Chủ Thành Tâm Thượng Tấu \t${markBold('LỄ GIA TIÊN')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \tLễ Chủ Thành Tâm Thượng Tấu \t${markBold('LỄ GIA TIÊN')}`;
 
             const c8WordCount = c8.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
@@ -424,7 +436,7 @@ const TEMPLATES = {
             const c15 = "Thập Bát Long Thần Già Lam Chân Tể \t\t\t\t\t\t Vị Tiền Phục Nguyện";
             const c16 = "Chư Phật Chứng Minh Vạn Ninh Giám Cách Siêu Khổ Hải Dĩ Từ Hàng Thứ Đắc Hữu Cầu Tất ứng Độ Mê Tân Vũ Bảo Phật Sử Chi Nguyện";
             const c17 = "Dã Tòng Tâm Niên Niên Cảm Lạc Vũ Xuân Đài Cá Cá Đồng Tê Ư Thọ Vực Tam Tai Bát Nạn Sử Vô Xâm Phạn Chi Ngu Bách Phúc \n Thiên Tường Thường Hưởng Thọ Khang Chi Khánh Lộc Tài Vượng Tiến Nhân Vật Bình An Đãn Thần Hạ Tình Vô Nhân Kích Thiết Bình Minh Chi Chí Cẩn Sớ";
-            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t\tThần Đệ Tử Khấu Thủ Thượng Sớ \t\t\t\ ${markBold('LỄ PHẬT')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t\t\tThần Đệ Tử Khấu Thủ Thượng Sớ \t\t\t\ ${markBold('LỄ PHẬT')}`;
 
             const c8WordCount = c8.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
@@ -466,7 +478,7 @@ const TEMPLATES = {
             const c15 = "Bản Điện Phụng Sự Nhất Thiết Liệt Vị Uy Linh Ngũ Hổ Thần Tướng \t\t\t\t\t\t Vị Tiền Cung Vọng";
             const c16 = "Thánh Từ \t\t\t\tĐổng Thùy \t\t\t\tChiếu Giám \t\t\t\tPhục Nguyện";
             const c17 = "Bàng Chúc Vô Cương Giám Lam Bát Viên Quang Ba Hiếu Sinh Chi Đức Độ Ách Tiêu Tài Hoằng Suy Tế Chúng Chi Nhân Giáng Tường Tích Phúm \n Tý Đắc Uy Quang Phu Anh Như Phung Ba Đan Chi Thiên Lạc Nghiệp An Cư Bát Phu Vạn Minh Chi Địa Thứ Phu Yên Hỷ Cộng Mộc \n Hồng Hữu Đãn Thần Hạ Tình Vô Nhân Khích Thiết Bình Doanh Chi Chí Cẩn Sớ Văn";
-            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\tThần Khấu Thủ Thượng Cụ Sớ \t\t ${markBold('LỄ MẪU')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t\tThần Khấu Thủ Thượng Cụ Sớ \t\t ${markBold('LỄ MẪU')}`;
 
             const c8WordCount = c8.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
@@ -508,7 +520,7 @@ const TEMPLATES = {
             const c15 = "Đại Vương Nguy Nguy Thánh Đức Đãng Đãng Thần Công Tập Quốc Cứu Dân Trừ Tà Phò Chính Cạn Giả Thoát Viễn Giả Lai Tự Đông Tự Tây Tự Nam Tự Bắc";
             const c16 = "Quốc Hữu Tử Gia Hữu Kỷ Nghi Xuân Nhi Hạ Nhi Thu Nhi Đông Trấn Cổ Như Tư Cẩn Thành Tất Hiến Phỉ Kim Y Tịnh Xác Trung Đồng Tình";
             const c17 = "Đãn Thần Hạ Tình Vô Nhậm Khích Thiết Bình Doanh Chi Chí Cẩn Sớ Văn";
-            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t Thần Thủ Hòa Nam Cụ Sớ \t\t ${markBold('TRẦN TRIỀU')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t\t Thần Thủ Hòa Nam Cụ Sớ \t\t ${markBold('TRẦN TRIỀU')}`;
 
             const c15WordCount = c15.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
@@ -550,7 +562,7 @@ const TEMPLATES = {
             const c15 = "Cung Lãm Phủ Tuất Thi Hành Ứng Nghiệm Tường Kỳ Văn Trạng Chứng Giám Đãn Thành Tỷ Hạ Thần Cờ Đắc Hư Tâm Nhi Sự Sự Hanh Thông Chi Lý Khang Như Ý";
             const c16 = "Thời Thời Thọ Vực Chi Ca Hạn Ách Tiêu Trừ Trinh Tường Bền Tập Thần Thực Lại";
             const c17 = "Tôn Nhang Mặc Tướng Âm Phù Chi Đại Đức Gia Cẩn Trạng \t\t\t Thượng Tấu Dĩ Văn";
-            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t Thần Khấu Thủ Bách Bái Hòa Nam Thượng Trạng \t\t ${markBold('TRẠNG THÔNG DỤNG')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t\t Thần Khấu Thủ Bách Bái Hòa Nam Thượng Trạng \t\t ${markBold('TRẠNG THÔNG DỤNG')}`;
 
             const c8WordCount = c8.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
@@ -592,7 +604,7 @@ const TEMPLATES = {
             const c15 = "Nhị Viên Chứng Kiến\t\t\t\t\t\t\t\tVị Bằng Chuẩn Thử";
             const c16 = "\t\t\t\t\t\t\tHữu Lý Thành Cảnh";
             const c17 = "";
-            const c18 = `Tuế Thứ ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} \t\tNhật \t\t Thời Trạng  \t ${markBold('TRẠNG MÃ')}`;
+            const c18 = `Tuế Thứ ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t\t Thời Trạng  \t ${markBold('TRẠNG MÃ')}`;
 
             const c7WordCount = c7.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
@@ -647,6 +659,15 @@ export default function App() {
     const [editingCategory, setEditingCategory] = useState(null);
     const [filterCategoryId, setFilterCategoryId] = useState(null); // null = tất cả
     const [searchQuery, setSearchQuery] = useState(''); // Tìm kiếm sớ theo tên
+
+    // Custom prayer suggestions (persisted in localStorage)
+    const [customPrayers, setCustomPrayers] = useState(() => {
+        const saved = localStorage.getItem('customPrayers');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [newPrayerInput, setNewPrayerInput] = useState('');
+    const [showPrayerModal, setShowPrayerModal] = useState(false);
+    const [selectedPrayers, setSelectedPrayers] = useState([]);
 
 
     const templateDropdownRef = useRef(null);
@@ -1335,7 +1356,21 @@ export default function App() {
                                     )}
                                 </div>
                                 <input type="text" name="templeName" value={formData.templeName} onChange={handleChange} placeholder="Tên đền/phủ (VD: Mõ Hạc Linh Từ)..." className="excel-input w-full h-9 rounded bg-white shadow-sm border-gray-200" />
-                                <textarea name="userPrayer" value={formData.userPrayer} onChange={handleChange} placeholder="Nhập lời cầu nguyện riêng (nếu có)..." className="excel-input w-full resize-none bg-white flex-grow rounded" style={{ minHeight: '80px' }} />
+
+                                <div className="relative">
+                                    <textarea name="userPrayer" value={formData.userPrayer} onChange={handleChange} placeholder="Nhập lời cầu nguyện riêng (nếu có)..." className="excel-input w-full resize-none bg-white flex-grow rounded pr-12" style={{ minHeight: '80px' }} />
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setSelectedPrayers([]);
+                                            setShowPrayerModal(true);
+                                        }}
+                                        className="absolute top-2 right-2 p-1.5 rounded bg-amber-100 hover:bg-amber-200 text-amber-700 border border-amber-300 transition-colors"
+                                        title="Chọn gợi ý lời cầu nguyện"
+                                    >
+                                        <Plus size={14} />
+                                    </button>
+                                </div>
                                 <div className="mt-auto flex gap-2">
                                     <button onClick={triggerReset} className="bg-white hover:bg-gray-50 text-gray-500 font-bold py-2 px-3 rounded shadow-sm flex items-center justify-center gap-1 transition-all text-xs uppercase tracking-wide border border-gray-200 h-9 hover:border-red-200 hover:text-red-500" title="Xóa hết thông tin nhập"><RotateCcw size={14} /></button>
                                     <button onClick={handleCreateSo} className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-2 px-4 rounded shadow-sm flex items-center justify-center gap-2 transition-all text-xs uppercase tracking-wide h-9 transform active:scale-[0.98]"><Play size={14} fill="currentColor" /> Tạo Sớ</button>
@@ -1444,6 +1479,127 @@ export default function App() {
                                 <img src="/donate.jpeg" alt="QR Code Donate" className="max-w-full h-auto rounded shadow-sm object-contain" style={{ maxHeight: '300px' }} />
                             </div>
                             <p className="text-center text-sm mt-4 italic font-sso" style={{ color: 'var(--vn-dark-brown)' }}>Cảm ơn tấm lòng của bạn!</p>
+                        </div>
+                    </div>
+                )}
+
+                {/* Prayer Suggestions Modal */}
+                {showPrayerModal && (
+                    <div className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 no-print backdrop-blur-sm">
+                        <div className="rounded-lg shadow-2xl p-4 relative max-w-md w-full traditional-modal max-h-[80vh] flex flex-col">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--vn-gold)] to-transparent opacity-50"></div>
+                            <button onClick={() => setShowPrayerModal(false)} className="absolute top-2 right-2 hover:text-red-500" style={{ color: 'var(--vn-dark-brown)' }}><X size={20} /></button>
+                            <h3 className="text-base font-bold mb-3 flex items-center gap-2" style={{ color: 'var(--vn-red)' }}>🙏 Chọn Lời Cầu Nguyện</h3>
+
+                            <div className="flex-1 overflow-y-auto space-y-3 mb-3">
+                                <div>
+                                    <p className="text-[10px] font-bold text-gray-500 uppercase mb-1">Gợi ý có sẵn</p>
+                                    <div className="grid grid-cols-2 gap-1">
+                                        {PRAYER_SUGGESTIONS.map((prayer, idx) => (
+                                            <label key={`default-${idx}`} className="flex items-center gap-2 p-2 rounded border border-gray-200 hover:bg-amber-50 cursor-pointer transition-colors">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedPrayers.includes(prayer)}
+                                                    onChange={(e) => {
+                                                        if (e.target.checked) {
+                                                            setSelectedPrayers([...selectedPrayers, prayer]);
+                                                        } else {
+                                                            setSelectedPrayers(selectedPrayers.filter(p => p !== prayer));
+                                                        }
+                                                    }}
+                                                    className="w-4 h-4 text-amber-600"
+                                                />
+                                                <span className="text-xs text-gray-700">{prayer}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {customPrayers.length > 0 && (
+                                    <div>
+                                        <p className="text-[10px] font-bold text-gray-500 uppercase mb-1">Gợi ý của bạn</p>
+                                        <div className="grid grid-cols-2 gap-1">
+                                            {customPrayers.map((prayer, idx) => (
+                                                <label key={`custom-${idx}`} className="flex items-center gap-2 p-2 rounded border border-green-200 hover:bg-green-50 cursor-pointer transition-colors">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedPrayers.includes(prayer)}
+                                                        onChange={(e) => {
+                                                            if (e.target.checked) {
+                                                                setSelectedPrayers([...selectedPrayers, prayer]);
+                                                            } else {
+                                                                setSelectedPrayers(selectedPrayers.filter(p => p !== prayer));
+                                                            }
+                                                        }}
+                                                        className="w-4 h-4 text-green-600"
+                                                    />
+                                                    <span className="text-xs text-gray-700">{prayer}</span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div>
+                                    <p className="text-[10px] font-bold text-gray-500 uppercase mb-1">Thêm gợi ý mới</p>
+                                    <div className="flex gap-1">
+                                        <input
+                                            type="text"
+                                            value={newPrayerInput}
+                                            onChange={(e) => setNewPrayerInput(e.target.value)}
+                                            placeholder="Nhập lời cầu mới..."
+                                            className="excel-input flex-1 h-9 rounded text-sm"
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' && newPrayerInput.trim()) {
+                                                    e.preventDefault();
+                                                    const newList = [...customPrayers, newPrayerInput.trim()];
+                                                    setCustomPrayers(newList);
+                                                    localStorage.setItem('customPrayers', JSON.stringify(newList));
+                                                    setNewPrayerInput('');
+                                                }
+                                            }}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                if (newPrayerInput.trim()) {
+                                                    const newList = [...customPrayers, newPrayerInput.trim()];
+                                                    setCustomPrayers(newList);
+                                                    localStorage.setItem('customPrayers', JSON.stringify(newList));
+                                                    setNewPrayerInput('');
+                                                }
+                                            }}
+                                            className="px-3 py-2 rounded bg-green-100 hover:bg-green-200 text-green-700 border border-green-300 transition-colors"
+                                        >
+                                            <Plus size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex gap-2 pt-2 border-t border-gray-200">
+                                <button
+                                    onClick={() => setShowPrayerModal(false)}
+                                    className="flex-1 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors text-sm"
+                                >
+                                    Hủy
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        if (selectedPrayers.length > 0) {
+                                            const prayerText = selectedPrayers.join('\n');
+                                            setFormData(prev => ({
+                                                ...prev,
+                                                userPrayer: prev.userPrayer ? `${prev.userPrayer}\n${prayerText}` : prayerText
+                                            }));
+                                        }
+                                        setShowPrayerModal(false);
+                                    }}
+                                    className="flex-1 py-2 rounded bg-amber-500 hover:bg-amber-600 text-white font-bold transition-colors text-sm"
+                                >
+                                    Thêm ({selectedPrayers.length})
+                                </button>
+                            </div>
                         </div>
                     </div>
                 )}
