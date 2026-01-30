@@ -1400,6 +1400,30 @@ export default function App() {
                     </div>
                 </div>
 
+                {/* Fixed Ads on viewport edges */}
+                {/* Left Ad - Fixed */}
+                <div className="hidden xl:block fixed left-0 top-1/2 -translate-y-1/2 w-[160px] no-print z-50">
+                    <ins className="adsbygoogle"
+                        style={{ display: 'block', minHeight: '600px' }}
+                        data-ad-client="ca-pub-3687180340165228"
+                        data-ad-slot="auto"
+                        data-ad-format="vertical"
+                        data-full-width-responsive="false">
+                    </ins>
+                </div>
+
+                {/* Right Ad - Fixed */}
+                <div className="hidden xl:block fixed right-0 top-1/2 -translate-y-1/2 w-[160px] no-print z-50">
+                    <ins className="adsbygoogle"
+                        style={{ display: 'block', minHeight: '600px' }}
+                        data-ad-client="ca-pub-3687180340165228"
+                        data-ad-slot="auto"
+                        data-ad-format="vertical"
+                        data-full-width-responsive="false">
+                    </ins>
+                </div>
+
+                {/* Preview Area */}
                 <div id="printable-area" className="preview-wrapper px-2 pb-8 flex flex-col gap-8">
                     {(!previewData || previewData.length === 0) ? (
                         <div className="text-center py-12 text-gray-500 italic bg-white/50 rounded border border-dashed border-gray-300 mx-auto max-w-lg"><FileText size={48} className="mx-auto mb-2 opacity-30" /><p>Vui lòng nhập thông tin và nhấn nút "Tạo Sớ" để xem trước.</p></div>
