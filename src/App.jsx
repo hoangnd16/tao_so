@@ -159,7 +159,7 @@ const TEMPLATES = {
             const c16 = "Vô Sâm Phạm Chi Ngu Bách Phú Thiên Tường Thường Hưởng Thọ Khang Chi Khánh Nhất Triết Sở Cầu Vạn Ban Như Ý Đãn Thần Hạ Tinh Vô Nhận";
             const c17 = "Kích Thiết Bình Dinh Chi Chí Cẩn Sớ";
             const firstMember = data.members[0] || {};
-            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t\Phúc-Lộc-Thọ Cầu Bình An \t\t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
+            const c18 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \t\Phúc-Lộc-Thọ Cầu Bình An \t\t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase().replace(' ', '-') || '')}`;
 
             const c8WordCount = c8.trim().split(/\s+/).length;
             const c5Words = c5.trim().split(/\s+/);
@@ -208,7 +208,7 @@ const TEMPLATES = {
             const c13 = "Đối Văn Sương Nhi Ứng Hộ Tam Tai Tống Khứ Tứ Thời Không Bạch Hổ Chi Đàn La Ngũ Phúc Hoàn Lai Bát Tiết Hỷ Thạch Long Chí Tả Phù";
             const c14 = "Tử Tôn Quan Đới Phụ Phụ Lộc Tồn Ác Diệu Bổn Đằng Cát Tinh Biền Tập";
             const c15 = "Đán Thần Hải Tình Vô Nhậm Khích Thiết Bình Doanh Chi Chí Cẩn Sớ";
-            const c16 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \tNhượng Chu Thành Tâm Hòa Nam Thượng Sớ Dâng Sao \t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
+            const c16 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \tNhượng Chu Thành Tâm Hòa Nam Thượng Sớ Dâng Sao ${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase().replace(' ', '-') || '')}`;
 
             return [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16].join('\n');
         }
