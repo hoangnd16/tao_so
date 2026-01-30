@@ -206,7 +206,7 @@ const TEMPLATES = {
             const c11 = "Tôn Tinh Đổng Thừa Chiếu Giám Phục Nguyện";
             const c12 = "Tử Vi Chiếu Mệnh Thiên Phủ Phù Cung Bảo Mệnh Vị Thiên Tài Thiên Thọ Thiên Tương Đồng Vũ Khúc Dĩ Phù Trì Sử Thân Cung Hóa Lộc Hóa Quyến Hóa Khoa";
             const c13 = "Đối Văn Sương Nhi Ứng Hộ Tam Tai Tống Khứ Tứ Thời Không Bạch Hổ Chi Đàn La Ngũ Phúc Hoàn Lai Bát Tiết Hỷ Thạch Long Chí Tả Phù";
-            const c14 = "Tử Tôn Quan Đới Phụ Phụ Lộc Tồn Diệu Bổn Đằng Cát Tinh Biền Tập";
+            const c14 = "Tử Tôn Quan Đới Phụ Phụ Lộc Tồn Ác Diệu Bổn Đằng Cát Tinh Biền Tập";
             const c15 = "Đán Thần Hải Tình Vô Nhậm Khích Thiết Bình Doanh Chi Chí Cẩn Sớ";
             const c16 = `Thiên Vận ${data.year} \t\t\t\t\t\t\tNiên ${data.month} Nguyệt ${data.day} Nhật \tNhượng Chu Thành Tâm Hòa Nam Thượng Sớ Dâng Sao \t${markBold(firstMember.title.toUpperCase() || '')} ${markBold(firstMember.name.toUpperCase() || '')}`;
 
